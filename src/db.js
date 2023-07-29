@@ -1,8 +1,10 @@
-import mysql from "mysql";
+import pkg from 'pg';
+const { Pool } = pkg;
 
-export const db = mysql.createConnection({
-    host: "localhost",
-    user:"root",
-    password: "password",
-    database: "loginReact"
-})
+export const db = new Pool({
+  user: "postgres",
+  host: "localhost",
+  database: "SistemaPostulacion",
+  password: "password",
+  port: 5432, // default PostgreSQL port is 5432
+});

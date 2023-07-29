@@ -5,11 +5,12 @@ import { AuthProvider } from "./context/AuthContext";
 import ProfilePage from "./pages/ProfilePage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { Navbar } from "./components/navbar";
+
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-      <Navbar/>
+        <Navbar />
         <Routes>
           <Route path="/" element={<h1>Home</h1>} />
           <Route path="/login" element={<LoginPage />} />
