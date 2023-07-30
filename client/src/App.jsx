@@ -13,6 +13,7 @@ import Login from './pages/Login';
 import Plataforma from "./pages/Plataforma";
 import Postulante from "./pages/Postulante";
 import Proceso from "./pages/Proceso";
+import Recursoshumanos from './pages/Recursoshumanos';
 
 function App() {
   return (
@@ -29,6 +30,8 @@ function App() {
             <Route path="/plataforma" element={<Plataforma />} />
             <Route path="/postulante" element={<Postulante />} />
             <Route path="/proceso" element={<Proceso />} />
+            <Route path="/recursoshumanos" element={<Recursoshumanos />} />
+
           </Route>
         </Routes>
       </BrowserRouter>
