@@ -354,3 +354,6 @@ p {
   pointer-events: none; /* Evitamos que los estados sean interactivos */
 }
 
+.display-none {
+  display: none;
+}
