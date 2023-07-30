@@ -28,6 +28,18 @@ async function fetchCandidatosAndFilterByEmail(email) {
     return [];
   }
 }
+async function fetchRRHHAndFilterByEmail(email) {
+  try {
+    const response = await axios.get(`${api}/rechum`);
+    const rechums = response.data;
+    const existingUsers = rechums.filter((rechum) => rechum[2] === email);
+
+    return existingUsers;
+  } catch (error) {
+    console.error('Error al obtener candidatos:', error);
+    return [];
+  }
+}
 async function getUltimoId() {
   try {
     const response = await axios.get(`${api}/candidato`);
@@ -47,7 +59,8 @@ export const register = async (req, res) => {
   // Verificación de usuario existente
   try {
     const existingUsers = await fetchCandidatosAndFilterByEmail(email);
-    if (existingUsers.length > 0) {
+    const existingRechums= await fetchRRHHAndFilterByEmail(email);
+    if (existingUsers.length > 0 || existingRechums.length > 0) {
       return res.status(409).json(["Usuario ya existe!"]);
     }
   } catch (error) {
@@ -76,23 +89,42 @@ export const login = async (req, res) => {
   // Verificación de usuario existente
   try {
     const existingUsers = await fetchCandidatosAndFilterByEmail(email);
-    if (existingUsers.length < 0) {
+    const existingRechums= await fetchRRHHAndFilterByEmail(email);
+    if (existingUsers.length < 0 && existingRechums.length < 0) {
       return res.status(409).json(["Usuario no existe!"]);
     } else {
-      const isPasswordCorrect = bcrypt.compareSync(
-        password,
-        existingUsers[0][7]
-      );
-      if (!isPasswordCorrect) {
-        return res.status(400).json(["Usuario o Contraseña incorrecta!"]);
+      if(existingUsers.length > 0){
+        const isPasswordCorrect = bcrypt.compareSync(
+          password,
+          existingUsers[0][7]
+        );
+        if (!isPasswordCorrect) {
+          return res.status(400).json(["Usuario o Contraseña incorrecta!"]);
+        }
+        // Generación de Token
+        const token = jwt.sign({ id: existingUsers[0][5] }, TOKEN_SECRET);
+        // Token guardado en una cookie
+        res
+          .cookie("token", token)
+          .status(200)
+          .json(existingUsers[0]);
+      }else{
+        const isPasswordCorrect = bcrypt.compareSync(
+          password,
+          existingRechums[0][2]
+        );
+        if (!isPasswordCorrect) {
+          return res.status(400).json(["Usuario o Contraseña incorrecta!"]);
+        }
+        // Generación de Token
+        const token = jwt.sign({ id: existingUsers[0][5] }, TOKEN_SECRET);
+        // Token guardado en una cookie
+        res
+          .cookie("token", token)
+          .status(200)
+          .json(existingUsers[0]);
       }
-      // Generación de Token
-      const token = jwt.sign({ id: existingUsers[0][5] }, TOKEN_SECRET);
-      // Token guardado en una cookie
-      res
-        .cookie("token", token)
-        .status(200)
-        .json(existingUsers[0]);
+      
     }
   } catch (error) {
     console.error('Error al verificar usuarios:', error);
