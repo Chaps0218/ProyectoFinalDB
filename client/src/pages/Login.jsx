@@ -24,7 +24,6 @@ function Login() {
 
   const handleClosePopup = () => {
     setShowPopup(false);
-    navigate("/profile");
   };
 
   return (
@@ -60,7 +59,7 @@ function Login() {
           <button type="submit">Login</button>
         </form>
         <p className="flex gap-x-2 justify-between mt-3">
-          No tienes una cuenta<Link to="/register" className=" text-sky-500">Registrarse</Link>
+          No tienes una cuenta<Link to="/registro" className=" text-sky-500">Registrarse</Link>
         </p>
         {showPopup && (
           <Popup
