@@ -14,8 +14,8 @@ export function Navbar() {
       <ul className="flex gap-x-2">
         {isAuthenticated ? (
           <>
-           {user && user.username ? (
-              <li>{user.username}</li>
+           {user && user.name ? (
+              <li>{user.name} {user.lastname}</li>
             ) : (
               <li>Loading...</li>
             )}

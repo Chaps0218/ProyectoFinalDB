@@ -15,7 +15,8 @@ function LoginPage() {
   });
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/");
+    if (isAuthenticated)
+    {navigate("/profile");} 
     
   }, [isAuthenticated]);
 
@@ -31,12 +32,12 @@ function LoginPage() {
         <form onSubmit={onSubmit}>
           <input
             type="text"
-            {...register("username", { required: true })}
+            {...register("email", { required: true })}
             className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md border m-3 "
-            placeholder="Usuario"
+            placeholder="Correo"
           />
-          {errors.username && (
-            <p className="text-red-500">El usuario es requerido</p>
+          {errors.email && (
+            <p className="text-red-500">El correo es requerido</p>
           )}
 
           <input
