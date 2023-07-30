@@ -60,6 +60,7 @@ const Registro = () => {
           className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md border m-3"
           onChange={handleChange}
           value={tipoIden}
+          placeholder="Tipo de Identificación"
         >
           <option value="cédula">Cédula</option>
           <option value="pasaporte">Pasaporte</option>
@@ -91,7 +92,7 @@ const Registro = () => {
         <div className="form-box">
           <select
             {...register("sexo", { required: true })}
-            className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md border m-3"
+            placeholder="Sexo"
             onChange={handleChange1}
             value={sexo}
           >
@@ -102,12 +103,10 @@ const Registro = () => {
           {errors.sexo && (
             <p className="text-red-500">El sexo es requerido</p>
           )}
-
           <select
             {...register("titulo", { required: true })}
-            className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md border m-3"
             onChange={handleChange2}
-            placeholder="Seleccione el título con el que desea postular"
+            placeholder="Título"
           >
             {titulos.map((titulo, i) => (
               <option key={i} value={titulo}>{titulo}</option>
@@ -119,7 +118,6 @@ const Registro = () => {
           <input
             type="text"
             {...register("nombre1", { required: true })}
-            className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md border m-3 "
             placeholder="Primer Nombre"
           />
           {errors.nombre1 && (
@@ -128,13 +126,11 @@ const Registro = () => {
           <input
             type="text"
             {...register("nombre2", { required: false })}
-            className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md border m-3 "
             placeholder="Segundo Nombre"
           />
           <input
             type="text"
             {...register("apellido1", { required: true })}
-            className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md border m-3 "
             placeholder="Primer Apellido"
           />
           {errors.apellido1 && (
@@ -143,7 +139,6 @@ const Registro = () => {
           <input
             type="text"
             {...register("apellido2", { required: true })}
-            className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md border m-3 "
             placeholder="Segundo Apellido"
           />
           {errors.apellido2 && (
@@ -152,7 +147,6 @@ const Registro = () => {
           <input
             type="date"
             {...register("fecha_nacimiento", { required: true })}
-            className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md border m-3 "
             placeholder="Fecha de Nacimiento"
           />
           {errors.fecha_nacimiento && (
@@ -161,7 +155,6 @@ const Registro = () => {
           <input
             type="email"
             {...register("email", { required: true })}
-            className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md border m-3"
             placeholder="Email"
           />
           {errors.email && <p className="text-red-500">El correo es requerido</p>}

@@ -260,100 +260,182 @@ html, body {
     font-size: 16px; /* Reducimos el tamaño de fuente */
   }
 }
-/* Plataforma.css */
 
 .plataforma-container {
-  text-align: center;
-  padding: 20px;
-  position: relative;
-}
-
-.logo img{
-  max-width: 100px;
-}
-
-.imagen-usuario {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #333;
-  float: left; /* Alinea la imagen a la izquierda */
-  margin-right: 20px; /* Ajusta el espacio entre la imagen y el texto */
-}
-
-.nombre-completo {
-  position: absolute;
-  top: 50px; /* Ajusta la distancia desde la parte superior */
-  right: 25px; /* Ajusta la distancia desde la parte derecha */
-  font-size: 16px;
-  color: #333;
-  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url('../assets/form3.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .seccion-informacion {
-  display: flex; /* Utilizamos flexbox para los botones en vertical */
-  flex-direction: column; /* Los botones estarán uno encima del otro */
-  width: 35%;
-  margin-left: auto; /* Desplazamos el contenedor a la derecha */
-  padding-right: 120px;
-  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
 }
 
-/* Estilos para los botones */
-.seccion-informacion button {
-  background-color: #007BFF;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 16px;
-  margin-bottom: 10px; /* Ajustamos el espacio entre los botones */
-  cursor: pointer;
-}
-
-h1 {
-  margin: 20px 0;
+.seccion-informacion h1 {
+  margin-bottom: 50px;
+  font-size: 30px;
+  color: #1d7524;
 }
 
 button {
-  background-color: #007BFF;
+  background-color: #000000;
   color: #fff;
   border: none;
   border-radius: 4px;
-  padding: 10px 16px;
-  margin: 10px;
+  padding: 10px 20px;
+  margin: 5px;
   cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
 }
 
-p {
-  margin: 20px 0;
-}
-
-.seccion-completado {
-  display: flex;
-  justify-content: space-between;
+button:hover {
+  transition: 99ms;
+  background-color: #28a745; 
 }
 
 .estados {
-  display: flex; /* Utilizamos flexbox */
-  justify-content: space-between; /* Colocamos los elementos separados */
-  gap: 10px; /* Espacio entre los botones */
-  width: 100px; /* Ancho del contenedor de estados */
-  margin-top: 200px; /* Ajustamos el espacio entre la imagen y la sección de estados */
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
 }
 
-/* Estilos para los estados */
 .estados p {
-  background-color: #007BFF;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 16px;
-  margin: 0; /* Quitamos el margen para ajustarlos al contenedor */
-  text-align: center; /* Centramos el texto en los estados */
-  pointer-events: none; /* Evitamos que los estados sean interactivos */
+  margin: 0 10px;
+  color: #888;
 }
 
-.display-none {
-  display: none;
+/* Media Query para hacer el diseño responsivo */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 20px;
+  }
+  button {
+    padding: 8px 16px;
+  }
 }
+
+.postulante-container {
+  display: flex;
+  flex-direction: column; /* Apilar elementos verticalmente */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  width: 100%;
+  background-image: url('../assets/form3.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.document-table {
+  width: 60vh;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.document-table th,
+.document-table td {
+  padding: 10px;
+  border: 1px solid #c5b5b5;
+  background-color: rgb(245, 239, 239);
+}
+
+.document-table th {
+  background-color: #f1f1f1;
+}
+
+.document-table td input[type='file'] {
+  margin-top: 5px;
+}
+
+.btn-aceptar {
+  margin-top: 15px;
+  background-color: #000000;
+  position: relative;
+}
+
+.btn-aceptar:hover {
+  background-color: #28a745;
+}
+
+/*NUEVOS ESTILOS*/
+.process-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  width: 100%;
+  background-image: url('../assets/form3.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.formulario {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.formulario select {
+  display: block;
+  width: 30%;
+  padding: 5px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.proceso-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Los elementos se distribuirán horizontalmente */
+  width: 70%; /* Ajusta el ancho del contenedor según tus necesidades */
+  margin: 10px 0; /* Agregamos un margen para separar los elementos */
+}
+
+.proceso-text {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.proceso-select {
+  /* Agrega aquí los estilos deseados para el combo box */
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-left: auto; /* Alinea a la derecha */
+}
+
+.tabla {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 70%;
+  border-collapse: collapse;
+}
+
+.tabla th, .tabla td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+
+

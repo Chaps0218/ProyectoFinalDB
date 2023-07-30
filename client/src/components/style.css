@@ -26,12 +26,13 @@
   }
   
   .popup-content button {
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 16px;
-    cursor: pointer;
+    margin-top: 15px;
+    background-color: #000000;
+    position: relative;
+  }
+  
+  .popup-content button:hover {
+    background-color: #28a745;
   }
 
 /* Estilos para la ventana emergente */
@@ -89,5 +90,37 @@
     padding: 0; /* Eliminamos el padding para que la caja colapse limpiamente */
   }
 }
+
+/* style.css */
+.welcome-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: fixed; /* Agregar posicionamiento fijo */
+  top: 0; /* Ajustar la posición vertical en la parte superior */
+  left: 0; /* Ajustar la posición horizontal en el borde izquierdo */
+  width: 100%; /* Asegurar que ocupe todo el ancho de la pantalla */
+  background-color: #ffffff; /* Puedes ajustar el color de fondo según tus necesidades */
+  z-index: 999; /* Ajustar el valor de z-index para asegurarte de que esté por encima de otros elementos */
+}
+
+.logo-container {
+  margin-right: 20px;
+}
+
+.logo-container img {
+  width: 100px; /* Ajusta el tamaño del logo según tus necesidades */
+  height: auto; /* Para mantener la proporción de aspecto */
+}
+
+.text-container {
+  margin: 10px;
+}
+
+h1 {
+  text-align: center;
+}
+
 
   
