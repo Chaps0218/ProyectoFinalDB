@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 const Registro = () => {
 
   const [tipoIden, setTipoIden] = useState("cédula");
+  const [identificacion, setIdentificacion] = useState("");
   const [sexo, setSexo] = useState("M");
   const [titulo, setTitulo] = useState('');
   const titulos = ['Ingeniero', 'Licenciado', 'Doctor', 'Magister', 'Bachiller'];
@@ -29,7 +30,9 @@ const Registro = () => {
   const handleChange2 = (event) => {
     setTitulo(event.target.value);
   };
-  
+  const handleChange3 = (event) => {
+    setIdentificacion(event.target.value);
+  };
   const {
     register,
     handleSubmit,
@@ -39,6 +42,7 @@ const Registro = () => {
   const navigate = useNavigate();
   const { signup, isAutheticated, errors: registerErrors } = useAuth();
   const onSubmit = handleSubmit(async (values) => {
+    console.log(values);
     signup(values);
   });
 
@@ -50,7 +54,24 @@ const Registro = () => {
 
   function handleClick(e) {
     e.preventDefault();
-    setShowFormulario2(true);
+    
+    if (tipoIden === 'cédula') {
+      console.log(identificacion);
+      let var1 = identificacion.slice(0, 2);
+      let var2 = identificacion.slice(2, 3);
+    
+      if (identificacion.length !== 10) {
+        return alert('Cédula incorrecta: La cédula debe tener exactamente 10 caracteres.');
+      } else if (isNaN(var1) || var1 < 1 || var1 > 24) {
+        return alert('Cédula incorrecta: Los dos primeros dígitos deben estar entre 1 y 24.');
+      } else if (isNaN(var2) || var2 < 6) {
+        return alert('Cédula incorrecta: El tercer dígito debe ser mayor o igual a 6.');
+      } else {
+        // Si pasa todas las validaciones, la cédula es correcta
+        // Aquí puedes hacer lo que necesites con la cédula válida
+        setShowFormulario2(true);
+      }
+    }
   }
   
   return (
@@ -74,10 +95,10 @@ const Registro = () => {
           type="number"
           {...register("identificacion", { required: true })}
           className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md border m-3"
-          placeholder={tipoIden === "cédula" ? "Cédula" : "Pasaporte"
-          }
+          placeholder={tipoIden === "cédula" ? "Cédula" : "Pasaporte"}
           inputMode="numeric"
           maxLength="10"
+          onChange={handleChange3}
         />
         {errors.identificacion && (
           <p className="text-red-500">La Identificación es requerida</p>
