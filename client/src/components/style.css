@@ -43,9 +43,9 @@
   background-color: rgba(255, 255, 255, 0.9); /* Color blanco con opacidad 0.9 (transparencia) */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   padding: 10px;
-  border-radius: 4px;
+  border-radius: 10px;
   margin-top: 10px;
-  width: 30%;
+  width: 15%;
   height: 50%;
   margin-left: 10px; /* Desplaza el contenedor hacia la derecha */
   opacity: 0; /* Inicialmente la caja estará oculta */
@@ -54,15 +54,20 @@
 
 /* Estilo para el título de la ventana emergente */
 .ventana-emergente h1 {
-  font-size: 20px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
   margin: 5px 0;
   padding-top: 3px;
   padding-left: 10px;
+  color: #000000;
+  text-align: left;
 }
 
 /* Estilos para el contenido de la ventana emergente */
 .ventana-emergente p {
+  font-family: 'Roboto', sans-serif;
   cursor: pointer;
+  font-size: 12px;
   margin: 5px 0;
   padding: 10px;
   padding-left: 10px;
@@ -92,35 +97,71 @@
 }
 
 /* style.css */
+/* style.css */
 .welcome-banner {
+  color: #ffffff;
   display: flex;
   align-items: center;
-  justify-content: center;
   padding: 20px;
-  position: fixed; /* Agregar posicionamiento fijo */
-  top: 0; /* Ajustar la posición vertical en la parte superior */
-  left: 0; /* Ajustar la posición horizontal en el borde izquierdo */
-  width: 100%; /* Asegurar que ocupe todo el ancho de la pantalla */
-  background-color: #ffffff; /* Puedes ajustar el color de fondo según tus necesidades */
-  z-index: 999; /* Ajustar el valor de z-index para asegurarte de que esté por encima de otros elementos */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* Agrega transparencia (alpha) al color */
+  z-index: 999;
 }
 
 .logo-container {
-  margin-right: 20px;
+  margin-right: 20px; /* Ajusta el margen entre el logo y el texto */
 }
 
 .logo-container img {
-  width: 100px; /* Ajusta el tamaño del logo según tus necesidades */
-  height: auto; /* Para mantener la proporción de aspecto */
+  width: 100px;
+  height: auto;
 }
 
 .text-container {
-  margin: 10px;
+  flex: 1; /* Ocupa todo el espacio restante */
+  display: flex; /* Aplica flexbox al texto y los botones */
+  align-items: center; /* Centra verticalmente el texto y los botones */
+  justify-content: space-between; /* Distribuye el espacio entre el texto y los botones */
 }
 
 h1 {
-  text-align: center;
+  font-size: 32px; /* Tamaño del texto aumentado */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente del texto */
+  font-weight: bold; /* Texto en negrita */
+  margin: 0; /* Elimina el margen superior e inferior del encabezado */
+  padding: 0; /* Elimina el padding del encabezado */
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  margin-left: auto; /* Mueve los botones al lado derecho */
+}
+
+li {
+  list-style: none;
+  margin-left: 10px;
+}
+
+li:first-child {
+  margin-left: 0; /* Elimina el margen izquierdo del primer botón */
+}
+
+li a {
+  color: #000000;
+  text-decoration: none;
+  background-color: #ffffff;
+  padding: 8px 15px;
+  border-radius: 5px;
+}
+
+li a:hover {
+  transition-duration: 99ms;
+  background-color: #28a745;
 }
 
 
-  

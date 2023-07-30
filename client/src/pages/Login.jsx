@@ -29,13 +29,13 @@ function Login() {
   return (
     <div className="login-container">
       <div className="login-image"></div>
-      <div className="bg-zinc-600 max-w-md w-full p-10 rounded-md">
+      <div className="login-form">
         {registerErrors.map((error, i) => (
           <div key={i} className="bg-red-500 p-2 text-white">
             {error}
           </div>
         ))}
-        <h1 className="text-2xl font-bold">Login</h1>
+        <h1>Login</h1>
         <form onSubmit={onSubmit}>
           <input
             type="text"
@@ -56,10 +56,10 @@ function Login() {
           {errors.password && (
             <p className="text-red-500">La contraseña es requerida</p>
           )}
-          <button type="submit">Login</button>
+          <button type="submit">Ingresar</button>
         </form>
-        <p className="flex gap-x-2 justify-between mt-3">
-          No tienes una cuenta<Link to="/registro" className=" text-sky-500">Registrarse</Link>
+        <p>
+          <Link to="/registro">Registrarse</Link>
         </p>
         {showPopup && (
           <Popup

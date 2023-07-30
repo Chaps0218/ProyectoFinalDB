@@ -1,6 +1,6 @@
 import React from 'react';
-import ReCAPTCHA from 'react-google-recaptcha'; // Importa el componente de reCAPTCHA
-import './styles.css'; // Importa el archivo de estilos
+import ReCAPTCHA from 'react-google-recaptcha';
+import './styles.css';
 import { useEffect } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -8,25 +8,28 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const Registro = () => {
-  // Función que maneja la acción cuando se valida el captcha
-  const onCaptchaVerify = (response) => {
-    console.log('Captcha verificado:', response);
-    // Aquí puedes agregar tu lógica para enviar el formulario o realizar otras acciones
-  };
+
   const [tipoIden, setTipoIden] = useState("cédula");
   const [sexo, setSexo] = useState("M");
   const [titulo, setTitulo] = useState('');
   const titulos = ['Ingeniero', 'Licenciado', 'Doctor', 'Magister', 'Bachiller'];
 
+  const onCaptchaVerify = (response) => {
+    console.log('Captcha verificado:', response);
+  };
+  
   const handleChange = (event) => {
     setTipoIden(event.target.value);
   };
+
   const handleChange1 = (event) => {
     setSexo(event.target.value);
   };
+
   const handleChange2 = (event) => {
     setTitulo(event.target.value);
   };
+  
   const {
     register,
     handleSubmit,
@@ -43,21 +46,20 @@ const Registro = () => {
     if (isAutheticated) { navigate("/"); }
   }, [isAutheticated]);
 
+  const [showFormulario2, setShowFormulario2] = useState(false);
+
   function handleClick(e) {
     e.preventDefault();
-    const login = document.getElementById('login1');
-    login.classList.add('display-none');
-    const login2 = document.getElementById('login2');
-    login2.classList.remove('display-none');
+    setShowFormulario2(true);
   }
-
+  
   return (
     <div className="login-container" >
+      {!showFormulario2 && (
       <div className="login-form" id="login1">
         <h1>REGISTRO DE POSTULANTES A DOCENTES</h1>
         <select
           {...register("tipoIden", { required: true })}
-          className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md border m-3"
           onChange={handleChange}
           value={tipoIden}
           placeholder="Tipo de Identificación"
@@ -86,9 +88,11 @@ const Registro = () => {
         <button type="submit" onClick={handleClick}>
           ENVIAR
         </button>
-        <p onClick={() => window.location.href = '/login2'}>Ir a Login</p>
+        <p onClick={() => window.location.href = '/login'}>Ir a Login</p>
       </div>
-      <div className="form-container display-none" id='login2'>
+      )}
+      {showFormulario2 && (
+      <div className="form-container" id='login2'>
         <div className="form-box">
           <select
             {...register("sexo", { required: true })}
@@ -161,6 +165,7 @@ const Registro = () => {
           <button type="submit" onClick={() => {window.location.href = '/login'; onSubmit();}}>ENVIAR</button>
         </div>
       </div>
+      )}
     </div>
   );
 };
