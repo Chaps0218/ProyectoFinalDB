@@ -1,0 +1,356 @@
+/* styles.css */
+
+/* Establece una altura del 100% para html y body */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Establece el fondo de la página */
+.inicio {
+  background-image: url('../assets/espe.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+/* Estilo para el recuadro blanco */
+.inicio .recuadro-blanco {
+  position: absolute;
+  top: 50%; /* Centra verticalmente el recuadro en la mitad de la pantalla */
+  left: 50%; /* Centra horizontalmente el recuadro en la mitad de la pantalla */
+  transform: translate(-50%, -50%); /* Centra exactamente el recuadro en la pantalla */
+  width: 80%; /* Ajusta el ancho del recuadro */
+  max-width: 400px; /* Establece un ancho máximo */
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 20px; /* Añade espacio interno para separar el contenido del borde */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+}
+
+/* Estilo para el título "TRABAJA CON NOSOTROS" */
+.inicio .recuadro-blanco h1 {
+  font-size: 30px;
+  padding-bottom: 3px;
+  color: #1d7524;
+  margin: 5px 0;
+}
+
+/* Estilo para el subtítulo "CONCURSO DE MÉRITOS Y OPOSICIÓN 2023" */
+.inicio .recuadro-blanco h2 {
+  font-size: 18px;
+  color: #333;
+  margin: 5px 0;
+  padding-top: 3px;
+}
+
+/* Estilo para el botón "Iniciar" */
+.inicio button {
+  cursor: pointer;
+  font-size: 18px;
+  color: #fdfdfd;
+  background-color: #070707; /* Color verde */
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  margin-top: 20px;
+}
+
+/* Estilo para el efecto de hover del botón */
+.inicio button:hover {
+  transition: 99ms;
+  background-color: #28a745; /* Color verde más oscuro en hover */
+}
+
+
+/* styles.css */
+
+/* Estilos para el contenedor centrado */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../assets/form2.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+/* Estilos para el formulario */
+.login-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+  border: 1px solid #bdbdbd;
+}
+
+/* Estilos para los elementos del formulario */
+.login-form h1 {
+  margin-bottom: 10px;
+}
+
+.login-form label {
+  display: block;
+  text-align: left;
+}
+
+.login-form input {
+  display: block;
+  width: 94%;
+  margin: 10px 0;
+  padding: 8px 12px;
+  border: 1px solid #a09d9d;
+  border-radius: 4px;
+  background-color: #f5eeee;
+}
+
+.login-form button {
+  cursor: pointer;
+  font-size: 18px;
+  color: #fdfdfd;
+  background-color: #000000; /* Color verde */
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  margin-top: 20px;
+}
+
+/* Estilo para el efecto de hover del botón */
+.login-form button:hover {
+  transition: 99ms;
+  background-color: #28a745; /* Color verde más oscuro en hover */
+}
+
+.login-form p {
+  cursor: pointer;
+  color: #007BFF;
+  text-decoration: underline;
+}
+
+.captcha-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* styles.css */
+
+/* Estilos para el contenedor centrado */
+.form-container { /* Cambio del nombre de la clase */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url('../assets/form2.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+/* Estilos para el formulario */
+.form-box { /* Cambio del nombre de la clase */
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+  border: 1px solid #bdbdbd;
+}
+
+/* Estilos para los elementos del formulario */
+.form-box h1 { /* Cambio del nombre de la clase */
+  margin-bottom: 10px;
+}
+
+.form-box label { /* Cambio del nombre de la clase */
+  display: block;
+  text-align: left;
+}
+
+.form-box input,
+.form-box select { /* Cambio del nombre de la clase */
+  display: block;
+  width: 94%;
+  margin: 10px 0;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-box select { /* Cambio del nombre de la clase */
+  background-color: #fff;
+}
+
+.form-box .radio-group { /* Cambio del nombre de la clase */
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 5px 0;
+}
+
+/* Estilo para los campos de nombres y tipo de identificación */
+.form-box .form-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-box .form-column {
+  flex: 1;
+}
+
+.form-box .form-column input {
+  margin-right: 10px; /* Añadimos margen derecho para separar los campos */
+}
+
+.form-box .form-column .cedula {
+  margin-left: 20px; /* Añadimos margen derecho para separar los campos */
+}
+
+
+.form-box button { /* Cambio del nombre de la clase */
+  cursor: pointer;
+  font-size: 18px;
+  color: #fdfdfd;
+  background-color: #000000; /* Color verde */
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  margin-top: 20px;
+}
+
+.form-box button:hover {
+  transition: 99ms;
+  background-color: #28a745; /* Color verde más oscuro en hover */
+}
+
+.form-box p { /* Cambio del nombre de la clase */
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+/* Media query para pantallas de 15.6 pulgadas de laptop */
+@media (max-width: 1366px) {
+  .form-box {
+    padding: 15px; /* Ajustamos el padding */
+    max-width: 350px; /* Reducimos el ancho máximo */
+  }
+
+  .form-box button {
+    font-size: 16px; /* Reducimos el tamaño de fuente */
+  }
+}
+/* Plataforma.css */
+
+.plataforma-container {
+  text-align: center;
+  padding: 20px;
+  position: relative;
+}
+
+.logo img{
+  max-width: 100px;
+}
+
+.imagen-usuario {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #333;
+  float: left; /* Alinea la imagen a la izquierda */
+  margin-right: 20px; /* Ajusta el espacio entre la imagen y el texto */
+}
+
+.nombre-completo {
+  position: absolute;
+  top: 50px; /* Ajusta la distancia desde la parte superior */
+  right: 25px; /* Ajusta la distancia desde la parte derecha */
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+}
+
+.seccion-informacion {
+  display: flex; /* Utilizamos flexbox para los botones en vertical */
+  flex-direction: column; /* Los botones estarán uno encima del otro */
+  width: 35%;
+  margin-left: auto; /* Desplazamos el contenedor a la derecha */
+  padding-right: 120px;
+  padding-top: 50px;
+}
+
+/* Estilos para los botones */
+.seccion-informacion button {
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  margin-bottom: 10px; /* Ajustamos el espacio entre los botones */
+  cursor: pointer;
+}
+
+h1 {
+  margin: 20px 0;
+}
+
+button {
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+p {
+  margin: 20px 0;
+}
+
+.seccion-completado {
+  display: flex;
+  justify-content: space-between;
+}
+
+.estados {
+  display: flex; /* Utilizamos flexbox */
+  justify-content: space-between; /* Colocamos los elementos separados */
+  gap: 10px; /* Espacio entre los botones */
+  width: 100px; /* Ancho del contenedor de estados */
+  margin-top: 200px; /* Ajustamos el espacio entre la imagen y la sección de estados */
+}
+
+/* Estilos para los estados */
+.estados p {
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 16px;
+  margin: 0; /* Quitamos el margen para ajustarlos al contenedor */
+  text-align: center; /* Centramos el texto en los estados */
+  pointer-events: none; /* Evitamos que los estados sean interactivos */
+}
+
