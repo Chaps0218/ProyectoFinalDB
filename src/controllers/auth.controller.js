@@ -158,8 +158,10 @@ export const verifyToken = async (req, res) => {
         // información que se recopila
         id: existingUsers[0][5],
         email: existingUsers[0][6],
-        name: existingUsers[0][8],
-        lastname: existingUsers[0][10],
+        name1: existingUsers[0][8],
+        name2: existingUsers[0][9],
+        lastname1: existingUsers[0][10],
+        lastname2: existingUsers[0][11],
       });
     });
   } catch (error) {

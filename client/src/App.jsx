@@ -11,12 +11,13 @@ import Inicio from './pages/Inicio';
 import Registro from './pages/Registro';
 import Login from './pages/Login';
 import Plataforma from "./pages/Plataforma";
+import Postulante from "./pages/Postulante";
+import Proceso from "./pages/Proceso";
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Navbar />
         <Routes>
           {/* <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} /> */}
@@ -26,6 +27,8 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/plataforma" element={<Plataforma />} />
+            <Route path="/postulante" element={<Postulante />} />
+            <Route path="/proceso" element={<Proceso />} />
           </Route>
         </Routes>
       </BrowserRouter>
