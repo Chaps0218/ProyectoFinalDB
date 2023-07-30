@@ -32,15 +32,14 @@ function App() {
             // de los componentes protegidos cuando se cambie la ruta.
             key={window.location.pathname}
           >
-          <Route path="/profile" element={<ProfilePage />} />
-
-          <Route path="/registro" element={<Registro />} />
-          <Route path="/login2" element={<Login />} />
-          <Route path="/formulario" element={<Formulario />} />
-          <Route path="/plataforma" element={<Plataforma />} />
-          <Route path="/informacion" element={<Informacion />} />
-          <Route path="/postulante" element={<Postulante />} />
-          <Route path="/proceso" element={<Proceso />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/registro" element={<Registro />} />
+            <Route path="/login2" element={<Login />} />
+            <Route path="/formulario" element={<Formulario />} />
+            <Route path="/plataforma" element={<Plataforma />} />
+            <Route path="/informacion" element={<Informacion />} />
+            <Route path="/postulante" element={<Postulante />} />
+            <Route path="/proceso" element={<Proceso />} />
             <Route path="/" element={<h1>Home</h1>} />
           </Route>
         </Routes>
