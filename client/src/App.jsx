@@ -9,6 +9,7 @@ import { Navbar } from "./components/navbar";
 // Nuevas Rutas
 import Inicio from './pages/Inicio';
 import Registro from './pages/Registro';
+import RegistroRRHH from "./pages/RegistroRRHH";
 import Login from './pages/Login';
 import Plataforma from "./pages/Plataforma";
 import Postulante from "./pages/Postulante";
@@ -24,6 +25,7 @@ function App() {
           {/* <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} /> */}
           <Route path="/registro" element={<Registro />} />
+          <Route path="/registroRRHH" element={<RegistroRRHH />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Inicio />} />
           <Route path="/academica" element={<CrudNAcademica />} />
