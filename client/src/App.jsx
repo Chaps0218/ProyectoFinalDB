@@ -31,6 +31,7 @@ function App() {
           <Route path="/" element={<Inicio />} />
           <Route path="/PrincipalRRHH" element={<PrincipalRRHH />} />
             <Route path="/plataforma" element={<Plataforma />} />
+            <Route path="/academica" element={<CrudNAcademica />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/postulante" element={<Postulante />} />
             <Route path="/proceso" element={<Proceso />} />

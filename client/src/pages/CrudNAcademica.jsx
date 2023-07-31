@@ -557,10 +557,10 @@ const CrudNAcademica = () => {
           />
         </DialogContent>
         <DialogActions>
-        <Button onClick={handleNewItemSubmit} sx = {{margin: '1rem'}}>
+        <Button onClick={handleNewItemSubmit} sx = {{margin: '1rem', color: 'white'}}>
             Confirm
         </Button>
-        <Button onClick={handleNewItemFormClose} sx = {{margin: '1rem'}}>
+        <Button onClick={handleNewItemFormClose} sx = {{margin: '1rem', color: 'white'}}>
             Cancel
         </Button>
         </DialogActions>
