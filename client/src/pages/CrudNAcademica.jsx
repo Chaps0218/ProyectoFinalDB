@@ -1,30 +1,30 @@
 import React, { useState } from 'react';
 import {
-  Container,
-  Typography,
-  Table,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Paper,
-  Button,
-  Tabs,
-  Tab,
-  Box,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from '@mui/material';
+    Container,
+    Typography,
+    Table,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
+    Paper,
+    Button,
+    Tabs,
+    Tab,
+    Box,
+    TextField,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+  } from '@mui/material';
 import {Add, Edit, Delete} from '@mui/icons-material';
 import "../styles/CrudNAcademica.css";
 
 const initialDepartamento = {
-  nombre: 'Ciencias de la tierra',
-  descripcion: 'Algo aqui',
+  nombre: '',
+  descripcion: '',
 };
 
 const initialSede = {
@@ -43,6 +43,7 @@ const initialCampoEspecifico = {
   campoAmplio: '',
 };
 
+
 const CrudNAcademica = () => {
 
   // Campos locales
@@ -56,26 +57,66 @@ const CrudNAcademica = () => {
   const [currentItem, setCurrentItem] = useState(null);
   const [editMode, setEditMode] = useState({});
 
-  // Funciones para crud
-  const handleCreate = (field) => {
-    switch (field) {
-      case 'departamentos':
-        setDepartamentos([...departamentos, { ...initialDepartamento }]);
+ // Form-related state
+ const [newItemFormOpen, setNewItemFormOpen] = useState(false);
+ const [formValues, setFormValues] = useState({});
+
+ const handleInputChange = (e) => {
+   const { name, value } = e.target;
+   setFormValues({ ...formValues, [name]: value });
+ };
+
+ const handleNewItemFormClose = () => {
+   setNewItemFormOpen(false);
+ };
+
+ const handleNewItemSubmit = () => {
+   switch (currentTab) {
+     case 0: // Departamento
+       setDepartamentos([...departamentos, formValues]);
+       break;
+     case 1: // Sede
+       setSedes([...sedes, formValues]);
+       break;
+     case 2: // Campo Amplio
+       setCamposAmplios([...camposAmplios, formValues]);
+       break;
+     case 3: // Campo Específico
+       setCamposEspecificos([...camposEspecificos, formValues]);
+       break;
+     default:
+       break;
+   }
+
+   setFormValues({});
+   setNewItemFormOpen(false);
+ };
+
+  const handleNewItemForm = (currentTab) => {
+    let newItem = {};
+
+    switch (currentTab) {
+      case 0: // Departamento
+        newItem = { ...initialDepartamento };
         break;
-      case 'sedes':
-        setSedes([...sedes, { ...initialSede }]);
+      case 1: // Sede
+        newItem = { ...initialSede };
         break;
-      case 'camposAmplios':
-        setCamposAmplios([...camposAmplios, { ...initialCampoAmplio }]);
+      case 2: // Campo Amplio
+        newItem = { ...initialCampoAmplio };
         break;
-      case 'camposEspecificos':
-        setCamposEspecificos([...camposEspecificos, { ...initialCampoEspecifico }]);
+      case 3: // Campo Específico
+        newItem = { ...initialCampoEspecifico };
         break;
       default:
         break;
     }
+
+    setFormValues(newItem);
+    setNewItemFormOpen(true);
   };
-  
+ 
+
 
   const handleUpdate = (field) => {
     console.log('handleUpdate', field, currentItem);
@@ -162,15 +203,18 @@ const CrudNAcademica = () => {
           variant="contained"
           color="primary"
           startIcon={<Add />}
-          onClick={() => handleCreate(
-            currentTab === 0 ? 'departamentos' :
-            currentTab === 1 ? 'sedes' :
-            currentTab === 2 ? 'camposAmplios' :
-            currentTab === 3 ? 'camposEspecificos' :
-            'desconocido'
-          )}
+          onClick={() => handleNewItemForm(currentTab)}
         >
-          Agregar {currentTab === 0 ? 'Departamento' : currentTab === 1 ? 'Sede' : currentTab === 2 ? 'Campo Amplio' : currentTab === 2 ? 'Campo Específico' : 'desconocido'}
+          Agregar{' '}
+          {currentTab === 0
+            ? 'Departamento'
+            : currentTab === 1
+            ? 'Sede'
+            : currentTab === 2
+            ? 'Campo Amplio'
+            : currentTab === 3
+            ? 'Campo Específico'
+            : 'desconocido'}
         </Button>
       </Box>
      
@@ -420,7 +464,6 @@ const CrudNAcademica = () => {
                    <TableCell>ID</TableCell>
                    <TableCell>Nombre</TableCell>
                    <TableCell>Descripción</TableCell>
-                   <TableCell>Campo Amplio</TableCell>
                    <TableCell>Acciones</TableCell>
                  </TableRow>
                </TableHead>
@@ -443,36 +486,13 @@ const CrudNAcademica = () => {
                              id={`edit-descripcion-camposEspecificos-${index}`}
                            />
                          </TableCell>
-                        <TableCell>
-                            <FormControl fullWidth>
-                            <InputLabel htmlFor={`edit-campoAmplioRef-camposEspecificos-${index}`}>Campo Amplio</InputLabel>
-                            <Select
-                                value={record.campoAmplioRef}
-                                onChange={(e) => {
-                                    const updatedCamposEspecificos = [...camposEspecificos];
-                                    updatedCamposEspecificos[index].campoAmplioRef = e.target.value;
-                                    setCamposEspecificos(updatedCamposEspecificos);
-                                }}
-                                inputProps={{
-                                name: `edit-campoAmplioRef-camposEspecificos-${index}`,
-                                id: `edit-campoAmplioRef-camposEspecificos-${index}`,
-                                }}
-                                sx = {{width: '10rem'}}
-                            >
-                                {camposAmplios.map((campoAmplio, campoAmplioIndex) => (
-                                <MenuItem key={campoAmplioIndex} value={campoAmplio.id}>
-                                    {campoAmplio.nombre}
-                                </MenuItem>
-                                ))}
-                            </Select>
-                            </FormControl>
-                        </TableCell>
+
                        </>
                      ) : (
                        <>
                          <TableCell>{record.nombre}</TableCell>
                          <TableCell>{record.descripcion}</TableCell>
-                         <TableCell>{record.campoAmplioRef}</TableCell>
+   
                        </>
                      )}
                      <TableCell>
@@ -515,6 +535,36 @@ const CrudNAcademica = () => {
              </Table>
            </TableContainer>
       )}
+
+<Dialog open={newItemFormOpen} onClose={handleNewItemFormClose}>
+        <DialogTitle>Agregar nuevos detalles</DialogTitle>
+        <DialogContent sx={{display: 'flex', gap: '0.5rem'}}>
+          <TextField
+            label="Nombre"
+            name="nombre"
+            value={formValues.nombre || ''}
+            onChange={handleInputChange}
+            fullWidth
+            sx = {{margin: '1rem'}}
+          />
+          <TextField
+            label="Descripción"
+            name="descripcion"
+            value={formValues.descripcion || ''}
+            onChange={handleInputChange}
+            fullWidth
+            sx = {{margin: '1rem'}}
+          />
+        </DialogContent>
+        <DialogActions>
+        <Button onClick={handleNewItemSubmit} sx = {{margin: '1rem'}}>
+            Confirm
+        </Button>
+        <Button onClick={handleNewItemFormClose} sx = {{margin: '1rem'}}>
+            Cancel
+        </Button>
+        </DialogActions>
+      </Dialog>
 
     </Container>
   );
