@@ -15,7 +15,6 @@ const Plataforma = () => {
         <h1>LLENAR LA SIGUIENTE INFORMACIÓN</h1>
         <button onClick={() => window.location.href = '/postulante'}>INFORMACIÓN DEL POSTULANTE</button>
         <button onClick={() => window.location.href = '/proceso'}>SELECCIONAR POSTULACIÓN</button>
-        <button onClick={() => window.location.href = '/'}>CERRAR SESIÓN</button>
       </div>
       <div className="estados">
         <p>COMPLETADO</p>

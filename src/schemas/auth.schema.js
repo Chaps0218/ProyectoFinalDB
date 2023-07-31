@@ -11,7 +11,7 @@ export const registerSchema = z.object({
     .max(10, {
       message: "La identificación debe tener exactamente 10 caracteres",
     })
-    .min(10, { 
+    .min(10, {
       message: "La identificación debe tener exactamente 10 caracteres",
     }),
   email: z
@@ -58,6 +58,53 @@ export const registerSchema = z.object({
     .min(3, {
       message: "El apellido debe tener al menos 3 caracteres",
     }),
+});
+export const registerSchemaRRHH = z.object({
+  email: z
+    .string({
+      required_error: "El correo es requerido",
+    })
+    .email({
+      message: "Correo inválido",
+    }),
+  password: z
+    .string({
+      required_error: "La contraseña es requerida",
+    })
+    .min(6, {
+      message: "La contraseña debe tener al menos 6 caracteres",
+    }),
+  nombre1: z
+    .string({
+      required_error: "El nombre es requerido",
+    })
+    .min(3, {
+      message: "El nombre debe tener al menos 3 caracteres",
+    }),
+  nombre2: z
+    .string({
+      required_error: "El nombre es requerido",
+    })
+    .min(3, {
+      message: "El nombre debe tener al menos 3 caracteres",
+    }),
+  apellido1: z
+    .string({
+      required_error: "El apellido es requerido",
+    })
+    .min(3, {
+      message: "El apellido debe tener al menos 3 caracteres",
+    }),
+  apellido2: z
+    .string({
+      required_error: "El apellido es requerido",
+    })
+    .min(3, {
+      message: "El apellido debe tener al menos 3 caracteres",
+    }),
+  cargo: z.string({
+    required_error: "El cargo es requerido",
+  }),
 });
 
 export const loginSchema = z.object({

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 const VentanaInformacion = () => {
     const [mostrarVentana, setMostrarVentana] = useState(false);
@@ -12,8 +14,10 @@ const VentanaInformacion = () => {
       };
 
     return (
-      <div>
-        <button onClick={handleMostrarVentana}>Más Información</button>
+      <div className='ventana-contenedor'>
+        <button onClick={handleMostrarVentana}>
+        <FontAwesomeIcon icon={faInfoCircle} style={{ marginRight: '10px' }} />
+        Más Información</button>
         {mostrarVentana && (
           <div className="ventana-emergente">
             <h1>CONOCE MÁS ACERCA DEL CONCURSO DE MÉRITOS DE OPOSICIÓN</h1>

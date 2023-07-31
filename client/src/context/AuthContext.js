@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { registerRequest, loginRequest, verifyTokenRequest } from "../api/auth";
+import { registerRequest, registerRequestRRHH, loginRequest, verifyTokenRequest } from "../api/auth";
 import Cookies from "js-cookie";
 export const AuthContext = createContext();
 
@@ -46,6 +46,16 @@ export const AuthProvider = ({ children }) => {
       setErrors(error.response.data);
     }
   };
+  const signuprrhh = async (user) => {
+    try {
+      const res = await registerRequestRRHH(user);
+      setUser(res.data);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      setErrors(error.response.data);
+    }
+  };
   useEffect(() => {
     const checkLogin = async () => {
       const cookies = Cookies.get();
@@ -86,6 +96,7 @@ export const AuthProvider = ({ children }) => {
         errors,
         signin,
         logout,
+        signuprrhh,
         loading,
       }}
     >
