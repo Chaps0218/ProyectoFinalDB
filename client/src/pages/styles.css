@@ -9,7 +9,6 @@ html, body {
 
 /* Establece el fondo de la página */
 .inicio {
-  background: linear-gradient(rgba(0, 0, 0, .50) 0%, rgba(0,0,0,.50) 100%), url('../assets/espe.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -21,7 +20,6 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('../assets/3.jpg');
   background-size: auto;
   background-repeat: no-repeat;
   background-position: center;
@@ -32,62 +30,42 @@ html, body {
   
 }
 .plataforma-container h1{
-  color: #000000;
+  color: #ffffff;
   font-size: 30px;
   font-weight: bold
-  
-  
 }
 
 
-/* Estilo para el recuadro blanco */
-.inicio .recuadro-blanco {
+.video-background {
   position: absolute;
-  top: 50%; /* Centra verticalmente el recuadro en la mitad de la pantalla */
-  left: 50%; /* Centra horizontalmente el recuadro en la mitad de la pantalla */
-  transform: translate(-50%, -50%); /* Centra exactamente el recuadro en la pantalla */
-  width: 80%; /* Ajusta el ancho del recuadro */
-  max-width: 600px; /* Establece un ancho máximo */
-  background-color: rgba(255, 255, 255, 0.7);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px;
-}
-
-/* Estilo para el título "TRABAJA CON NOSOTROS" */
-.inicio .recuadro-blanco h1 {
-  font-size: 30px;
-  color: #1d7524;
-  text-align: center;
-  padding: 20px;
-  height: 100%;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
 }
 
-/* Estilo para el subtítulo "CONCURSO DE MÉRITOS Y OPOSICIÓN 2023" */
-.inicio .recuadro-blanco h2 {
-  font-size: 17px;
-  color: #333;
-  margin: 5px 0;
-  padding-top: 3px;
-  font-weight: bold;
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(43, 42, 42, 0.5); /* Capa oscura con transparencia */
+  z-index: 0;
 }
 
 /* Estilo para el recuadro blanco */
 .inicio .recuadro-blanco-titulo {
   position: absolute;
-  top: 20%; /* Centra verticalmente el recuadro en la mitad de la pantalla */
+  top: 50%; /* Centra verticalmente el recuadro en la mitad de la pantalla */
   left: 50%; /* Centra horizontalmente el recuadro en la mitad de la pantalla */
   transform: translate(-50%, -50%); /* Centra exactamente el recuadro en la pantalla */
   width: 100%; /* Ajusta el ancho del recuadro */
-  max-width: 100%x; /* Establece un ancho máximo */
+  max-width: 500px; /* Establece un ancho máximo */
   background-color: rgba(255, 255, 255, 0.7);
-  padding: 20px; /* Añade espacio interno para separar el contenido del borde */
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -98,38 +76,28 @@ html, body {
 .inicio .recuadro-blanco-titulo h1 {
   font-size: 50px;
   padding-bottom: 3px;
-  color: #1d7524;
+  color: #000000;
   margin: 5px 0;
   text-align: center;
 }
 
-.inicio .recuadro-blanco-titulo h1 {
-  font-size: 50px;
+.inicio .recuadro-blanco-titulo h2 {
+  font-size: 20px;
   padding-bottom: 3px;
   color: #1d7524;
   margin: 5px 0;
   text-align: center;
 }
 
-/* Estilo para el botón "Iniciar" */
-.inicio .recuadro-blanco button {
+.inicio .recuadro-blanco-titulo button {
   cursor: pointer;
   font-size: 18px;
-  background-color: rgba(255, 255, 255, 0.7);
   background-color: #070707; /* Color verde */
   padding: 10px 16px;
-  width: 100%;
+  width: 50%;
+  border-radius: 15px;
+  margin: 15px 0;
 }
-
-.boton-info {
-  cursor: pointer;
-  font-size: 18px;
-  color: #fdfdfd;
-  background-color: #070707; /* Color verde */
-  border: none;
-  padding: 10px 16px;
-  width: 100%;
-}	
 
 /* Estilo para el efecto de hover del botón */
 .inicio button:hover {

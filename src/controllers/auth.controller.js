@@ -16,6 +16,18 @@ async function fetchCandidatosAndFilterById(id) {
     return [];
   }
 }
+async function fetchRRHHAndFilterById(id) {
+  try {
+    const response = await axios.get(`${api}/rechum`);
+    const candidatos = response.data;
+    const existingUsers = candidatos.filter((candidato) => candidato[1] === id);
+
+    return existingUsers;
+  } catch (error) {
+    console.error('Error al obtener candidatos:', error);
+    return [];
+  }
+}
 async function fetchCandidatosAndFilterByEmail(email) {
   try {
     const response = await axios.get(`${api}/candidato`);
@@ -130,22 +142,22 @@ export const login = async (req, res) => {
           return res.status(400).json(["Usuario o Contraseña incorrecta!"]);
         }
         // Generación de Token
-        const token = jwt.sign({ id: existingUsers[0][5] }, TOKEN_SECRET);
+        const token = jwt.sign({ id: existingUsers[0][5], tipo: "candidato"}, TOKEN_SECRET);
         // Token guardado en una cookie
         res
           .cookie("token", token)
           .status(200)
           .json(existingUsers[0]);
-      }else{
+      }else if(existingRechums.length > 0){
         const isPasswordCorrect = bcrypt.compareSync(
           password,
-          existingRechums[0][2]
+          existingRechums[0][3]
         );
         if (!isPasswordCorrect) {
           return res.status(400).json(["Usuario o Contraseña incorrecta!"]);
         }
         // Generación de Token
-        const token = jwt.sign({ id: existingUsers[0][5] }, TOKEN_SECRET);
+        const token = jwt.sign({ id: existingRechums[0][1], tipo: "rrhh" }, TOKEN_SECRET);
         // Token guardado en una cookie
         res
           .cookie("token", token)
@@ -179,18 +191,35 @@ export const verifyToken = async (req, res) => {
     jwt.verify(token, TOKEN_SECRET, async (err, user) => {
       if (err) return res.status(401).json("Acceso denegado");
       const existingUsers = await fetchCandidatosAndFilterById(user.id);
-      if (existingUsers.length < 0) {
+      const existingRechums= await fetchRRHHAndFilterById(user.id);
+      if (existingUsers.length < 0 && existingRechums.length < 0) {
         return res.status(404).json({ error: "Usuario no encontrado!" })
+      }else if(existingUsers.length > 0 && user.tipo === "candidato"){
+        console.log("candidato");
+        return res.json({
+          // información que se recopila
+          id: existingUsers[0][5],
+          email: existingUsers[0][6],
+          name1: existingUsers[0][8],
+          name2: existingUsers[0][9],
+          lastname1: existingUsers[0][10],
+          lastname2: existingUsers[0][11],
+          tipo: "candidato",
+        });
+      }else if (existingRechums.length > 0 && user.tipo === "rrhh"){
+        console.log("rrhh");
+        return res.json({
+          // información que se recopila
+          id: existingRechums[0][1],
+          email: existingRechums[0][2],
+          name1: existingRechums[0][4],
+          name2: existingRechums[0][5],
+          lastname1: existingRechums[0][6],
+          lastname2: existingRechums[0][7],
+          tipo: "rrhh",
+        });
       }
-      return res.json({
-        // información que se recopila
-        id: existingUsers[0][5],
-        email: existingUsers[0][6],
-        name1: existingUsers[0][8],
-        name2: existingUsers[0][9],
-        lastname1: existingUsers[0][10],
-        lastname2: existingUsers[0][11],
-      });
+      
     });
   } catch (error) {
     console.error('Error al verificar usuarios:', error);

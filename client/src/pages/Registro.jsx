@@ -14,7 +14,7 @@ const Registro = () => {
   const [sexo, setSexo] = useState("M");
   const [titulo, setTitulo] = useState('');
   const titulos = ['Ingeniero', 'Licenciado', 'Doctor', 'Magister', 'Bachiller'];
-
+  
   const onCaptchaVerify = (response) => {
     console.log('Captcha verificado:', response);
   };

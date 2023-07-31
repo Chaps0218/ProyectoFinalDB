@@ -25,7 +25,6 @@ const Postulante = () => {
       const arrayBuffer = await file.arrayBuffer(); // Convertir el archivo en un ArrayBuffer
       const uint8Array = new Uint8Array(arrayBuffer);
       let numPages = 0;
-
       // Buscar referencias a las páginas (identificador "/Page")
       for (let i = 0; i < uint8Array.length - 4; i++) {
         if (
@@ -79,7 +78,7 @@ const handleClosePopup = () => {
                 onChange={(e) => handleFileChange(e, 'hojaVida')}
               />
             </td>
-            <td>{files['hojaVida-pages'] || 0}</td>
+            <td>{files['hojaVida-pages']-2 || 0}</td>
           </tr>
           <tr>
             <td>Copia de cédula</td>
@@ -90,7 +89,7 @@ const handleClosePopup = () => {
                 onChange={(e) => handleFileChange(e, 'copiaCedula')}
               />
             </td>
-            <td>{files['copiaCedula-pages'] || 0}</td>
+            <td>{files['copiaCedula-pages']-2 || 0}</td>
           </tr>
           <tr>
             <td>Certificado de votación</td>
@@ -101,7 +100,7 @@ const handleClosePopup = () => {
                 onChange={(e) => handleFileChange(e, 'certificadoVotacion')}
               />
             </td>
-            <td>{files['certificadoVotacion-pages'] || 0}</td>
+            <td>{files['certificadoVotacion-pages']-2 || 0}</td>
           </tr>
           <tr>
             <td>Certificado de registro de título</td>
@@ -112,7 +111,7 @@ const handleClosePopup = () => {
                 onChange={(e) => handleFileChange(e, 'registroTitulo')}
               />
             </td>
-            <td>{files['registroTitulo-pages'] || 0}</td>
+            <td>{files['registroTitulo-pages']-2 || 0}</td>
           </tr>
           <tr>
             <td>Experiencia de docente</td>
@@ -123,7 +122,7 @@ const handleClosePopup = () => {
                 onChange={(e) => handleFileChange(e, 'experienciaDocente')}
               />
             </td>
-            <td>{files['experienciaDocente-pages'] || 0}</td>
+            <td>{files['experienciaDocente-pages']-2 || 0}</td>
           </tr>
           <tr>
             <td>Certificado de no tener impedimento de ejercer cargo público</td>
@@ -134,7 +133,7 @@ const handleClosePopup = () => {
                 onChange={(e) => handleFileChange(e, 'noImpedimento')}
               />
             </td>
-            <td>{files['noImpedimento-pages'] || 0}</td>
+            <td>{files['noImpedimento-pages']-2 || 0}</td>
           </tr>
           <tr>
             <td>Certificado de no tener responsabilidades administrativas</td>
@@ -145,7 +144,7 @@ const handleClosePopup = () => {
                 onChange={(e) => handleFileChange(e, 'noResponsabilidades')}
               />
             </td>
-            <td>{files['noResponsabilidades-pages'] || 0}</td>
+            <td>{files['noResponsabilidades-pages']-2 || 0}</td>
           </tr>
           <tr>
             <td>Experiencia Profesional</td>
@@ -156,7 +155,7 @@ const handleClosePopup = () => {
                 onChange={(e) => handleFileChange(e, 'experienciaProf')}
               />
             </td>
-            <td>{files['experienciaProf-pages'] || 0}</td>
+            <td>{files['experienciaProf-pages']-2 || 0}</td>
           </tr>
         </tbody>
       </table>
