@@ -554,7 +554,8 @@ html, body {
 .tabla {
   margin-top: 20px;
   margin-bottom: 20px;
-  width: 70%;
+  width: 100%;
+  height: 10%;
   border-collapse: collapse;
 }
 

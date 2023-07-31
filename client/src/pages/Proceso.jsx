@@ -96,7 +96,7 @@ const Plataforma = () => {
 
   return (
     <div className="process-container">
-      <WelcomeBanner />
+     
       <div className="formulario">
         {procesoList.map((val, key) => {
           return (
@@ -173,6 +173,7 @@ const Plataforma = () => {
             <tr key={key}>
               <td>{val6[9]}</td>
               <td>{val6[10]}</td>
+
               {val6[5] === 1 ? <td>MATRIZ</td> : null}
             </tr>
           ))}
