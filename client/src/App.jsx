@@ -30,8 +30,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Inicio />} />
           <Route path="/PrincipalRRHH" element={<PrincipalRRHH />} />
-          <Route element={<ProtectedRoute />}>
             <Route path="/plataforma" element={<Plataforma />} />
+          <Route element={<ProtectedRoute />}>
             <Route path="/postulante" element={<Postulante />} />
             <Route path="/proceso" element={<Proceso />} />
             <Route path="/profile" element={<ProfilePage />} />

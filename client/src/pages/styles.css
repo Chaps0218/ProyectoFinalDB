@@ -20,7 +20,6 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('../assets/3.jpg');
   background-size: auto;
   background-repeat: no-repeat;
   background-position: center;
@@ -31,11 +30,9 @@ html, body {
   
 }
 .plataforma-container h1{
-  color: #000000;
+  color: #ffffff;
   font-size: 30px;
   font-weight: bold
-  
-  
 }
 
 
