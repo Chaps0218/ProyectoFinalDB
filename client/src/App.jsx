@@ -29,15 +29,13 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Inicio />} />
           <Route path="/academica" element={<CrudNAcademica />} />
-
           <Route element={<ProtectedRoute />}>
-          <Route path="/plataforma" element={<Plataforma />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/plataforma" element={<Plataforma />} />
             <Route path="/postulante" element={<Postulante />} />
             <Route path="/proceso" element={<Proceso />} />
+            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/recursoshumanos" element={<Recursoshumanos />} />
             <Route path="/academica" element={<CrudNAcademica />} />
-
           </Route>
         </Routes>
       </BrowserRouter>

@@ -57,6 +57,10 @@ const handleClosePopup = () => {
   return (
     <div className="postulante-container">
       <WelcomeBanner />
+      <video className="video-background" autoPlay muted loop>
+        <source src={require('../assets/relojes.mp4')} type="video/mp4" />
+        Tu navegador no admite el elemento de video.
+      </video>
       <table className="document-table">
         <thead>
           <tr>
@@ -156,6 +160,7 @@ const handleClosePopup = () => {
           </tr>
         </tbody>
       </table>
+      <div className="botones-container">
         <button className="btn-aceptar" onClick={handleAccept}>Aceptar</button>
         {showPopup && (
           <Popup
@@ -164,6 +169,8 @@ const handleClosePopup = () => {
             onClose={handleClosePopup}
           />
         )}
+        <button className="btn-regresar" onClick={() => window.location.href = '/plataforma'}>Regresar</button>
+      </div>
     </div>
   );
 };

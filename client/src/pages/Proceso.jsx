@@ -19,7 +19,7 @@ const Plataforma = () => {
   return (
   <div className="process-container">
       <WelcomeBanner />
-      <form className="formulario">
+      <div className="formulario">
         <div className="proceso-container">
           <span className="proceso-text">SELECCIONAR POSTULACIÓN</span>
           <select className="proceso-select">
@@ -78,7 +78,8 @@ const Plataforma = () => {
           </tr>
         </tbody>
       </table>
-        <button type="button" onClick={handleProceso}>Confirmar Postulación</button>
+      <div className="botones-container">
+        <button className="btn-aceptar" onClick={handleProceso}>Aceptar</button>
         {showPopup && (
           <Popup
             mensaje="DATOS SUBIDOS CORRECTAMENTE"
@@ -86,7 +87,9 @@ const Plataforma = () => {
             onClose={handleClosePopup}
           />
         )}
-      </form>
+        <button className="btn-regresar" onClick={() => window.location.href = '/plataforma'}>Regresar</button>
+      </div>
+      </div>
     </div>
   );
 };
