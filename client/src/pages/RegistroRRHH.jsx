@@ -1,9 +1,8 @@
 import React from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
 import './styles.css';
 import { useEffect } from "react";
 import { useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 

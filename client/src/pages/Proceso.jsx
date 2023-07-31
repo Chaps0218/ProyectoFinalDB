@@ -27,6 +27,7 @@ const Plataforma = () => {
   const [campoAmplio, setCampoAmplio] = useState([]);
   const [campoEspecifico, setCampoEspecifico] = useState([]);
   const [sede, setSede] = useState([]);
+  const [oferta, setOferta] = useState([]);
 
 
 
@@ -52,14 +53,14 @@ const Plataforma = () => {
   }, []);
 
   useEffect(() => {
-    Axios.get("http://127.0.0.1:8000/api/v1/procesocontratacion/personal_amplio").then((response) => {
+    Axios.get("http://127.0.0.1:8000/api/v1/procesocontratacion/campo_amplio").then((response) => {
       console.log(response);
       setCampoAmplio(response.data);
     });
   }, []);
 
   useEffect(() => {
-    Axios.get("http://127.0.0.1:8000/api/v1/procesocontratacion/personal_especifico").then((response) => {
+    Axios.get("http://127.0.0.1:8000/api/v1/procesocontratacion/campo_especifico").then((response) => {
       console.log(response);
       setCampoEspecifico(response.data);
     });
@@ -71,6 +72,14 @@ const Plataforma = () => {
       setSede(response.data);
     });
   }, []);
+
+  useEffect(() => {
+    Axios.get("http://127.0.0.1:8000/api/v1/procesocontratacion/oferta").then((response) => {
+      console.log(response);
+      setOferta(response.data);
+    });
+  }, []);
+
 
 
 
@@ -87,7 +96,7 @@ const Plataforma = () => {
 
   return (
     <div className="process-container">
-      <WelcomeBanner />
+     
       <div className="formulario">
         {procesoList.map((val, key) => {
           return (
@@ -118,9 +127,9 @@ const Plataforma = () => {
         <div className="proceso-container">
           <span className="proceso-text">SELECCIONAR TIPO DE PERSONAL ACADÉMICO</span>
           <select className="proceso-select" value={proceso.tipoPersonal} onChange={(e) => setProceso({ ...proceso, tipoPersonal: e.target.value })}>
-            {PersonalAcademico.map((val2,item) => (
-              <option key={item.id} value={item.id}>
-                {item.nombre}
+            {PersonalAcademico.map((val2, key) => (
+              <option key={key} value={val2[1]}>
+                {val2[1]}
               </option>
             ))}
           </select>
@@ -129,9 +138,9 @@ const Plataforma = () => {
         <div className="proceso-container">
           <span className="proceso-text">CAMPO AMPLIO</span>
           <select className="proceso-select" value={proceso.campoAmplio} onChange={(e) => setProceso({ ...proceso, campoAmplio: e.target.value })}>
-            {campoAmplio.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.nombre}
+            {campoAmplio.map((val3, key) => (
+              <option key={key} value={val3[1]}>
+                {val3[1]}
               </option>
             ))}
           </select>
@@ -140,9 +149,9 @@ const Plataforma = () => {
         <div className="proceso-container">
           <span className="proceso-text">CAMPO ESPECÍFICO</span>
           <select className="proceso-select" value={proceso.campoEspecifico} onChange={(e) => setProceso({ ...proceso, campoEspecifico: e.target.value })}>
-            {campoEspecifico.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.nombre}
+            {campoEspecifico.map((val4, key) => (
+              <option key={key} value={val4[1]}>
+                {val4[1]}
               </option>
             ))}
           </select>
@@ -151,14 +160,25 @@ const Plataforma = () => {
         <div className="proceso-container">
           <span className="proceso-text">SEDE</span>
           <select className="proceso-select" value={proceso.sede} onChange={(e) => setProceso({ ...proceso, sede: e.target.value })}>
-            {sede.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.nombre}
+            {sede.map((val5, key) => (
+              <option key={key} value={val5[1]}>
+                {val5[1]}
               </option>
             ))}
           </select>
         </div>
         <table className="tabla">
+
+          {oferta.map((val6, key) => (
+            <tr key={key}>
+              <td>{val6[9]}</td>
+              <td>{val6[10]}</td>
+
+              {val6[5] === 1 ? <td>MATRIZ</td> : null}
+            </tr>
+          ))}
+
+
           <thead>
             <tr>
               <th>VACANTES</th>
@@ -168,9 +188,6 @@ const Plataforma = () => {
           </thead>
           <tbody>
             <tr>
-              <td>3</td>
-              <td>8</td>
-              <td>MATRIZ</td>
             </tr>
           </tbody>
         </table>
