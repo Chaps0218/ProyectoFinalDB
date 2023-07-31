@@ -17,7 +17,7 @@ const PrincipalRRHH = () => {
                         <ul>
                             <li><a href="/postulante">REVISAR POSTULANTE</a></li>
                             <li><a href="/proceso">APROBAR/REPROBAR POSTULANTES</a></li>
-                            <li><a href="/">REGISTRAR</a></li>
+                            <li><a href="/registroRRHH">REGISTRAR</a></li>
                         </ul>
                     </nav>
                 </div>
