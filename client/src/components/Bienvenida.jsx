@@ -22,14 +22,6 @@ const WelcomeBanner = () => {
           ) : (
             <li>Loading...</li>
           )}
-          <li>
-            <Link className="bg-indigo-500 px-3 py-2 rounded-md" to="/profile">Perfil</Link>
-          </li>
-          <li>
-            <Link className="bg-indigo-500 px-3 py-2 rounded-md" to="/" onClick={() => logout()}>
-              Cerrar Sesión
-            </Link>
-          </li>
         </>
       ) : (
         <>
