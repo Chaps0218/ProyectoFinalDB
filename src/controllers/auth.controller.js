@@ -83,6 +83,34 @@ export const register = async (req, res) => {
     return res.status(500).json(["Error en el servidor"])
   }
 };
+
+export const registerRRHH = async (req, res) => {
+  const { cargo, email, password, nombre1, nombre2, apellido1, apellido2 } = req.body;
+  console.log(req.body);
+  // Verificación de usuario existente
+  try {
+    const existingUsers = await fetchCandidatosAndFilterByEmail(email);
+    const existingRechums= await fetchRRHHAndFilterByEmail(email);
+    if (existingUsers.length > 0 || existingRechums.length > 0) {
+      return res.status(409).json(["Usuario ya existe!"]);
+    }
+  } catch (error) {
+    console.error('Error al verificar usuarios:', error);
+    return res.status(500).json(["Error en el servidor"]);
+  }
+  // Encriptado de contraseña
+  const salt = bcrypt.genSaltSync(10);
+  const hash = bcrypt.hashSync(password, salt);
+
+  // Inserción de datos
+  try {
+    await axios.post(`${api}/rechum`, { "rh_cargo": cargo, "rh_correo": email, "rh_password": hash, "rh_nombre1": nombre1, "rh_nombre2": nombre2, "rh_apellido1": apellido1, "rh_apellido2": apellido2 });
+    return res.status(200).json("Se creó el candidato");
+  } catch (error) {
+    console.log('Error al insertar candidato:', error);
+    return res.status(500).json(["Error en el servidor"])
+  }
+};
 export const login = async (req, res) => {
   const { email, password } = req.body;
 

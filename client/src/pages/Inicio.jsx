@@ -12,9 +12,6 @@ const Inicio = () => {
         <h1>CONCURSO DE MÉRITOS Y OPOSICIÓN 2023</h1>
         <button onClick={() => window.location.href = '/login'}>Comenzar</button>
       </div>
-      <div>
-      <VentanaInformacion />
-    </div>
     </div>
   );
 };

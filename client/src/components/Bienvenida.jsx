@@ -34,10 +34,10 @@ const WelcomeBanner = () => {
       ) : (
         <>
           <li>
-            <Link to="/login">Cerrar Sesión</Link>
+            <Link to="/register">Perfil</Link>
           </li>
           <li>
-            <Link to="/register">Perfil</Link>
+            <Link to="/">Cerrar Sesión</Link>
           </li>
         </>
       )}

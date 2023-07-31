@@ -23,6 +23,7 @@
   
   .popup-content p {
     margin-bottom: 10px;
+    color: #000000;
   }
   
   .popup-content button {
@@ -36,6 +37,19 @@
   }
 
 /* Estilos para la ventana emergente */
+
+.ventana-contenedor button {
+  background-color: #000000;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left: 10px;
+}	
+
 .ventana-emergente {
   display: flex;
   flex-direction: column;
@@ -152,11 +166,10 @@ li:first-child {
 }
 
 li a {
-  color: #000000;
-  text-decoration: none;
-  background-color: #ffffff;
-  padding: 8px 15px;
-  border-radius: 5px;
+  margin-top: 15px;
+  background-color: #000000;
+  position: relative;
+  padding: 20px;
 }
 
 li a:hover {
