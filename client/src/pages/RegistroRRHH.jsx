@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const Registro = () => {
+const RegistroRRHH = () => {
 
   const [tipoIden, setTipoIden] = useState("cédula");
   const [identificacion, setIdentificacion] = useState("");
@@ -64,11 +64,14 @@ const Registro = () => {
         return alert('Cédula incorrecta: La cédula debe tener exactamente 10 caracteres.');
       } else if (isNaN(var1) || var1 < 1 || var1 > 24) {
         return alert('Cédula incorrecta: Los dos primeros dígitos deben estar entre 1 y 24.');
-      } else if (isNaN(var2) || var2 > 6) {
+      } else if (isNaN(var2) || var2 < 6) {
         return alert('Cédula incorrecta: El tercer dígito debe ser mayor o igual a 6.');
-      } 
+      } else {
+        // Si pasa todas las validaciones, la cédula es correcta
+        // Aquí puedes hacer lo que necesites con la cédula válida
+        setShowFormulario2(true);
+      }
     }
-    setShowFormulario2(true);
   }
   
   return (
@@ -188,4 +191,4 @@ const Registro = () => {
   );
 };
 
-export default Registro;
+export default RegistroRRHH;

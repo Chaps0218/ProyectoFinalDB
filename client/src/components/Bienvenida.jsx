@@ -8,12 +8,10 @@ const WelcomeBanner = () => {
   const { isAuthenticated, logout, user } = useAuth();
   return (
     <div className="welcome-banner">
-      {/* Espacio para la imagen del logo */}
       <div className="logo-container">
         <img src={Logo} alt="Logo" />
       </div>
 
-      {/* Texto centrado */}
       <div className="text-container">
         <h1>Bienvenido a la plataforma ESPE DOCENTES</h1>
       </div>
@@ -36,10 +34,10 @@ const WelcomeBanner = () => {
       ) : (
         <>
           <li>
-            <Link className="bg-indigo-500 px-3 py-2 rounded-md" to="/login">Iniciar Sesión</Link>
+            <Link to="/login">Cerrar Sesión</Link>
           </li>
           <li>
-            <Link className="bg-indigo-500 px-3 py-2 rounded-md" to="/register">Registrarse</Link>
+            <Link to="/register">Perfil</Link>
           </li>
         </>
       )}

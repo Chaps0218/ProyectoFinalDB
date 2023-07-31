@@ -3,8 +3,8 @@ import './style.css';
 
 const Popup = ({ mensaje, ruta, onClose }) => {
   const handleAceptar = () => {
-    onClose(); // Cierra el popup al aceptar
-    window.location.href = ruta; // Redirige a la ruta que se pasa como prop
+    onClose();
+    window.location.href = ruta;
   };
 
   return (

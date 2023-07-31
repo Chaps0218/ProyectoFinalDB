@@ -29,8 +29,8 @@ function App() {
           <Route path="/academica" element={<CrudNAcademica />} />
 
           <Route element={<ProtectedRoute />}>
+          <Route path="/plataforma" element={<Plataforma />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/plataforma" element={<Plataforma />} />
             <Route path="/postulante" element={<Postulante />} />
             <Route path="/proceso" element={<Proceso />} />
             <Route path="/recursoshumanos" element={<Recursoshumanos />} />
