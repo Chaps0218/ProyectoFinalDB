@@ -46,7 +46,7 @@
   padding: 10px;
   font-size: 18px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-left: 10px;
 }	
 
@@ -59,8 +59,8 @@
   padding: 10px;
   border-radius: 10px;
   margin-top: 10px;
-  width: 15%;
-  height: 50%;
+  width: 20%;
+  height: 20%;
   margin-left: 10px; /* Desplaza el contenedor hacia la derecha */
   opacity: 0; /* Inicialmente la caja estará oculta */
   animation: aparecer 0.5s ease forwards; /* Agregamos la animación de aparición */
