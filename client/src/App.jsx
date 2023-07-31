@@ -3,6 +3,7 @@ import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import { AuthProvider } from "./context/AuthContext";
 import ProfilePage from "./pages/ProfilePage";
+import PrincipalRRHH from "./pages/PrincipalRRHH";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { Navbar } from "./components/navbar";
 
@@ -25,6 +26,7 @@ function App() {
           <Route path="/registro" element={<Registro />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Inicio />} />
+          <Route path="/PrincipalRRHH" element={<PrincipalRRHH />} />
           <Route element={<ProtectedRoute />}>
           <Route path="/plataforma" element={<Plataforma />} />
             <Route path="/profile" element={<ProfilePage />} />
