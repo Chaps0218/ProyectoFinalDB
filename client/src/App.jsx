@@ -25,11 +25,6 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/registroRRHH" element={<RegistroRRHH />} />
           <Route path="/" element={<Inicio />} />
-
-          <Route path="/plataforma" element={<Plataforma />} />
-          <Route path="/postulante" element={<Postulante />} />
-          <Route path="/proceso" element={<Proceso />} />
-
           <Route element={<ProtectedRoute />}>
             <Route element={<ProtectedRouteRRHH />}>
               <Route path="/registroRRHH" element={<RegistroRRHH />} />
@@ -38,7 +33,9 @@ function App() {
               <Route path="/academica" element={<CrudNAcademica />} />
             </Route>
             <Route element={<ProtectedRouteCandidato />}>
-
+              <Route path="/plataforma" element={<Plataforma />} />
+              <Route path="/postulante" element={<Postulante />} />
+              <Route path="/proceso" element={<Proceso />} />
             </Route>
           </Route>
         </Routes>
