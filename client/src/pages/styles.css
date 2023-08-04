@@ -1,5 +1,7 @@
 /* styles.css */
-
+@import url('https://fonts.googleapis.com/css2?family=Quattrocento:wght@400&display=swap');
+/* styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400&display=swap');
 /* Establece una altura del 100% para html y body */
 html, body {
   height: 100%;
@@ -32,7 +34,8 @@ html, body {
 .plataforma-container h1{
   color: #ffffff;
   font-size: 30px;
-  font-weight: bold
+  font-weight: bold;
+  font-family: 'Quattrocento', serif;
 }
 
 
@@ -64,7 +67,6 @@ html, body {
   transform: translate(-50%, -50%); /* Centra exactamente el recuadro en la pantalla */
   width: 100%; /* Ajusta el ancho del recuadro */
   max-width: 500px; /* Establece un ancho máximo */
-  background-color: rgba(255, 255, 255, 0.7);
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -75,34 +77,34 @@ html, body {
 /* Estilo para el título "TRABAJA CON NOSOTROS" */
 .inicio .recuadro-blanco-titulo h1 {
   font-size: 50px;
-  padding-bottom: 3px;
-  color: #000000;
-  margin: 5px 0;
+  color: #ffffff;
   text-align: center;
+  font-family: 'Quicksand', serif; /* Aplica la fuente Quattrocento al h1 */
 }
 
 .inicio .recuadro-blanco-titulo h2 {
-  font-size: 20px;
-  padding-bottom: 3px;
-  color: #1d7524;
-  margin: 5px 0;
+  font-size: 18px;
+  color: #ffffff;
   text-align: center;
+  font-family: 'Quattrocento', serif; /* Aplica la fuente Quattrocento al h2 */
 }
 
 .inicio .recuadro-blanco-titulo button {
   cursor: pointer;
   font-size: 18px;
-  background-color: #070707; /* Color verde */
+  background-color: transparent; /* Cambiar a fondo transparente */
   padding: 10px 16px;
-  width: 50%;
-  border-radius: 15px;
+  width: 35%;
   margin: 15px 0;
+  font-family: 'Quicksand', serif;
+  border: 2px solid #ffffff; /* Agregar un borde blanco de 2px */
 }
 
 /* Estilo para el efecto de hover del botón */
 .inicio button:hover {
-  transition: 99ms;
-  background-color: #28a745; /* Color verde más oscuro en hover */
+  transition: 1s;
+  color: #000000;
+  background-color: #ffffff; /* Color verde más oscuro en hover */
 }
 
 

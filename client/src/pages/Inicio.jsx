@@ -10,8 +10,8 @@ const Inicio = () => {
       </video>
       <div className='video-overlay'>
         <div className='recuadro-blanco-titulo'>
-          <h1>TRABAJA CON NOSOTROS</h1>
-          <h2>CONCURSO DE MÉRITOS Y OPOSICIÓN 2023</h2>
+          <h2>Concurso de Méritos y Oposición 2023</h2>
+          <h1>Trabaja con nosotros</h1>
           <button onClick={() => window.location.href = '/login'}>Comenzar</button>
         </div>
         <div className='boton-info'>
