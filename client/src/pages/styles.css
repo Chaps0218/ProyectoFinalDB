@@ -1,6 +1,5 @@
-/* styles.css */
+/*TIPOGRAFÍA*/
 @import url('https://fonts.googleapis.com/css2?family=Quattrocento:wght@400&display=swap');
-/* styles.css */
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
@@ -221,7 +220,6 @@ html, body {
   flex-direction: column;
   margin: 0 auto; /* Centra el contenido horizontalmente */
   width: 500px; /* Cambia este valor al ancho que desees */
-  margin-top: 80px;
 }
 
 .form-box input,
