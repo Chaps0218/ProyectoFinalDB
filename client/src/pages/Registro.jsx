@@ -73,14 +73,16 @@ const Registro = () => {
 
   return (
     <div className="login-container" >
+      <div className="login-image"></div>
       {!showFormulario2 && (
         <div className="login-form" id="login1">
-          <h1>REGISTRO DE POSTULANTES A DOCENTES</h1>
+          <h1>Registro</h1>
           {registerErrors.map((error, i) => (
             <div key={i} className="bg-red-500 p-2 text-white">
               {error}
             </div>
           ))}
+          <h2>Tipo de Identificación</h2>
           <select
             {...register("tipoIden", { required: true })}
             onChange={handleChange}
@@ -91,7 +93,7 @@ const Registro = () => {
             <option value="pasaporte">Pasaporte</option>
           </select>
           {errors.tipoIden && (
-            <p className="text-red-500">El tipo de identificación es requerido</p>
+            <h4 className="text-red-500">El tipo de identificación es requerido</h4>
           )}
           <input
             type="number"
@@ -103,28 +105,41 @@ const Registro = () => {
             onChange={handleChange3}
           />
           {errors.identificacion && (
-            <p className="text-red-500">La Identificación es requerida</p>
+            <h4 className="text-red-500">La Identificación es requerida</h4>
           )}
           <div className="captcha-container">
             <ReCAPTCHA sitekey="6LdDDVonAAAAAJAr8uMJO4EhneySO80IqjF3Vt6x" onChange={onCaptchaVerify} />
           </div>
           <button type="submit" onClick={handleClick}>
-            ENVIAR
+            Registrarse
           </button>
-          <p onClick={() => window.location.href = '/login'}>Ir a Login</p>
+          <div className="register-container">
+            <h3>¿Ya te has registrado?</h3>
+            <p onClick={() => window.location.href = '/login'}>Ir a Login</p>
+          </div>
+          
         </div>
       )}
       {showFormulario2 && (
         <div className="form-container" id='login2'>
           <div className="form-box">
+          <h1>Información</h1>
             {registerErrors.map((error, i) => (
               <div key={i} className="bg-red-500 p-2 text-white">
                 {error}
               </div>
             ))}
+            <h2>Nombre Completo</h2>
+            <input
+              type="text"
+              {...register("nombreCompleto", { required: true })}
+              />
+            {errors.nombreCompleto && (
+              <h4 className="text-red-500">El Segundo Apellido es requerido</h4>
+            )}
+            <h2>Género</h2>
             <select
               {...register("sexo", { required: true })}
-              placeholder="Sexo"
               onChange={handleChange1}
               value={sexo}
             >
@@ -133,64 +148,35 @@ const Registro = () => {
               <option value="O">Otro</option>
             </select>
             {errors.sexo && (
-              <p className="text-red-500">El sexo es requerido</p>
+              <h4 className="text-red-500">El sexo es requerido</h4>
             )}
+            <h2>Profesión/Título</h2>
             <select
               {...register("titulo", { required: true })}
               onChange={handleChange2}
-              placeholder="Título"
             >
               {titulos.map((titulo, i) => (
                 <option key={i} value={titulo}>{titulo}</option>
               ))}
             </select>
             {errors.titulo && (
-              <p className="text-red-500">El título es requerido</p>
+              <h4 className="text-red-500">El título es requerido</h4>
             )}
-            <input
-              type="text"
-              {...register("nombre1", { required: true })}
-              placeholder="Primer Nombre"
-            />
-            {errors.nombre1 && (
-              <p className="text-red-500">El Primer Nombre es requerido</p>
-            )}
-            <input
-              type="text"
-              {...register("nombre2", { required: false })}
-              placeholder="Segundo Nombre"
-            />
-            <input
-              type="text"
-              {...register("apellido1", { required: true })}
-              placeholder="Primer Apellido"
-            />
-            {errors.apellido1 && (
-              <p className="text-red-500">El Primer Apellido es requerido</p>
-            )}
-            <input
-              type="text"
-              {...register("apellido2", { required: true })}
-              placeholder="Segundo Apellido"
-            />
-            {errors.apellido2 && (
-              <p className="text-red-500">El Segundo Apellido es requerido</p>
-            )}
+            <h2>Fecha de Nacimiento</h2>
             <input
               type="date"
               {...register("fecha_nacimiento", { required: true })}
-              placeholder="Fecha de Nacimiento"
             />
             {errors.fecha_nacimiento && (
-              <p className="text-red-500">La fecha de nacimiento es requerido</p>
+              <h4 className="text-red-500">La fecha de nacimiento es requerido</h4>
             )}
+            <h2>E-mail</h2>
             <input
               type="email"
               {...register("email", { required: true })}
-              placeholder="Email"
             />
-            {errors.email && <p className="text-red-500">El correo es requerido</p>}
-            <button type="submit" onClick={() => { window.location.href = '/login'; onSubmit(); }}>ENVIAR</button>
+            {errors.email && <h4 className="text-red-500">El correo es requerido</h4>}
+            <button type="submit" onClick={() => { window.location.href = '/login'; onSubmit(); }}>Enviar</button>
           </div>
         </div>
       )}

@@ -2,6 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Quattrocento:wght@400&display=swap');
 /* styles.css */
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+
 /* Establece una altura del 100% para html y body */
 html, body {
   height: 100%;
@@ -107,47 +110,43 @@ html, body {
   background-color: #ffffff; /* Color verde más oscuro en hover */
 }
 
-
-/* styles.css */
-
 /* Estilos para el contenedor centrado */
 .login-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: url('../assets/form2.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  position: relative;
-  width: 100%;
   height: 100vh;
 }
 
-/* Estilos para el formulario */
 .login-form {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  max-width: 400px;
-  width: 100%;
-  border: 1px solid #bdbdbd;
+  flex: 1; /* Esto hará que el formulario ocupe el 50% del ancho del contenedor */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff; /* Puedes ajustar el color de fondo según tus preferencias */
+}
+
+.login-image {
+  flex: 1; /* Esto hará que la imagen ocupe el 50% restante del ancho del contenedor */
+  background-image: url("../assets/espe-login1.png"); /* Reemplaza 'ruta_de_la_imagen.jpg' con la ruta de tu imagen */
+  background-size: cover;
+  background-position: center;
 }
 
 /* Estilos para los elementos del formulario */
 .login-form h1 {
-  margin-bottom: 10px;
+  margin-bottom: 40px;
   color: #000000;
-  font-size: 30px;
-  font-weight: bold
+  font-size: 50px;
+  font-family: 'Quicksand', serif;
+  font-weight: bold;
 }
 
-.login-form p {
+.login-form h2 {
   margin-bottom: 10px;
   color: #000000;
   font-size: 15px;
+  font-family: 'Poppins', serif;
+  text-align: center;
 }
 
 .login-form label {
@@ -157,24 +156,29 @@ html, body {
 
 .login-form input, .login-form select {
   display: block;
-  width: 100%;
+  width: 50vh;
   margin: 10px 0;
   padding: 8px 12px;
-  border: 1px solid #a09d9d;
-  border-radius: 4px;
-  background-color: #f5eeee;
+  border: 3px solid #000000;
+  border-radius: 25px;
   color: #020202;
+  font-size: 18px;
+  background-color: transparent;
+  padding: 10px 16px;
+  font-family: 'Quicksand', serif;
 }
 
 .login-form button {
+  display: block;
   cursor: pointer;
   font-size: 18px;
-  color: #fdfdfd;
-  background-color: #000000; /* Color verde */
-  border: none;
-  border-radius: 4px;
+  background-color: transparent;
   padding: 10px 16px;
-  margin-top: 10px;
+  width: 35%;
+  margin: 40px auto; /* Centra horizontalmente con 'auto' en los márgenes izquierdo y derecho */
+  font-family: 'Quicksand', serif;
+  color: #000000;
+  border: 2px solid #000000;
 }
 
 /* Estilo para el efecto de hover del botón */
@@ -184,131 +188,127 @@ html, body {
 }
 
 .login-form p {
-  cursor: pointer;
-  color: #007BFF;
+  color: #000000;
+  font-size: 15px;
+  font-family: 'Poppins', serif;
+  text-align: center;
   text-decoration: underline;
-  margin-top: 10px;
-  }
+}
+
+.login-form h3 {
+  color: #000000;
+  font-size: 15px;
+  font-family: 'Poppins', serif;
+  text-align: center;
+}
+
+.login-form h4 {
+  color: #ff0000;
+  font-size: 15px;
+  font-family: 'Poppins', serif;
+  text-align: center;
+}
+
+/*REGISTRO*/
+.register-container {
+  display: flex;
+  align-items: center;
+}
+
+.register-container p {
+  margin: 0; /* Eliminar márgenes por defecto del párrafo */
+  margin-left: 25px;
+  cursor: pointer;
+}
 
 .captcha-container {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
-  margin-bottom: 10px;
 }
 
-/* styles.css */
-
-/* Estilos para el contenedor centrado */
-.form-container { /* Cambio del nombre de la clase */
+.login-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-image: url('../assets/form2.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  position: relative;
-  width: 100%;
   height: 100vh;
 }
 
-/* Estilos para el formulario */
-.form-box { /* Cambio del nombre de la clase */
-  background-color: #fff;
+/**/
+.form-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  max-width: 800px;
-  width: 100%;
-  border: 1px solid #bdbdbd;
+  background-color: white;
 }
 
-/* Estilos para los elementos del formulario */
-.form-box h1 { /* Cambio del nombre de la clase */
-  margin-bottom: 10px;
-}
-
-.form-box label { /* Cambio del nombre de la clase */
-  display: block;
-  text-align: left;
+.form-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto; /* Centra el contenido horizontalmente */
+  width: 500px; /* Cambia este valor al ancho que desees */
+  margin-top: 80px;
 }
 
 .form-box input,
-.form-box select { /* Cambio del nombre de la clase */
+.form-box select {
   display: block;
-  width: 100%;
+  width: 100%; /* Opcional, para que los campos de entrada ocupen todo el ancho disponible */
   margin: 10px 0;
+  margin-bottom: 15px;
   padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  color: #000000;
-}
-
-.form-box select { /* Cambio del nombre de la clase */
-  background-color: #fff;
-}
-
-.form-box .radio-group { /* Cambio del nombre de la clase */
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin: 5px 0;
-}
-
-/* Estilo para los campos de nombres y tipo de identificación */
-.form-box .form-row {
-  display: flex;
-  justify-content: space-between;
-}
-
-.form-box .form-column {
-  flex: 1;
-}
-
-.form-box .form-column input {
-  margin-right: 10px; /* Añadimos margen derecho para separar los campos */
-}
-
-.form-box .form-column .cedula {
-  margin-left: 20px; /* Añadimos margen derecho para separar los campos */
+  border: 3px solid #000000;
+  border-radius: 25px;
+  color: #020202;
+  font-size: 18px;
+  background-color: transparent;
+  font-family: 'Quicksand', serif;
 }
 
 
-.form-box button { /* Cambio del nombre de la clase */
+.form-box button {
+  display: block;
   cursor: pointer;
   font-size: 18px;
-  color: #fdfdfd;
-  background-color: #000000; /* Color verde */
-  border: none;
-  border-radius: 4px;
+  background-color: transparent;
   padding: 10px 16px;
-  margin-top: 10px;
+  width: 35%;
+  margin: 40px auto; /* Centra horizontalmente con 'auto' en los márgenes izquierdo y derecho */
+  font-family: 'Quicksand', serif;
+  color: #000000;
+  border: 2px solid #000000;
 }
 
+/* Estilo para el efecto de hover del botón */
 .form-box button:hover {
   transition: 99ms;
   background-color: #28a745; /* Color verde más oscuro en hover */
 }
 
-.form-box p { /* Cambio del nombre de la clase */
-  margin-top: 10px;
-  font-size: 12px;
+
+/* Estilos para los elementos del formulario */
+.form-box h1 {
+  margin-bottom: 40px;
+  color: #000000;
+  font-size: 50px;
+  font-family: 'Quicksand', serif;
+  font-weight: bold;
+  text-align: center;
 }
 
-/* Media query para pantallas de 15.6 pulgadas de laptop */
-@media (max-width: 1366px) {
-  .form-box {
-    padding: 15px; /* Ajustamos el padding */
-    max-width: 350px; /* Reducimos el ancho máximo */
-  }
+.form-box h2 {
+  color: #000000;
+  font-size: 15px;
+  font-family: 'Poppins', serif;
+  text-align: center;
+}
 
-  .form-box button {
-    font-size: 16px; /* Reducimos el tamaño de fuente */
-  }
+.form-box h4 {
+  color: #ff0000;
+  font-size: 15px;
+  font-family: 'Poppins', serif;
+  text-align: center;
 }
 
 .plataforma-container {

@@ -28,7 +28,6 @@ function Login() {
 
   return (
     <div className="login-container">
-      <div className="login-image"></div>
       <div className="login-form">
         {registerErrors.map((error, i) => (
           <div key={i} className="bg-red-500 p-2 text-white">
@@ -37,30 +36,32 @@ function Login() {
         ))}
         <h1>Login</h1>
         <form onSubmit={onSubmit}>
+          <h2>Correo</h2>
           <input
             type="text"
             {...register("email", { required: true })}
             className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md border m-3 "
-            placeholder="Correo"
           />
           {errors.email && (
-            <p className="text-red-500">El correo es requerido</p>
+            <h4 className="text-red-500">El correo es requerido</h4>
           )}
-
+          <h2>Contraseña</h2>
           <input
             type="password"
             {...register("password", { required: true })}
             className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md border m-3"
-            placeholder="Contraseña"
           />
           {errors.password && (
-            <p className="text-red-500">La contraseña es requerida</p>
+            <h4 className="text-red-500">La contraseña es requerida</h4>
           )}
           <button type="submit">Ingresar</button>
         </form>
-        <p>
-          <Link to="/registro">Registrarse</Link>
-        </p>
+        <div className="register-container">
+          <h3>¿No posees una cuenta?</h3>
+          <p>
+            <Link to="/registro">Registrarse</Link>
+          </p>
+        </div>
         {showPopup && (
           <Popup
             mensaje="Tu información será manipulada conforme a la necesidad de la institución sin lugar a reclamos, conforme a la ley de protección de datos, etc."
@@ -69,7 +70,7 @@ function Login() {
           />
         )}
       </div>
-
+      <div className="login-image"></div>
     </div>
   );
 };
