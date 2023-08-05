@@ -16,6 +16,7 @@ import Recursoshumanos from './pages/Recursoshumanos';
 import CrudNAcademica from "./pages/CrudNAcademica";
 import PrincipalRRHH from "./pages/PrincipalRRHH";
 import Usuarios from "./pages/usuarios";
+import Informacion from "./pages/informacion";
 import '@fortawesome/fontawesome-free/css/all.css';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
               <Route path="/postulante" element={<Postulante />} />
               <Route path="/proceso" element={<Proceso />} />
               <Route path="/usuarios" element={<Usuarios />} />
+              <Route path="/informacion" element={<Informacion />} />
             </Route>
           </Route>
         </Routes>
