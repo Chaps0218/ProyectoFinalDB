@@ -16,6 +16,7 @@ import Recursoshumanos from './pages/Recursoshumanos';
 import CrudNAcademica from "./pages/CrudNAcademica";
 import PrincipalRRHH from "./pages/PrincipalRRHH";
 import Usuarios from "./pages/usuarios";
+import '@fortawesome/fontawesome-free/css/all.css';
 
 function App() {
   return (
