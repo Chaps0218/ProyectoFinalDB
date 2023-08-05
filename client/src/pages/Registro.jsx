@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Popup from "../components/Popup";
 
 const Registro = () => {
 
@@ -14,7 +15,8 @@ const Registro = () => {
   const [sexo, setSexo] = useState("M");
   const [titulo, setTitulo] = useState('');
   const titulos = ['Ingeniero', 'Licenciado', 'Doctor', 'Magister', 'Bachiller'];
-  
+  const [showPopup, setShowPopup] = useState(false);
+
   const onCaptchaVerify = (response) => {
     console.log('Captcha verificado:', response);
   };
@@ -44,6 +46,7 @@ const Registro = () => {
   const onSubmit = handleSubmit(async (values) => {
     console.log(values);
     signup(values);
+    setShowPopup(true);
   });
 
   useEffect(() => {
@@ -176,7 +179,15 @@ const Registro = () => {
               {...register("email", { required: true })}
             />
             {errors.email && <h4 className="text-red-500">El correo es requerido</h4>}
-            <button type="submit" onClick={() => { window.location.href = '/login'; onSubmit(); }}>Enviar</button>
+            <button type="submit" onClick={() => {onSubmit(); }}>Enviar</button>
+            {showPopup && (
+              <Popup
+                titulo="¡Su cuenta ha sido creada exitosamente!"
+                mensaje="Accede a tu correo para recuperar tu clave y poder iniciar sesión. Recuerda cambiar tu contraseña para mentener tu cuenta segura."
+                ruta="/login" // Ajusta la ruta de redirección que deseas
+                onClose={() => setShowPopup(false)} // Función para cerrar el Popup
+              />
+            )}
           </div>
         </div>
       )}

@@ -1,4 +1,10 @@
-/* Estilos para el popup */
+
+/*TIPOGRAFÍA*/
+@import url('https://fonts.googleapis.com/css2?family=Quattrocento:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/*POPUP*/
 .popup-container {
     position: fixed;
     top: 0;
@@ -9,35 +15,44 @@
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .popup-content {
+}
+
+.popup-content {
     background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
+    padding: 50px;
+    border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     text-align: center;
-    max-width: 400px;
+    max-width: 600px;
     width: 100%;
-  }
-  
-  .popup-content p {
-    margin-bottom: 10px;
+}
+
+.popup-content h1 {
+    font-size: 30px;
+    margin-bottom: 30px;
     color: #000000;
-  }
-  
-  .popup-content button {
-    margin-top: 15px;
+}
+
+.popup-content p {
+    color: #000000;
+}
+
+.popup-content button {
     background-color: #000000;
+    color: white;
     position: relative;
-  }
-  
-  .popup-content button:hover {
+    margin-bottom: 10px;
+    transition: background-color 0.2s ease-in-out;
+    border: 2px solid #000000;
+}
+
+.popup-content button:hover {
+    transition: 99ms;
     background-color: #28a745;
-  }
+    border: 2px solid #28a745;
+}
 
-/* Estilos para la ventana emergente */
-
+/*VENTANA*/
 .ventana-contenedor button {
   background-color: #000000;
   color: #ffffff;
@@ -48,6 +63,8 @@
   cursor: pointer;
   margin-top: 15px;
   margin-left: 10px;
+  font-family: 'Quicksand', serif;
+  transition: background-color 0.2s ease-in-out;
 }	
 
 .ventana-emergente {
@@ -66,7 +83,6 @@
   animation: aparecer 0.5s ease forwards; /* Agregamos la animación de aparición */
 }
 
-/* Estilo para el título de la ventana emergente */
 .ventana-emergente h1 {
   font-family: 'Roboto', sans-serif;
   font-size: 15px;
@@ -77,7 +93,6 @@
   text-align: left;
 }
 
-/* Estilos para el contenido de la ventana emergente */
 .ventana-emergente p {
   font-family: 'Roboto', sans-serif;
   cursor: pointer;
@@ -90,28 +105,17 @@
 
 .ventana-emergente p:hover {
   transition: 99ms;
-  background-color: #b8b7b7; /* Color verde más oscuro en hover */
+  background-color: #b8b7b7;
   border-radius: 5px;
 }
 
-/* Animación para la aparición de la caja */
 @keyframes aparecer {
   to {
-    opacity: 1; /* Al final de la animación, la caja estará completamente visible */
+    opacity: 1;
   }
 }
 
-/* Animación para el cierre de la caja */
-@keyframes cerrar {
-  to {
-    opacity: 0; /* Al final de la animación, la caja estará completamente oculta */
-    height: 0; /* La altura de la caja se reducirá a cero */
-    padding: 0; /* Eliminamos el padding para que la caja colapse limpiamente */
-  }
-}
-
-/* style.css */
-/* style.css */
+/*BIENVENIDA*/
 .welcome-banner {
   color: #ffffff;
   display: flex;
@@ -121,12 +125,12 @@
   top: 0;
   left: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.8); /* Agrega transparencia (alpha) al color */
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 999;
 }
 
 .logo-container {
-  margin-right: 20px; /* Ajusta el margen entre el logo y el texto */
+  margin-right: 20px;
 }
 
 .logo-container img {
@@ -141,7 +145,7 @@
   justify-content: space-between; /* Distribuye el espacio entre el texto y los botones */
 }
 
-h1 {
+.welcome-banner h1 {
   font-size: 32px; /* Tamaño del texto aumentado */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente del texto */
   font-weight: bold; /* Texto en negrita */
@@ -149,30 +153,30 @@ h1 {
   padding: 0; /* Elimina el padding del encabezado */
 }
 
-ul {
+.welcome-banner ul {
   margin: 0;
   padding: 0;
   display: flex;
   margin-left: auto; /* Mueve los botones al lado derecho */
 }
 
-li {
+.welcome-banner li {
   list-style: none;
   margin-left: 10px;
 }
 
-li:first-child {
+.welcome-banner li:first-child {
   margin-left: 0; /* Elimina el margen izquierdo del primer botón */
 }
 
-li a {
+.welcome-banner li a {
   margin-top: 15px;
   background-color: #000000;
   position: relative;
   padding: 20px;
 }
 
-li a:hover {
+.welcome-banner li a:hover {
   transition-duration: 99ms;
   background-color: #28a745;
 }

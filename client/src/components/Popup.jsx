@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.css';
 
-const Popup = ({ mensaje, ruta, onClose }) => {
+const Popup = ({titulo,  mensaje, ruta, onClose }) => {
   const handleAceptar = () => {
     onClose();
     window.location.href = ruta;
@@ -10,6 +10,7 @@ const Popup = ({ mensaje, ruta, onClose }) => {
   return (
     <div className="popup-container">
       <div className="popup-content">
+        <h1>{titulo}</h1>
         <p>{mensaje}</p>
         <button onClick={handleAceptar}>Aceptar</button>
       </div>
