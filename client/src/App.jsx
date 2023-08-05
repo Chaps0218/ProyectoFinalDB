@@ -15,6 +15,7 @@ import Proceso from "./pages/Proceso";
 import Recursoshumanos from './pages/Recursoshumanos';
 import CrudNAcademica from "./pages/CrudNAcademica";
 import PrincipalRRHH from "./pages/PrincipalRRHH";
+import Usuarios from "./pages/usuarios";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
               <Route path="/plataforma" element={<Plataforma />} />
               <Route path="/postulante" element={<Postulante />} />
               <Route path="/proceso" element={<Proceso />} />
+              <Route path="/usuarios" element={<Usuarios />} />
             </Route>
           </Route>
         </Routes>
