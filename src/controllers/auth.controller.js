@@ -64,7 +64,6 @@ async function getUltimoId() {
     return null;
   }
 }
-
 export const register = async (req, res) => {
   const { tipoIden, identificacion, email, sexo, titulo, fecha_nacimiento, nombre1, nombre2, apellido1, apellido2 } = req.body;
 

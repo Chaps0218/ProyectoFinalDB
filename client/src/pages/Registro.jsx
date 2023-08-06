@@ -14,7 +14,9 @@ const Registro = () => {
   const [identificacion, setIdentificacion] = useState("");
   const [sexo, setSexo] = useState("M");
   const [titulo, setTitulo] = useState('');
-  const titulos = ['Ingeniero', 'Licenciado', 'Doctor', 'Magister', 'Bachiller'];
+  const titulosM = ['Ingeniero', 'Licenciado', 'Doctor', 'Magister', 'Bachiller'];
+  const titulosF = ['Ingeniera', 'Licenciada', 'Doctora', 'Magister', 'Bachiller'];
+  const [fallos, setFallos] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
 
   const onCaptchaVerify = (response) => {
@@ -45,13 +47,32 @@ const Registro = () => {
   const { signup, isAutheticated, errors: registerErrors } = useAuth();
   const onSubmit = handleSubmit(async (values) => {
     console.log(values);
-    signup(values);
-    setShowPopup(true);
+    let nombre1 = values.nombreCompleto.split(" ")[0];
+    let nombre2 = values.nombreCompleto.split(" ")[1];
+    let apellido1 = values.nombreCompleto.split(" ")[2];
+    let apellido2 = values.nombreCompleto.split(" ")[3];
+    values.nombre1 = nombre1;
+    values.nombre2 = nombre2;
+    values.apellido1 = apellido1;
+    values.apellido2 = apellido2;
+    console.log(values);
+    const res = signup(values);
+    // if (setFallos.length === 0) {console.log(fallos)}
+    console.log(fallos);
+    // if(res[0] === 200) setShowPopup(true);
+    // if(res[2] === undefined) alert(res[1]);
+    console.log(res);
   });
 
   useEffect(() => {
-    if (isAutheticated) { navigate("/"); }
+    if (isAutheticated) 
+    { navigate("/"); }
   }, [isAutheticated]);
+  useEffect(() => {
+    // Set the fallos state with the registerErrors array
+    setFallos(registerErrors);
+    console.log(fallos);
+  }, [registerErrors]);
 
   const [showFormulario2, setShowFormulario2] = useState(false);
 
@@ -59,7 +80,6 @@ const Registro = () => {
     e.preventDefault();
 
     if (tipoIden === 'cédula') {
-      console.log(identificacion);
       let var1 = identificacion.slice(0, 2);
       let var2 = identificacion.slice(2, 3);
 
@@ -120,13 +140,13 @@ const Registro = () => {
             <h3>¿Ya te has registrado?</h3>
             <p onClick={() => window.location.href = '/login'}>Ir a Login</p>
           </div>
-          
+
         </div>
       )}
       {showFormulario2 && (
         <div className="form-container" id='login2'>
           <div className="form-box">
-          <h1>Información</h1>
+            <h1>Información</h1>
             {registerErrors.map((error, i) => (
               <div key={i} className="bg-red-500 p-2 text-white">
                 {error}
@@ -136,9 +156,9 @@ const Registro = () => {
             <input
               type="text"
               {...register("nombreCompleto", { required: true })}
-              />
+            />
             {errors.nombreCompleto && (
-              <h4 className="text-red-500">El Segundo Apellido es requerido</h4>
+              <h4 className="text-red-500">El Nombre Completo es requerido</h4>
             )}
             <h2>Género</h2>
             <select
@@ -157,10 +177,15 @@ const Registro = () => {
             <select
               {...register("titulo", { required: true })}
               onChange={handleChange2}
-            >
-              {titulos.map((titulo, i) => (
+            > {sexo === "M" ? (
+              titulosM.map((titulo, i) => (
                 <option key={i} value={titulo}>{titulo}</option>
-              ))}
+              ))
+            ) : (
+              titulosF.map((titulo, i) => (
+                <option key={i} value={titulo}>{titulo}</option>
+              ))
+            )}
             </select>
             {errors.titulo && (
               <h4 className="text-red-500">El título es requerido</h4>
@@ -179,7 +204,7 @@ const Registro = () => {
               {...register("email", { required: true })}
             />
             {errors.email && <h4 className="text-red-500">El correo es requerido</h4>}
-            <button type="submit" onClick={() => {onSubmit(); }}>Enviar</button>
+            <button type="submit" onClick={() => { onSubmit(); }}>Enviar</button>
             {showPopup && (
               <Popup
                 titulo="¡Su cuenta ha sido creada exitosamente!"
