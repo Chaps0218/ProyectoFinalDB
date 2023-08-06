@@ -17,7 +17,7 @@ import Proceso from "./pages/Proceso";
 import Recursoshumanos from './pages/Recursoshumanos';
 import CrudNAcademica from "./pages/CrudNAcademica";
 import PrincipalRRHH from "./pages/PrincipalRRHH";
-import Usuarios from "./pages/usuarios";
+import Usuarios from "./pages/Postulacion";
 import Informacion from "./pages/informacion";
 import '@fortawesome/fontawesome-free/css/all.css';
 import InicioPostulante from "./pages/InicioPostulante";
@@ -44,7 +44,7 @@ const App = () => {
             <Route path="/registroRRHH" element={<RegistroRRHH />} />
             <Route path="/proceso" element={<Proceso />} />
             <Route path="/inicioPostulante" element={<InicioPostulante />} />
-                <Route path="/informacionPostulante" element={<InfoPostulante />} />
+            <Route path="/informacionPostulante" element={<InfoPostulante />} />
             <Route path="/" element={<Inicio />} />
             <Route element={<ProtectedRoute />}>
               <Route element={<ProtectedRouteRRHH />}>
@@ -57,7 +57,7 @@ const App = () => {
                 <Route path="/inicioPostulante" element={<InicioPostulante />} />
                 <Route path="/informacionPostulante" element={<InfoPostulante />} />
                 <Route path="/proceso" element={<Proceso />} />
-                <Route path="/usuarios" element={<Usuarios />} />
+                <Route path="/postulacion" element={<Usuarios />} />
                 <Route path="/informacion" element={<Informacion />} />
               </Route>
             </Route>

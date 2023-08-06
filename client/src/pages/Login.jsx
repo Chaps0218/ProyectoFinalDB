@@ -65,7 +65,7 @@ function Login() {
         {showPopup && (
           <Popup
             mensaje="Tu información será manipulada conforme a la necesidad de la institución sin lugar a reclamos, conforme a la ley de protección de datos, etc."
-            ruta="/plataforma" // Aquí pasa la ruta que desees redireccionar desde el componente Login
+            ruta="/inicioPostulante" // Aquí pasa la ruta que desees redireccionar desde el componente Login
             onClose={handleClosePopup}
           />
         )}
