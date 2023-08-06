@@ -54,7 +54,7 @@ const Interfaz = () => {
            {/* Orden de los elementos ajustado */}
           <div className="fila">
             <div className="item">
-              <label htmlFor="postulacion">Postulación:</label>
+              <span htmlFor="postulacion">Postulación:</span>
               <select
                 id="postulacion"
                 value={postulacion}
@@ -69,7 +69,7 @@ const Interfaz = () => {
               </select>
             </div>
             <div className="item">
-              <label htmlFor="tipo-de-contratacion">Tipo de contratación:</label>
+              <span htmlFor="tipo-de-contratacion">Tipo de contratación:</span>
               <select
                 id="tipo-de-contratacion"
                 value={tipoDeContratacion}
@@ -86,7 +86,7 @@ const Interfaz = () => {
           </div>
           <div className="fila">
             <div className="item">
-              <label htmlFor="tipo-de-personal-academico">Tipo de personal académico:</label>
+              <span htmlFor="tipo-de-personal-academico">Tipo de personal académico:</span>
               <select
                 id="tipo-de-personal-academico"
                 value={tipoDePersonalAcademico}
@@ -101,7 +101,7 @@ const Interfaz = () => {
               </select>
             </div>
             <div className="item">
-              <label htmlFor="campo-amplio">Campo amplio:</label>
+              <span htmlFor="campo-amplio">Campo amplio:</span>
               <select
                 id="campo-amplio"
                 value={campoAmplio}
@@ -118,7 +118,7 @@ const Interfaz = () => {
           </div>
           <div className="fila fila-3">
             <div className="item">
-              <label htmlFor="campo-especifico">Campo específico:</label>
+              <span htmlFor="campo-especifico">Campo específico:</span>
               <select
                 id="campo-especifico"
                 value={campoEspecifico}
@@ -133,7 +133,7 @@ const Interfaz = () => {
               </select>
             </div>
             <div className="item">
-              <label htmlFor="sede">Sede:</label>
+              <span htmlFor="sede">Sede:</span>
               <select
                 id="sede"
                 value={sede}
@@ -148,7 +148,7 @@ const Interfaz = () => {
               </select>
             </div>
             <div className="item">
-              <label htmlFor="departamento">Departamento:</label>
+              <span htmlFor="departamento">Departamento:</span>
               <select
                 id="departamento"
                 value={departamento}
