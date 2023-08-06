@@ -42,6 +42,8 @@ const informacion = () => {
 
       <style jsx>{` 
 
+
+/* Estilos generales del body */
 body {
   background-color: #f4ffe9;
   color: black;
@@ -96,21 +98,37 @@ body {
   margin: 20px;
 }
 
-/* Estilos para el contenedor de la imagen */
+/* Estilos para el contenedor de la imagen y texto con ícono */
 .nuevo-div {
   display: flex;
-  justify-content: center; /* Centrar horizontalmente los elementos */
-  align-items: center; /* Centrar verticalmente los elementos */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Estilos para el div de texto con ícono */
+.texto-con-icono {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 20px; /* Agregar margen inferior */
+  margin-right: 20px; /* Agregar margen derecho */
+}
+
+.texto-con-icono i {
+  margin-bottom: 10px; /* Espacio entre el icono y el texto */
 }
 
 /* Estilos para el div de la imagen */
 .imagen {
-  width: 50%; /* Puedes ajustar el ancho de la imagen */
+  width: 50%;
   height: 0;
-  padding-bottom: 50%; /* Proporción para mantener la relación de aspecto (ejemplo 1:1) */
+  padding-bottom: 50%;
   position: relative;
-  border-radius: 10px; /* Bordes ligeramente circulares */
-  overflow: hidden; /* Oculta el contenido que se desborda del contenedor */
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 20px; /* Agregar margen superior */
+  margin-left: 20px; /* Agregar margen izquierdo */
 }
 
 /* Estilos para la imagen dentro del contenedor */
@@ -120,34 +138,21 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ajusta el comportamiento de la imagen para cubrir el contenedor */
-  border-radius: 10px; /* Bordes ligeramente circulares */
-}
-
-
-/* Estilos para el div de texto con ícono */
-.texto-con-icono {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centrar horizontalmente los elementos */
-  text-align: center;
-}
-
-.texto-con-icono i {
-  margin-bottom: 10px; /* Espacio entre el icono y el texto */
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 /* Estilos para los títulos <h1> */
 h1 {
   font-family: "Quattrocento", sans-serif;
-  font-size: 24px; /* Tamaño del título */
-  margin: 0; /* Eliminar márgenes predeterminados del título */
+  font-size: 24px;
+  margin: 0;
 }
 
 /* Estilos para los textos del span */
 span {
-  font-size: 18px; /* Tamaño del texto del span */
-  margin: 0; /* Eliminar márgenes predeterminados del span */
+  font-size: 18px;
+  margin: 0;
 }
 
 /* Estilos para los select */
@@ -264,7 +269,6 @@ hr {
     text-align: center;
   }
 }
-
 
 
 `}</style>
