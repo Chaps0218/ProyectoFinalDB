@@ -3,6 +3,8 @@ import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { ProtectedRouteRRHH } from "./ProtectedRouteRRHH";
 import { ProtectedRouteCandidato } from "./ProtectedRouteCandidato";
+import React, { useState, useEffect } from 'react';
+import { ThemeContext } from './context/ThemeContext';
 
 // Nuevas Rutas
 import Inicio from './pages/Inicio';
@@ -18,34 +20,51 @@ import PrincipalRRHH from "./pages/PrincipalRRHH";
 import Usuarios from "./pages/usuarios";
 import Informacion from "./pages/informacion";
 import '@fortawesome/fontawesome-free/css/all.css';
+import InicioPostulante from "./pages/InicioPostulante";
+import InfoPostulante from "./pages/InformacionPostulante";
 
-function App() {
+const App = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  useEffect(() => {
+    document.body.classList.toggle('dark-mode', isDarkMode);
+  }, [isDarkMode]);
+
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/registro" element={<Registro />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/registroRRHH" element={<RegistroRRHH />} />
-          <Route path="/" element={<Inicio />} />
-          <Route element={<ProtectedRoute />}>
-            <Route element={<ProtectedRouteRRHH />}>
-              <Route path="/registroRRHH" element={<RegistroRRHH />} />
-              <Route path="/PrincipalRRHH" element={<PrincipalRRHH />} />
-              <Route path="/recursoshumanos" element={<Recursoshumanos />} />
-              <Route path="/academica" element={<CrudNAcademica />} />
+    <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/registro" element={<Registro />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registroRRHH" element={<RegistroRRHH />} />
+            <Route path="/proceso" element={<Proceso />} />
+            <Route path="/inicioPostulante" element={<InicioPostulante />} />
+                <Route path="/informacionPostulante" element={<InfoPostulante />} />
+            <Route path="/" element={<Inicio />} />
+            <Route element={<ProtectedRoute />}>
+              <Route element={<ProtectedRouteRRHH />}>
+                <Route path="/registroRRHH" element={<RegistroRRHH />} />
+                <Route path="/PrincipalRRHH" element={<PrincipalRRHH />} />
+                <Route path="/recursoshumanos" element={<Recursoshumanos />} />
+                <Route path="/academica" element={<CrudNAcademica />} />
+              </Route>
+              <Route element={<ProtectedRouteCandidato />}>
+                <Route path="/inicioPostulante" element={<InicioPostulante />} />
+                <Route path="/informacionPostulante" element={<InfoPostulante />} />
+                <Route path="/proceso" element={<Proceso />} />
+                <Route path="/usuarios" element={<Usuarios />} />
+                <Route path="/informacion" element={<Informacion />} />
+              </Route>
             </Route>
-            <Route element={<ProtectedRouteCandidato />}>
-              <Route path="/plataforma" element={<Plataforma />} />
-              <Route path="/postulante" element={<Postulante />} />
-              <Route path="/proceso" element={<Proceso />} />
-              <Route path="/usuarios" element={<Usuarios />} />
-              <Route path="/informacion" element={<Informacion />} />
-            </Route>
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </ThemeContext.Provider>
   );
 }
 

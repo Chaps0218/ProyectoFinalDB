@@ -8,3 +8,15 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+/* Estilos para el modo claro */
+:root {
+  --background-color: white;
+  --text-color: black;
+}
+
+/* Estilos para el modo oscuro */
+body.dark-mode {
+  --background-color: #111111;
+  --text-color: white;
+}
