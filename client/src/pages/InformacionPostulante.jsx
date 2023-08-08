@@ -33,8 +33,6 @@ const Plataforma = () => {
             <Document title='Certificado de no tener impedimento de ejercer cargo público ' />
             <Document title='Certificado de no tener responsabilidades administrativas' />
             <Document title='Experiencia profesional' />
-            <Document title='Holap' />
-            <Document title='haolap' />
           </DocumentsList>
         </div>
         <video className="background-video" autoPlay loop muted>

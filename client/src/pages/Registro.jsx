@@ -62,6 +62,7 @@ const Registro = () => {
     // if(res[0] === 200) setShowPopup(true);
     // if(res[2] === undefined) alert(res[1]);
     console.log(res);
+    setShowPopup(true); // Mostrar el PopUp si el registro fue exitoso
   });
 
   useEffect(() => {
@@ -80,17 +81,51 @@ const Registro = () => {
     e.preventDefault();
 
     if (tipoIden === 'cédula') {
-      let var1 = identificacion.slice(0, 2);
-      let var2 = identificacion.slice(2, 3);
-
+      const var1 = parseInt(identificacion.slice(0, 2));
+      const var2 = parseInt(identificacion.slice(2, 3));
+  
       if (identificacion.length !== 10) {
-        return alert('Cédula incorrecta: La cédula debe tener exactamente 10 caracteres.');
+          return alert('Cédula incorrecta: La cédula debe tener exactamente 10 caracteres.');
       } else if (isNaN(var1) || var1 < 1 || var1 > 24) {
-        return alert('Cédula incorrecta: Los dos primeros dígitos deben estar entre 1 y 24.');
+          return alert('Cédula incorrecta: Los dos primeros dígitos deben estar entre 1 y 24.');
       } else if (isNaN(var2) || var2 > 6) {
-        return alert('Cédula incorrecta: El tercer dígito debe ser mayor o igual a 6.');
+          return alert('Cédula incorrecta: El tercer dígito debe ser mayor o igual a 6.');
       }
-    }
+  
+      let sum_par = 0;
+      let sum_impar = 0;
+      let sum;
+  
+      let i = 1;
+      const digits = identificacion.slice(0, 9);
+      for (let c of digits) {
+          const digit = parseInt(c);
+          if (i % 2 === 0) {
+              sum_par += digit;
+          } else {
+              if (digit * 2 > 9) {
+                  sum_impar += digit * 2 - 9;
+              } else {
+                  sum_impar += digit * 2;
+              }
+          }
+          i++;
+      }
+  
+      sum = sum_par + sum_impar;
+      const verifier = parseInt(identificacion.charAt(9));
+  
+      if (sum % 10 === 0) {
+          if (verifier !== 0) {
+              return alert('Cédula incorrecta: El último dígito verificador debe ser 0.');
+          }
+      } else {
+          const higher = 10 - (sum % 10) + sum;
+          if (higher - sum !== verifier) {
+              return alert('La cédula ingresada es invalida');
+          }
+      }
+  }
     setShowFormulario2(true);
   }
 
