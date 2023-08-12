@@ -15,7 +15,7 @@ import Plataforma from "./pages/Plataforma";
 import Postulante from "./pages/Postulante";
 import Proceso from "./pages/Proceso";
 import Recursoshumanos from './pages/Recursoshumanos';
-import CrudNAcademica from "./pages/CrudNAcademica";
+import Solicitud from "./pages/Solicitud";
 import PrincipalRRHH from "./pages/PrincipalRRHH";
 import Usuarios from "./pages/Postulacion";
 import Informacion from "./pages/informacion";
@@ -35,6 +35,7 @@ const App = () => {
   }, [isDarkMode]);
 
   return (
+ 
     <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
       <AuthProvider>
         <BrowserRouter>
@@ -42,6 +43,7 @@ const App = () => {
             <Route path="/registro" element={<Registro />} />
             <Route path="/login" element={<Login />} />
             <Route path="/proceso" element={<Proceso />} />
+            <Route path="/academica" element={<Solicitud />} />
             <Route path="/" element={<Inicio />} />
             <Route path="/postulacion" element={<Usuarios />} />
                 <Route path="/informacion" element={<Informacion />} />
@@ -50,7 +52,7 @@ const App = () => {
                 <Route path="/registroRRHH" element={<RegistroRRHH />} />
                 <Route path="/PrincipalRRHH" element={<PrincipalRRHH />} />
                 <Route path="/recursoshumanos" element={<Recursoshumanos />} />
-                <Route path="/academica" element={<CrudNAcademica />} />
+                <Route path="/academica" element={<Solicitud />} />
               </Route>
               <Route element={<ProtectedRouteCandidato />}>
                 <Route path="/inicioPostulante" element={<InicioPostulante />} />
@@ -64,6 +66,7 @@ const App = () => {
         </BrowserRouter>
       </AuthProvider>
     </ThemeContext.Provider>
+ 
   );
 }
 
