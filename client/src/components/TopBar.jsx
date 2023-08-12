@@ -12,7 +12,7 @@ const TopBar = () => {
     return (
         <div className="top-bar">
             <input className="input-darkmode" type="checkbox" id="darkmode-toggle" />
-            <label for="darkmode-toggle" onClick={toggleDarkMode}></label>
+            <label className="label-darkmode" for="darkmode-toggle" onClick={toggleDarkMode}></label>
         </div>
     );
 };
