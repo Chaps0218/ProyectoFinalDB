@@ -22,6 +22,8 @@ import Informacion from "./pages/informacion";
 import '@fortawesome/fontawesome-free/css/all.css';
 import InicioPostulante from "./pages/InicioPostulante";
 import InfoPostulante from "./pages/InformacionPostulante";
+import SolicitudesPostulantes from "./pages/SolicitudesPostulantes";
+import InfoPostRRHH from "./pages/InformacionPostulacionRRHH";
 
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -53,6 +55,8 @@ const App = () => {
                 <Route path="/PrincipalRRHH" element={<PrincipalRRHH />} />
                 <Route path="/recursoshumanos" element={<Recursoshumanos />} />
                 <Route path="/academica" element={<Solicitud />} />
+                <Route path="/infoPostRRHH" element={<InfoPostRRHH />} />
+                <Route path="/solicitudesPostulantes" element={<SolicitudesPostulantes />} />
               </Route>
               <Route element={<ProtectedRouteCandidato />}>
                 <Route path="/inicioPostulante" element={<InicioPostulante />} />
