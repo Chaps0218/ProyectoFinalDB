@@ -2,11 +2,10 @@ import React, { useContext, useEffect } from 'react';
 import './styles.css';
 import MenuRRHH from '../components/MenuRRHH';
 import TopBar from '../components/TopBar';
-import CustomComponent from '../components/CustomComponent'
-import { FiUpload, FiFolder, FiUnlock, FiLock } from 'react-icons/fi';
+import CustomComponentPrueba from '../components/customPrueba'
 import { useAuth } from "../context/AuthContext";
 
-const PrincipalRRHH = () => {
+const InfoPostRRHH = () => {
   const { isAuthenticated } = useAuth();
   return (
     <div className="parent-container">
@@ -24,13 +23,9 @@ const PrincipalRRHH = () => {
             ></MenuRRHH>
         </div>
         <div className="right-item">
-          <CustomComponent
-            title='Solicitudes de Postulantes'
-            subtitle1='Anexe su información'
-            subtitle2='Seleccione la postulación'
-            icon1={<FiUpload />}
-            icon2={<FiFolder />}
-          ></CustomComponent>
+          <CustomComponentPrueba
+            title='Información Postulantes'
+          ></CustomComponentPrueba>
         </div>
         <video className="background-video" autoPlay loop muted>
           <source src={require('../assets/inicio.mp4')} type="video/mp4" />
@@ -41,4 +36,4 @@ const PrincipalRRHH = () => {
   );
 };
 
-export default PrincipalRRHH;
+export default InfoPostRRHH;

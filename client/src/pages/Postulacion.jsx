@@ -19,7 +19,7 @@ const Postulacion = () => {
         <div className="left-item">
           <Menu
             title='Usuarios'
-            subtitle1='Información del postulante'
+            subtitle1='Postulante'
             subtitle2='Seleccionar postulación'
             subtitle3='Formatos de Archivos'
             ></Menu>
