@@ -6,15 +6,14 @@ import {Tabs,
         } from "@nextui-org/react";
 
 import styles from "../styles/Solicitud.module.css";
-import Boton from "../components/Boton.jsx"
-
-
+// import Boton from "../components/Boton.jsx"
+import Tabla from "../components/Tabla.jsx"
 
 const Solicitud = () => {
 
   return (
     <div className={styles.container}>
-
+{/* 
     <div className={styles.botonContainer}>
       <Boton text="Agregar" outlineColor="#004b23" fontColor="#004b23"
       onClick={() => {
@@ -28,7 +27,7 @@ const Solicitud = () => {
           <path d="M5 12l14 0" />
         </svg>
       </Boton>
-    </div>
+    </div> */}
 
     <Tabs
       classNames={{
@@ -43,7 +42,7 @@ const Solicitud = () => {
       <Tab key="candidato" title="Candidato">
         <Card>
           <CardBody>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            <Tabla/>
           </CardBody>
         </Card>  
       </Tab>

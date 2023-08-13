@@ -3,7 +3,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { ProtectedRouteRRHH } from "./ProtectedRouteRRHH";
 import { ProtectedRouteCandidato } from "./ProtectedRouteCandidato";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ThemeContext } from './context/ThemeContext';
 
 // Nuevas Rutas
