@@ -9,7 +9,6 @@ import styles from "../styles/Solicitud.module.css";
 // import Boton from "../components/Boton.jsx"
 import Tabla from "../components/Tabla.jsx"
 
-
 const Solicitud = () => {
 
   return (
