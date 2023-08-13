@@ -36,7 +36,7 @@
 }
 
 
-label {
+.label-darkmode {
     width: 50px;
     height: 20px;
     position: relative;
@@ -47,7 +47,7 @@ label {
     cursor: pointer;
 }
 
-label:after {
+.label-darkmode:after {
     content: "";
     width: 18px;
     height: 18px;
@@ -65,18 +65,18 @@ label:after {
     visibility: hidden;
 }
 
-.input-darkmode:checked+label {
+.input-darkmode:checked+.label-darkmode{
     background: #242424;
 }
 
-.input-darkmode:checked+label:after {
+.input-darkmode:checked+.label-darkmode:after {
     left: 49px;
     transform: translateX(-100%);
     background: linear-gradient(180deg, #777, #3a3a3a);
 }
 
-label,
-label:after {
+.label-darkmode ,
+.label-darkmode:after {
     transition: 0.3s
 }
 
@@ -84,6 +84,6 @@ label:active:after {
     width: 26px;
 }
 
-.input-darkmode:checked+label+.dark-mode {
+.input-darkmode:checked+.label-darkmode+.dark-mode {
     background: var(--background-color);
 }
