@@ -22,10 +22,30 @@ const CustomComponentForm = ({ title }) => {
         setShowPopup(false);
     };
 
+    const tableData = [
+        ['Vacantes', 'Tiempo'],
+        ['2', 'Tiempo completo'],
+        ['3', 'Medio tiempo'],
+        ['3', 'Medio tiempo'],
+        ['3', 'Medio tiempo'],
+        ['3', 'Medio tiempo'],
+        ['3', 'Medio tiempo'],
+        ['3', 'Medio tiempo'],
+        ['3', 'Medio tiempo'],
+        ['3', 'Medio tiempo'],
+        ['3', 'Medio tiempo'],
+        // ... (agregar más datos según sea necesario)
+    ];
+
     return (
         <div className="documents-list">
+
+            
             <h1 className="documents-title">{title}</h1>
             <hr className="documents-divider" />
+
+
+            
             
             <div className="form-line">
                 <div>
@@ -93,6 +113,22 @@ const CustomComponentForm = ({ title }) => {
                     </select>
                 </div>
             </div>
+
+
+            <div className="table-container">
+                <table className="custom-table">
+                    <tbody>
+                        {tableData.map((row, index) => (
+                            <tr key={index}>
+                                {row.map((cell, cellIndex) => (
+                                    <td key={cellIndex}>{cell}</td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            
             
             <div className='buttons-container'>
                 <button onClick={handleAccept}>Enviar información</button>
