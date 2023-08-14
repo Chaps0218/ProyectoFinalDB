@@ -2,12 +2,10 @@ import React, { useContext, useEffect } from 'react';
 import './styles.css';
 import Menu from '../components/MenuCandidato';
 import TopBar from '../components/TopBar';
-import CustomComponentForm from '../components/CustomComponentForm'
-import CustomComponent from '../components/CustomComponent'
-import { FiUpload, FiFolder, FiUnlock, FiLock } from 'react-icons/fi';
-import { useAuth } from "../context/AuthContext";
+import CustomComponentRh from '../components/CustomComponentRh'
 
-const Postulacion = () => {
+import { useAuth } from "../context/AuthContext";
+const Plataforma = () => {
   const { isAuthenticated } = useAuth();
   return (
     <div className="parent-container">
@@ -25,9 +23,12 @@ const Postulacion = () => {
             ></Menu>
         </div>
         <div className="right-item">
-          <CustomComponentForm
-          title="Seleccionar Postulación"
-          ></CustomComponentForm>
+        <CustomComponentRh
+            title='Bienvenidos a la plataforma ESPE docentes'
+            subtitle1='De Solicitud'
+            subtitle2='Seleccione la postulación'
+            
+          ></CustomComponentRh>
         </div>
         <video className="background-video" autoPlay loop muted>
           <source src={require('../assets/inicio.mp4')} type="video/mp4" />
@@ -38,4 +39,4 @@ const Postulacion = () => {
   );
 };
 
-export default Postulacion;
+export default Plataforma;

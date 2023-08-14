@@ -3,13 +3,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 50px;
-  max-height: 900px; /* Ajusta el valor según tus necesidades */
-  height: 600px; 
-  overflow-y: auto; /* Habilita el desplazamiento vertical si el contenido excede la altura máxima */
+  padding: 20px;
 }
-
 
 .documents-title {
   font-size: 24px;
@@ -104,48 +99,56 @@ button {
 
 
 
-.table-container {
-  max-height: 500px; /* Ajusta esta altura máxima según tus necesidades */
-  /* Habilita el desplazamiento vertical solo para la tabla */
-  /* Asegúrate de que no se aplique overflow en dirección horizontal */
+
+/* Estilos para el contenedor de la imagen y texto con ícono */
+.nuevo-div {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 50px;
+  
 }
 
-/* Estilos para la tabla */
-.custom-table {
-  width: 100%;
-  border-collapse: collapse;
-  border-radius: 10px;
-  /* No es necesario max-width ni overflow-x aquí */
+/* Estilos para el div de texto con ícono */
+.texto-con-icono {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 20px; /* Agregar margen inferior */
+  margin-right: 20px; /* Agregar margen derecho */
 }
 
+.texto-con-icono i {
+  margin-bottom: 10px; /* Espacio entre el icono y el texto */
+}
 
-
-
-.custom-table {
-  width: 100%; /* Ajustar al ancho deseado */
-  border-collapse: collapse;
+/* Estilos para el div de la imagen */
+.imagen {
+  width: 50%;
+  height: 0;
+  padding-bottom: 50%;
+  position: relative;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 20px; /* Agregar margen superior */
+  margin-left: 20px; /* Agregar margen izquierdo */
 }
 
-/* Estilo para las celdas */
-.custom-table td {
-  padding: 10px;
-  border: 1px solid #ccc;
+/* Estilos para la imagen dentro del contenedor */
+
+/* Estilos para la versión responsive */
+@media (max-width: 768px) {
+  .contenedor-principal2 {
+    flex-direction: column;
+    height: auto;
+  }
+
+
+
+
+  /* Estilos para el div de texto con ícono en dispositivos móviles */
+  .texto-con-icono {
+    text-align: center;
+  }
 }
-
-/* Estilo para las filas impares (opcional, solo para mayor contraste) */
-.custom-table tr:nth-child(odd) {
-  background-color: #f5f5f5;
-}
-
-
-
-
-
-
-
-
-
-/* ... (otros estilos) ... */

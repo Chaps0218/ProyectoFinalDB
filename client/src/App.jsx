@@ -5,6 +5,7 @@ import { ProtectedRouteRRHH } from "./ProtectedRouteRRHH";
 import { ProtectedRouteCandidato } from "./ProtectedRouteCandidato";
 import React, { useState, useEffect, useCallback } from 'react';
 import { ThemeContext } from './context/ThemeContext';
+import Informacionrh from "./pages/Informacionrh";
 
 // Nuevas Rutas
 import Inicio from './pages/Inicio';
@@ -56,6 +57,7 @@ const App = () => {
                 <Route path="/recursoshumanos" element={<Recursoshumanos />} />
                 <Route path="/academica" element={<Solicitud />} />
                 <Route path="/infoPostRRHH" element={<InfoPostRRHH />} />
+                <Route path="/informacionrh" element={<Informacionrh />} />
                 <Route path="/solicitudesPostulantes" element={<SolicitudesPostulantes />} />
               </Route>
               <Route element={<ProtectedRouteCandidato />}>
