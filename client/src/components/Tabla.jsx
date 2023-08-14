@@ -100,6 +100,7 @@ export default function App() {
   const [fechaNacimiento, setFechaNacimiento] = React.useState("");
   const [edad, setEdad] = React.useState("");
   const [avatar, setAvatar] = React.useState("");
+  const [id, setId] = React.useState("");
 
   const clearInputFields = () => {
     setNombre("");
@@ -138,21 +139,58 @@ export default function App() {
     setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
     console.log(users);
   }, [users]);
-  
-  //!Funcion de renderizado de la tabla
+
+  const handleActualizar = React.useCallback(() => {
+    const editedUser = {
+      id: id,
+      nombre: nombre,
+      email: email,
+      sexo: sexo,
+      titulo: titulo,
+      noIdentificacion: noIdentificacion,
+      tipoIdentificacion: tipoIdentificacion,
+      fechaNacimiento: fechaNacimiento,
+      edad: edad,
+      avatar: avatar,
+    };
+    setUsers((prevUsers) => prevUsers.map((user) => (user.id === id ? editedUser : user)));
+    clearInputFields(); // Call the function to clear input fields
+  }, [avatar, edad, email, fechaNacimiento, id, nombre, noIdentificacion, sexo, titulo, tipoIdentificacion]);
+
+  const { isOpen: isOpenModal1, onOpen: onOpenModal1, onOpenChange: onOpenChangeModal1 } = useDisclosure();
+  const { isOpen: isOpenModal2, onOpen: onOpenModal2, onOpenChange: onOpenChangeModal2 } = useDisclosure();
+
+
   const renderCell = React.useCallback((user, columnKey) => {
+
     const cellValue = user[columnKey];
+
+    const handleButtonPress = (id, nombre, email, sexo, titulo, noIdentificacion, tipoIdentificacion, fechaNacimiento, edad, avatar) => {
+      onOpenModal1(); // Open the modal
+      setId(id); // Clear the id
+      setNombre(nombre);
+      setEmail(email);
+      setSexo(sexo);
+      setTitulo(titulo);
+      setNoIdentificacion(noIdentificacion);
+      setTipoIdentificacion(tipoIdentificacion);
+      setFechaNacimiento(fechaNacimiento);
+      setEdad(edad);
+      setAvatar(avatar);
+    }
 
     switch (columnKey) {
       case "nombre":
         return (
-          <User
-            avatarProps={{radius: "lg", src: user.avatar}}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
+
+              <User
+                avatarProps={{ radius: "lg", src: user.avatar }}
+                description={user.email}
+                name={cellValue}
+              >
+                {user.email}
+              </User>
+  
         );
       case "noIdentificacion":
         return (
@@ -170,9 +208,15 @@ export default function App() {
       case "actions":
         return (
           <div className="relative flex items-center gap-2">
-            <Button isIconOnly color="success" variant="faded" aria-label="Like">
+
+          <Button color="success" 
+            isIconOnly 
+            variant="faded" 
+            onPress={ () => handleButtonPress(user.id, user.nombre, user.email, user.sexo, user.titulo, user.noIdentificacion, user.tipoIdentificacion, user.fechaNacimiento, user.edad, user.avatar)}
+            >
               <EditIcon />
-            </Button>  
+            </Button>
+
             <Button isIconOnly color="danger" variant="faded" aria-label="Like" onClick={() => handleDelete(user.id)}>
               <DeleteIcon />
             </Button>  
@@ -194,7 +238,7 @@ export default function App() {
       default:
         return cellValue;
     }
-  }, [handleDelete]);
+  }, [handleDelete, onOpenModal1]);
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   //!Funciones de filtro
@@ -285,9 +329,8 @@ export default function App() {
     setPage(1)
   },[])
 
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
-
   const topContent = React.useMemo(() => {
+  
     return (
       <div className="flex flex-col gap-4">
         <div className="flex justify-between gap-3 items-end">
@@ -324,103 +367,103 @@ export default function App() {
             </Dropdown>
             <Button color="success" 
             endContent={<PlusIcon />}
-            onPress={onOpen}
+            onPress={onOpenModal2}
             >
               Agregar nuevo
             </Button>
             
             <Modal 
-  isOpen={isOpen} 
-  onOpenChange={onOpenChange}
-  placement="top-center"
-  size="lg" 
->
-  <ModalContent>
-    {(onClose) => (
-      <>
-        <ModalHeader className="flex flex-col gap-1">Agregar usuario</ModalHeader>
-        <ModalBody>
-          <div className="flex flex-wrap gap-8">
-            <div className="w-full">
-              <Input
-                className="w-full"
-                placeholder="Nombre"
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
-              />
-            </div>
-            <div className="flex gap-4 w-full">
-              <Input
-                className="w-full"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Input
-                className="w-full "
-                placeholder="Tipo de Identificación"
-                value={tipoIdentificacion}
-                onChange={(e) => setTipoIdentificacion(e.target.value)}
-              />
-            </div>
-            <div className="flex gap-4 w-full">
-              <Input
-                className="w-full"
-                placeholder="Avatar"
-                value={avatar}
-                onChange={(e) => setAvatar(e.target.value)}
-              />
-              <Input
-                className="w-full"
-                placeholder="Fecha de Nacimiento"
-                value={fechaNacimiento}
-                onChange={(e) => setFechaNacimiento(e.target.value)}
-              />
-            </div>
+              isOpen={isOpenModal2} 
+              onOpenChange={onOpenChangeModal2}
+              placement="top-center"
+              size="lg" 
+            >
+              <ModalContent>
+                {(onClose) => (
+                  <>
+                    <ModalHeader className="flex flex-col gap-1">Agregar usuario</ModalHeader>
+                    <ModalBody>
+                      <div className="flex flex-wrap gap-8">
+                        <div className="w-full">
+                          <Input
+                            className="w-full"
+                            placeholder="Nombre"
+                            value={nombre}
+                            onChange={(e) => setNombre(e.target.value)}
+                          />
+                        </div>
+                        <div className="flex gap-4 w-full">
+                          <Input
+                            className="w-full"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                          />
+                          <Input
+                            className="w-full "
+                            placeholder="Tipo de Identificación"
+                            value={tipoIdentificacion}
+                            onChange={(e) => setTipoIdentificacion(e.target.value)}
+                          />
+                        </div>
+                        <div className="flex gap-4 w-full">
+                          <Input
+                            className="w-full"
+                            placeholder="Avatar"
+                            value={avatar}
+                            onChange={(e) => setAvatar(e.target.value)}
+                          />
+                          <Input
+                            className="w-full"
+                            placeholder="Fecha de Nacimiento"
+                            value={fechaNacimiento}
+                            onChange={(e) => setFechaNacimiento(e.target.value)}
+                          />
+                        </div>
 
-            <div className="flex  gap-4 w-full">
-              <Input
-                className="w-full"
-                placeholder="Título"
-                value={titulo}
-                onChange={(e) => setTitulo(e.target.value)}
-              />
-              <Input
-                className="w-full"
-                placeholder="Sexo"
-                value={sexo}
-                onChange={(e) => setSexo(e.target.value)}
-              />
-            </div>
+                        <div className="flex  gap-4 w-full">
+                          <Input
+                            className="w-full"
+                            placeholder="Título"
+                            value={titulo}
+                            onChange={(e) => setTitulo(e.target.value)}
+                          />
+                          <Input
+                            className="w-full"
+                            placeholder="Sexo"
+                            value={sexo}
+                            onChange={(e) => setSexo(e.target.value)}
+                          />
+                        </div>
 
 
-            <div className="flex gap-4 w-full">
-		        <Input
-              className="w-full"
-              placeholder="Edad"
-              value={edad}
-              onChange={(e) => setEdad(e.target.value)}
-            />
-            <Input
-              className="w-full"
-              placeholder="No. Identificación"
-              value={noIdentificacion}
-              onChange={(e) => setNoIdentificacion(e.target.value)}
-            />
-            </div>
+                        <div className="flex gap-4 w-full">
+                        <Input
+                          className="w-full"
+                          placeholder="Edad"
+                          value={edad}
+                          onChange={(e) => setEdad(e.target.value)}
+                        />
+                        <Input
+                          className="w-full"
+                          placeholder="No. Identificación"
+                          value={noIdentificacion}
+                          onChange={(e) => setNoIdentificacion(e.target.value)}
+                        />
+                        </div>
 
-          </div>
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="outline" onClick={onClose}>
-            Cancelar
-          </Button>
-          <Button onClick={handleAgregar}>Agregar</Button>
-        </ModalFooter>
-      </>
-    )}
-  </ModalContent>
-</Modal>
+                      </div>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button variant="outline" onClick={onClose}>
+                        Cancelar
+                      </Button>
+                      <Button color="success" onClick={handleAgregar}>Agregar</Button>
+                    </ModalFooter>
+                  </>
+                )}
+              </ModalContent>
+            </Modal>
 
           </div>
         </div>
@@ -447,7 +490,7 @@ export default function App() {
     onSearchChange,
     onClear,
     users.length,
-    onOpen,
+    onOpenModal2,
     nombre,
     email,
     noIdentificacion,
@@ -458,8 +501,8 @@ export default function App() {
     sexo,
     edad,
     handleAgregar,
-    isOpen,
-    onOpenChange,
+    isOpenModal2,
+    onOpenChangeModal2,
   ]);
 
   const bottomContent = React.useMemo(() => {
@@ -487,6 +530,7 @@ export default function App() {
   }, [page, pages, onNextPage, onPreviousPage]);
 
   return (
+    <div>
     <Table
     aria-label="Example table with custom cells, pagination and sorting"
     isHeaderSticky
@@ -514,10 +558,95 @@ export default function App() {
     <TableBody emptyContent={"No users found"} items={sortedItems}>
       {(item) => (
         <TableRow key={item.id}>
-          {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+          {(columnKey) => <TableCell>{renderCell(item, columnKey, onOpenModal1)}</TableCell>}
         </TableRow>
       )}
     </TableBody>
-  </Table>
+    </Table>
+
+    <Modal isOpen={isOpenModal1} onOpenChange={onOpenChangeModal1}>
+    <ModalContent>
+      {(onClose) => (
+        <>
+          <ModalHeader className="flex flex-col gap-1">Actualizar usuario</ModalHeader>
+          <ModalBody>
+            <div className="flex flex-wrap gap-8">
+              <div className="w-full">
+                <Input
+                  className="w-full"
+                  label="Nombre"
+                  defaultValue={nombre}
+                  onChange={(e) => setNombre(e.target.value)}
+                />
+              </div>
+              <div className="flex gap-4 w-full">
+                <Input
+                  className="w-full"
+                  label="Email"
+                  defaultValue={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <Input
+                  className="w-full "
+                  label="Tipo de Identificación"
+                  defaultValue={tipoIdentificacion}
+                  onChange={(e) => setTipoIdentificacion(e.target.value)}
+                />
+              </div>
+              <div className="flex gap-4 w-full">
+                <Input
+                  className="w-full"
+                  label="Fecha de Nacimiento"
+                  defaultValue={fechaNacimiento}
+                  onChange={(e) => setFechaNacimiento(e.target.value)}
+                />
+              </div>
+
+              <div className="flex  gap-4 w-full">
+                <Input
+                  className="w-full"
+                  label="Título"
+                  defaultValue={titulo}
+                  onChange={(e) => setTitulo(e.target.value)}
+                />
+                <Input
+                  className="w-full"
+                  label="Sexo"
+                  defaultValue={sexo}
+                  onChange={(e) => setSexo(e.target.value)}
+                />
+              </div>
+
+
+              <div className="flex gap-4 w-full">
+              <Input
+                className="w-full"
+                label="Edad"
+                defaultValue={edad}
+                onChange={(e) => setEdad(e.target.value)}
+              />
+              <Input
+                className="w-full"
+                label="No. Identificación"
+                defaultValue={noIdentificacion}
+                onChange={(e) => setNoIdentificacion(e.target.value)}
+              />
+              </div>
+
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="outline" onClick={onClose}>
+              Cancelar
+            </Button>
+            <Button color="success" onClick={handleActualizar}>Actualizar</Button>
+          </ModalFooter>
+        </>
+      )}
+    </ModalContent>
+    </Modal>
+    
+    </div>
+
   );
 }
