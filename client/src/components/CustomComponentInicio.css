@@ -1,0 +1,63 @@
+.solicitudes-container {
+    width: 100%;
+    background-color: #EEFFDC; /* Ajusta según el color de fondo deseado */
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: flex;
+    border-radius: 10px;
+    flex-direction: row;
+    align-items: center;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    justify-content: space-evenly;
+  }
+  
+  .solicitudes-info {
+    margin-bottom: 10px;
+  }
+  
+  .solicitudes-info h1 {
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333; /* Ajusta según el color de texto deseado */
+    text-align: center;
+    gap: 5px;
+  }
+
+
+
+
+  .boton-ir {
+    background-color: #007135;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+    transition: background-color 0.3s;
+    
+  }
+  
+  .boton-ir:hover {
+    background-color: #014a23;
+  }
+
+  
+  .numero-solicitudes {
+    background-color: #007135;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 50%; /* Esto crea una forma circular */
+    color: #ffffff; /* Texto en blanco */
+    width: 40px; /* Ajusta según el tamaño deseado */
+    height: 40px; /* Ajusta según el tamaño deseado */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px; /* Ajusta según el tamaño de fuente deseado */
+  }
+  

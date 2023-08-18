@@ -1,0 +1,41 @@
+.tips-container {
+    padding: 20px;
+    background-color: #eaeaea; /* Ajusta según el color de fondo deseado */
+    border-radius: 10px;
+    margin-top: 15px;
+  }
+  
+  .tip-item {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .tip-question {
+    font-size: 18px;
+    color: #333; /* Ajusta según el color de texto deseado */
+  }
+  
+  .tip-button {
+    /* Asume que el botón debería tomar todo el ancho disponible. Ajusta como necesites. */
+    width: 100px;
+    padding: 10px;
+    margin-top: 20px;
+    /* Añade espacio en la parte superior del botón. Ajusta como necesites. */
+    font-size: 1em;
+    color: #fff;
+    /* Color de texto del botón */
+    background-color: #007135;
+    /* Color de fondo del botón */
+    border: none;
+    /* Elimina cualquier borde predeterminado del botón */
+    border-radius: 5px;
+    /* Hace que las esquinas del botón sean ligeramente redondeadas. Ajusta como necesites. */
+    cursor: pointer;
+  }
+  
+  .tip-button:hover {
+    background-color: #0056b3; /* Ajusta según el color de fondo del botón al pasar el cursor */
+  }
+  
