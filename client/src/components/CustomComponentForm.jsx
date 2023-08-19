@@ -131,7 +131,7 @@ const CustomComponentForm = ({ title }) => {
             
             
             <div className='buttons-container'>
-                <button onClick={handleAccept}>Enviar información</button>
+                <button className='button-enviar-info' onClick={handleAccept}>Enviar información</button>
                 {showPopup2 && (
                     <Popup
                         mensaje="DATOS SUBIDOS CORRECTAMENTE"

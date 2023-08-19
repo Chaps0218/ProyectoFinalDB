@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import './styles.css';
 import MenuRRHH from '../components/MenuRRHH';
 import TopBar from '../components/TopBar';
-import CustomComponentInfo from '../components/CustomComponentInfo'
+import CustomComponentInfo from '../components/CustomComponentInfoPersonal'
 import { useAuth } from "../context/AuthContext";
 
 const InfoPostRRHH = () => {
@@ -11,9 +11,8 @@ const InfoPostRRHH = () => {
     <div className="parent-container">
       <div className="plataforma-container">
         <div className="top-item">
-        <TopBar
-            title="Información de Postulación"
-          ></TopBar>
+          <TopBar>
+          </TopBar>
         </div>
         <div className="left-item">
           <MenuRRHH
