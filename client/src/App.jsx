@@ -27,6 +27,7 @@ import SolicitudesPostulantes from "./pages/SolicitudesPostulantes";
 import InfoPostRRHH from "./pages/InformacionPostulacionRRHH";
 import InicioRRHH from "./pages/InicioRRHH";
 import InformacionPersonal from "./pages/InformacionPersonal";
+import Actividad from "./components/CRUD/Actividad";
 
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -57,6 +58,7 @@ const App = () => {
                 <Route path="/PrincipalRRHH" element={<PrincipalRRHH />} />
                 <Route path="/recursoshumanos" element={<Recursoshumanos />} />
                 <Route path="/academica" element={<Solicitud />} />
+                <Route path="/actividad" element={<Actividad />} />
                 <Route path="/infoPostRRHH" element={<InfoPostRRHH />} />
                 <Route path="/informacionrh" element={<Informacionrh />} />
                 <Route path="/solicitudesPostulantes" element={<SolicitudesPostulantes />} />
