@@ -1,17 +1,11 @@
-import React, { useState } from 'react';
-import PopupDocument from './PopupDocument'; 
-import Popup from './Popup'; 
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './CustomComponentInicio.css'
 
 import Tips from '../components/Tips'
 
 const CustomComponentInicio= ({ title,numeroDeSolicitudes}) => {
-
-
-    const irARevisarSolicitudes = () => {
-      // Cambia esta ruta según la URL de tu página de revisión de solicitudes
-      
-    };
+    const navigate = useNavigate();
 
     return (
         <div className="documents-list">
@@ -21,7 +15,7 @@ const CustomComponentInicio= ({ title,numeroDeSolicitudes}) => {
             <div className="solicitudes-info">
                 <h1>Tienes <span className='numero-solicitudes'>{numeroDeSolicitudes}</span> solicitudes por revisar</h1>
             </div>
-            <button className="boton-ir" onClick={irARevisarSolicitudes}>
+            <button className="boton-ir" onClick={() => navigate('/infoP')}>
                 IR
             </button>
             </div>

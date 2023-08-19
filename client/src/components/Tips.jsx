@@ -1,26 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Tips.css';
 
 const Tips = () => {
-
-  const redirectToInstitucional = () => {
- 
-  };
-
-  const redirectToPersonal = () => {
-
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="tips-container">
-        <h1 className="menu-title">Tips</h1>
+      <h1 className="tips-title">Tips</h1>
       <div className="tip-item">
         <p className="tip-question">¿Deseas cambiar información institucional?</p>
-        <button className="tip-button" onClick={redirectToInstitucional}>Ir</button>
+        <button className="tip-button" onClick={() => navigate('/infoPostRRHH')}>Ir</button>
       </div>
       <div className="tip-item">
         <p className="tip-question">¿Deseas actualizar tu información personal?</p>
-        <button className="tip-button" onClick={redirectToPersonal}>Ir</button>
+        <button className="tip-button" onClick={() => navigate('/infoP')}>Ir</button>
       </div>
     </div>
   );
