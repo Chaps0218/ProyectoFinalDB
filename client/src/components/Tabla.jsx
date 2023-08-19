@@ -18,6 +18,7 @@ import {
   Modal, ModalContent, ModalHeader, ModalBody, ModalFooter,
   useDisclosure
 } from "@nextui-org/react";
+
 import {EditIcon} from "../assets/EditIcon";
 import {DeleteIcon} from "../assets/DeleteIcon";
 import { SearchIcon } from "../assets/SearchIcon";
@@ -89,19 +90,59 @@ const statusColorMap = {
 
 export default function App() {
 
+  //!Variables para rellenar a todos los usuarios
   const [users, setUsers] = React.useState(usersI);
 
+  //!Variables de agregacion y actualizacion
   const [nombre, setNombre] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [sexo, setSexo] = React.useState("");
   const [titulo, setTitulo] = React.useState("");
   const [noIdentificacion, setNoIdentificacion] = React.useState("");
   const [tipoIdentificacion, setTipoIdentificacion] = React.useState("");
-  const [fechaNacimiento, setFechaNacimiento] = React.useState("");
   const [edad, setEdad] = React.useState("");
   const [avatar, setAvatar] = React.useState("");
   const [id, setId] = React.useState("");
+  const [fechaNacimiento, setFechaNacimiento] = React.useState("");
 
+  //!Para el sexo
+  const [selectedKeys, setSelectedKeys] = React.useState(new Set(["Selcciona"]));
+
+  const selectedValue = React.useMemo(
+    () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
+    [selectedKeys]
+  );
+
+  //!Variables para abrir y cerrar los modales de agregar y actualizar
+  const { isOpen: isOpenModal1, onOpen: onOpenModal1, onOpenChange: onOpenChangeModal1 } = useDisclosure();
+  const { isOpen: isOpenModal2, onOpen: onOpenModal2, onOpenChange: onOpenChangeModal2 } = useDisclosure();
+
+  //!Regex
+  const validateEmail = (value) => value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
+  const validateNombre = (value) => value.match(/^\w+\s+\w+$/);
+
+  //!Validaciones
+  const validationState = React.useMemo(() => {
+    if (email === "") return undefined;
+
+    return validateEmail(email) ? "valido" : "invalido";
+  }, [email]);
+
+  const validacionN = React.useMemo(() => {
+    if (nombre === "") return undefined;
+
+    return validateNombre(nombre) ? "valido" : "invalido";
+  }, [nombre]);
+
+  const validacionTi = React.useMemo(() => {
+    return titulo === "" ? "invalido" : "valido";
+  }, [titulo]);
+
+  const validacionNumero = React.useMemo(() => {
+    return noIdentificacion === "" ? "invalido" : "valido";
+  }, [noIdentificacion]);
+
+  //Limpio los valores
   const clearInputFields = () => {
     setNombre("");
     setEmail("");
@@ -126,11 +167,11 @@ export default function App() {
       tipoIdentificacion: tipoIdentificacion,
       fechaNacimiento: fechaNacimiento,
       edad: edad,
-      avatar: avatar, 
+      avatar: "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg", 
     };
     setUsers((prevUsers) => [...prevUsers, newUser]);
     clearInputFields(); // Call the function to clear input fields
-  }, [users, avatar, edad, email, fechaNacimiento, nombre, noIdentificacion, sexo, titulo, tipoIdentificacion]);
+  }, [users, edad, email, fechaNacimiento, nombre, noIdentificacion, sexo, titulo, tipoIdentificacion]);
 
   //!Funcion de eliminado
   const handleDelete = React.useCallback((id) => {
@@ -140,6 +181,7 @@ export default function App() {
     console.log(users);
   }, [users]);
 
+  //!Funcion de actualizar
   const handleActualizar = React.useCallback(() => {
     const editedUser = {
       id: id,
@@ -157,9 +199,18 @@ export default function App() {
     clearInputFields(); // Call the function to clear input fields
   }, [avatar, edad, email, fechaNacimiento, id, nombre, noIdentificacion, sexo, titulo, tipoIdentificacion]);
 
-  const { isOpen: isOpenModal1, onOpen: onOpenModal1, onOpenChange: onOpenChangeModal1 } = useDisclosure();
-  const { isOpen: isOpenModal2, onOpen: onOpenModal2, onOpenChange: onOpenChangeModal2 } = useDisclosure();
+  //!Funcion de edad
+  const handleDateChange = (event) => {
+    const newDate = event.target.value;
+    setFechaNacimiento(newDate);
 
+    // Calculate age based on the input date
+    const birthDate = new Date(newDate);
+    const today = new Date();
+    const ageInMilliseconds = today - birthDate;
+    const ageInYears = Math.floor(ageInMilliseconds / (365 * 24 * 60 * 60 * 1000));
+    setEdad(ageInYears);
+  };
 
   const renderCell = React.useCallback((user, columnKey) => {
 
@@ -278,9 +329,9 @@ export default function App() {
     return filteredUsers;
   }, [filterValue, statusFilter, hasSearchFilter, users]);
 
-
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
+  //!Funciones de paginacion
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
@@ -329,6 +380,7 @@ export default function App() {
     setPage(1)
   },[])
 
+  //!Contenido de arriba 
   const topContent = React.useMemo(() => {
   
     return (
@@ -365,6 +417,7 @@ export default function App() {
                 ))}
               </DropdownMenu>
             </Dropdown>
+
             <Button color="success" 
             endContent={<PlusIcon />}
             onPress={onOpenModal2}
@@ -386,69 +439,127 @@ export default function App() {
                       <div className="flex flex-wrap gap-8">
                         <div className="w-full">
                           <Input
-                            className="w-full"
-                            placeholder="Nombre"
+                            isRequired
+                            isClearable
+                            onClear={() => console.log("input cleared")}
                             value={nombre}
-                            onChange={(e) => setNombre(e.target.value)}
+                            type="text"
+                            label="Nombre"
+                            variant="bordered"
+                            color={validacionN === "invalido" ? "danger" : "success"}
+                            errorMessage={validacionN === "invalido" && "Ingresa un nombre valido"}
+                            validationState={validacionN}
+                            onValueChange={setNombre}
                           />
                         </div>
                         <div className="flex gap-4 w-full">
                           <Input
-                            className="w-full"
-                            placeholder="Email"
+                            isRequired
+                            isClearable
+                            onClear={() => console.log("input cleared")}
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                          />
-                          <Input
-                            className="w-full "
-                            placeholder="Tipo de Identificación"
-                            value={tipoIdentificacion}
-                            onChange={(e) => setTipoIdentificacion(e.target.value)}
+                            type="email"
+                            label="Email"
+                            variant="bordered"
+                            color={validationState === "invalido" ? "danger" : "success"}
+                            errorMessage={validationState === "invalido" && "Ingresa un email valido"}
+                            validationState={validationState}
+                            onValueChange={setEmail}
                           />
                         </div>
                         <div className="flex gap-4 w-full">
-                          <Input
-                            className="w-full"
-                            placeholder="Avatar"
-                            value={avatar}
-                            onChange={(e) => setAvatar(e.target.value)}
-                          />
-                          <Input
-                            className="w-full"
-                            placeholder="Fecha de Nacimiento"
-                            value={fechaNacimiento}
-                            onChange={(e) => setFechaNacimiento(e.target.value)}
-                          />
-                        </div>
 
-                        <div className="flex  gap-4 w-full">
-                          <Input
-                            className="w-full"
-                            placeholder="Título"
-                            value={titulo}
-                            onChange={(e) => setTitulo(e.target.value)}
-                          />
-                          <Input
-                            className="w-full"
-                            placeholder="Sexo"
-                            value={sexo}
-                            onChange={(e) => setSexo(e.target.value)}
-                          />
-                        </div>
+                        <Chip color="success" variant="bordered">Fecha de nacimiento: </Chip>
 
-
-                        <div className="flex gap-4 w-full">
-                        <Input
-                          className="w-full"
-                          placeholder="Edad"
-                          value={edad}
-                          onChange={(e) => setEdad(e.target.value)}
+                        <input
+                          type="date"
+                          id="dateInput"
+                          value={fechaNacimiento}
+                          onChange={handleDateChange}
+                          max={new Date().toISOString().split('T')[0]} // Set max date as today
                         />
+                  
+                        </div>
+
+                        <div className="flex  gap-4 w-full ">
+                          <Input
+                            isRequired
+                            isClearable
+                            onClear={() => console.log("input cleared")}
+                            value={titulo}
+                            type="text"
+                            label="Título"
+                            variant="bordered"
+                            validationState={validacionTi}
+                            onValueChange={setTitulo}
+                          />
+
+                          <div className="flex items-center gap-4">
+                          <Chip color="success" variant="bordered">Sexo: </Chip>
+                            <Dropdown>
+                              <DropdownTrigger>
+                                  <Button 
+                                    variant="flat"
+                                    className="capitalize"
+                                  >
+                                    {selectedValue}
+                                  </Button>
+                                </DropdownTrigger>
+                                <DropdownMenu 
+                                  aria-label="Single selection actions"
+                                  variant="flat"
+                                  disallowEmptySelection
+                                  selectionMode="single"
+                                  selectedKeys={selectedKeys}
+                                  onSelectionChange={setSelectedKeys}
+                                >
+                                  <DropdownItem key="Selecciona">Selecciona</DropdownItem>
+                                  <DropdownItem key="Femenino">Femenino</DropdownItem>
+                                  <DropdownItem key="Masculino">Masculino</DropdownItem>
+                                  <DropdownItem key="Otro">Otro</DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
+                          </div>
+                        </div>
+
+                        <div className="flex gap-4 w-full">
+
+                        <Chip color="success" variant="bordered">Tipo de identificacion: </Chip>
+                            <Dropdown>
+                              <DropdownTrigger>
+                                  <Button 
+                                    variant="flat"
+                                    className="capitalize"
+                                  >
+                                    {selectedValue}
+                                  </Button>
+                                </DropdownTrigger>
+                                <DropdownMenu 
+                                  aria-label="Single selection actions"
+                                  variant="flat"
+                                  disallowEmptySelection
+                                  selectionMode="single"
+                                  selectedKeys={selectedKeys}
+                                  onSelectionChange={setSelectedKeys}
+                                >
+                                  <DropdownItem key="Selecciona">Selecciona</DropdownItem>
+                                  <DropdownItem key="Femenino">CI</DropdownItem>
+                                  <DropdownItem key="Masculino">Pasaporte</DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
+                        </div>
+
+                        <div className="flex gap-4 w-full">
                         <Input
-                          className="w-full"
-                          placeholder="No. Identificación"
-                          value={noIdentificacion}
-                          onChange={(e) => setNoIdentificacion(e.target.value)}
+                            isRequired
+                            isClearable
+                            onClear={() => console.log("input cleared")}
+                            value={noIdentificacion}
+                            type="text"
+                            label="Número de identificación"
+                            variant="bordered"
+                            validationState={validacionNumero}
+                            onValueChange={setNoIdentificacion}
                         />
                         </div>
 
@@ -494,15 +605,18 @@ export default function App() {
     nombre,
     email,
     noIdentificacion,
-    avatar,
     tipoIdentificacion,
     fechaNacimiento,
     titulo,
     sexo,
-    edad,
     handleAgregar,
     isOpenModal2,
     onOpenChangeModal2,
+    selectedValue,
+    selectedKeys,
+    validacionN,
+    validacionTi,
+    validationState
   ]);
 
   const bottomContent = React.useMemo(() => {
@@ -566,7 +680,7 @@ export default function App() {
 
     <Modal isOpen={isOpenModal1} onOpenChange={onOpenChangeModal1}>
     <ModalContent>
-      {(onClose) => (
+      {(onClose) => ( 
         <>
           <ModalHeader className="flex flex-col gap-1">Actualizar usuario</ModalHeader>
           <ModalBody>
@@ -586,12 +700,6 @@ export default function App() {
                   defaultValue={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <Input
-                  className="w-full "
-                  label="Tipo de Identificación"
-                  defaultValue={tipoIdentificacion}
-                  onChange={(e) => setTipoIdentificacion(e.target.value)}
-                />
               </div>
               <div className="flex gap-4 w-full">
                 <Input
@@ -599,6 +707,12 @@ export default function App() {
                   label="Fecha de Nacimiento"
                   defaultValue={fechaNacimiento}
                   onChange={(e) => setFechaNacimiento(e.target.value)}
+                />
+                <Input
+                  className="w-full"
+                  label="Sexo"
+                  defaultValue={sexo}
+                  onChange={(e) => setSexo(e.target.value)}
                 />
               </div>
 
@@ -609,21 +723,15 @@ export default function App() {
                   defaultValue={titulo}
                   onChange={(e) => setTitulo(e.target.value)}
                 />
-                <Input
-                  className="w-full"
-                  label="Sexo"
-                  defaultValue={sexo}
-                  onChange={(e) => setSexo(e.target.value)}
-                />
               </div>
 
 
               <div className="flex gap-4 w-full">
               <Input
-                className="w-full"
-                label="Edad"
-                defaultValue={edad}
-                onChange={(e) => setEdad(e.target.value)}
+                className="w-full "
+                label="Tipo de Identificación"
+                defaultValue={tipoIdentificacion}
+                onChange={(e) => setTipoIdentificacion(e.target.value)}
               />
               <Input
                 className="w-full"
