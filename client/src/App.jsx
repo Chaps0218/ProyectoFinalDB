@@ -53,8 +53,8 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/proceso" element={<Proceso />} />
             <Route path="/academica" element={<Solicitud />} />
+            <Route path="/actividad" element={<Actividad />} />
             <Route path="/" element={<Inicio />} />
-            <Route path="/postulacion" element={<Usuarios />} />
             <Route element={<ProtectedRoute />}>
               <Route element={<ProtectedRouteRRHH />}>
                 <Route path="/registroRRHH" element={<RegistroRRHH />} />
@@ -80,7 +80,6 @@ const App = () => {
         </BrowserRouter>
       </AuthProvider>
     </ThemeContext.Provider>
- 
   );
 }
 
