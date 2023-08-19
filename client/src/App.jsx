@@ -26,6 +26,7 @@ import InfoPostulante from "./pages/InformacionPostulante";
 import SolicitudesPostulantes from "./pages/SolicitudesPostulantes";
 import InfoPostRRHH from "./pages/InformacionPostulacionRRHH";
 import InicioRRHH from "./pages/InicioRRHH";
+import InformacionPersonal from "./pages/InformacionPersonal";
 
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -68,6 +69,7 @@ const App = () => {
                 <Route path="/academica" element={<Solicitud />} />
                 <Route path="/infoPostRRHH" element={<InfoPostRRHH />} />
                 <Route path="/informacionrh" element={<Informacionrh />} />
+                <Route path="/informacionPersonal" element={<InformacionPersonal />} />
                 <Route path="/solicitudesPostulantes" element={<SolicitudesPostulantes />} />
               </Route>
               <Route element={<ProtectedRouteCandidato />}>
