@@ -32,24 +32,24 @@ const columns = [
 
 const INITIAL_VISIBLE_COLUMNS = ["nombreA", "descripcion", "actions"];
 
-const actividades = [
+const campoA = [
   {
     idA: 1,
-    nombreA: "Actividad 1",
-    descripcion: "Descripcion de la actividad 1"
+    nombreA: "Campo 1",
+    descripcion: "Descripcion del campo 1"
   },
   {
     idA: 2,
-    nombreA: "Actividad 2",
-    descripcion: "Descripcion de la actividad 2"
+    nombreA: "Campo 2",
+    descripcion: "Descripcion del campo 2"
 },
 ];
 
 
 export default function App() {
 
-  //!Variables para rellenar a todas las actividades
-  const [actividadesData, setActividadesData] = React.useState(actividades);
+  //!Variables para rellenar a todas las campoA
+  const [actividad, setActividad] = React.useState(campoA);
 
   //!Variables de agregacion y actualizacion
   const [idA, setIdA] = React.useState(0); //Para actualizar
@@ -74,53 +74,33 @@ export default function App() {
 
   //!Funcion para agregar una nueva actividad
   const handleAgregar = React.useCallback(() => {
-    if (nombreA.trim() === "" || descripcion.trim() === "") {
-      // Muestra un mensaje de error o realiza alguna acción apropiada aquí
-      console.log("Error: Los campos no pueden estar vacíos");
-      return;
-    }
-  
     const newUser = {
-      idA: actividades.length + 1,  
+      idA: campoA.length + 1,  
       nombreA: nombreA,
       descripcion: descripcion,
     };
-    setActividadesData((prevUsers) => [...prevUsers, newUser]);
-    clearInputFields(); // Llama a la función para limpiar los campos de entrada
-    onOpenChangeModal2(); 
-  }, [actividadesData, nombreA, descripcion, onOpenChangeModal2]);
-  
+    setActividad((prevUsers) => [...prevUsers, newUser]);
+    clearInputFields(); // Call the function to clear input fields
+  }, [nombreA, descripcion]);
 
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
     console.log("Deleting user with idA: ", idA);
-    console.log(actividadesData);
-    setActividadesData((prevActivities) =>
-      prevActivities.filter((activity) => activity.idA !== idA)
-    );
-    console.log(actividadesData);
-  }, [actividadesData]);
-  
+    console.log(actividad);
+    setActividad((prevUsers) => prevUsers.filter((user) => user.idA !== idA));
+    console.log(actividad);
+  }, [actividad]);
 
   //!Funcion de actualizar
   const handleActualizar = React.useCallback(() => {
-    if (nombreA.trim() === "" || descripcion.trim() === "") {
-      // Muestra un mensaje de error o realiza alguna acción apropiada aquí
-      console.log("Error: Los campos no pueden estar vacíos");
-      return;
-    }
-  
     const editedUser = {
       idA: idA,
       nombreA: nombreA,
       descripcion: descripcion,
     };
-    setActividadesData((prevUsers) =>
-      prevUsers.map((user) => (user.idA === idA ? editedUser : user))
-    );
-    clearInputFields(); // Llama a la función para limpiar los campos de entrada
-    onOpenChangeModal1(); // Cierra el modal de editar
-  }, [idA, nombreA, descripcion, onOpenChangeModal1]);
+    setActividad((prevUsers) => prevUsers.map((user) => (user.idA === idA ? editedUser : user)));
+    clearInputFields(); // Call the function to clear input fields
+  }, [idA, nombreA, descripcion]);
 
 
   const renderCell = React.useCallback((user, columnKey) => {
@@ -144,7 +124,7 @@ export default function App() {
       case "descripcion":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">Descripcion de la actividad</p>
+            <p className="text-bold text-sm capitalize">Descripcion del campo amplio</p>
             <p className="text-bold text-sm capitalize text-default-400">{user.descripcion}</p>
           </div>
         );
@@ -174,7 +154,6 @@ export default function App() {
   //!Funciones de filtro
   const [filterValue, setFilterValue] = React.useState("");
   const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS));
-  const [statusFilter] = React.useState("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(1);
   const [sortDescriptor, setSortDescriptor] = React.useState({
     column: "age",
@@ -191,7 +170,7 @@ export default function App() {
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...actividadesData];
+    let filteredUsers = [...actividad];
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter((user) =>
@@ -206,7 +185,7 @@ export default function App() {
     // }
 
     return filteredUsers;
-  }, [filterValue, statusFilter, hasSearchFilter, actividadesData]);
+  }, [filterValue, hasSearchFilter, actividad]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -313,11 +292,11 @@ export default function App() {
               <ModalContent>
                 {(onClose) => (
                   <>
-                    <ModalHeader className="flex flex-col gap-1">Agregar Actividad</ModalHeader>
+                    <ModalHeader className="flex flex-col gap-1">Agregar usuario</ModalHeader>
                     <ModalBody>
                       <div className="flex flex-wrap gap-8">
                         <div className="w-full">
-                        <Input
+                          <Input
                             isRequired
                             isClearable
                             onClear={() => console.log("input cleared")}
@@ -326,29 +305,25 @@ export default function App() {
                             label="Nombre"
                             variant="bordered"
                             color={validacionN === "invalido" ? "danger" : "success"}
-                            errorMessage={
-                              validacionN === "invalido" && "Ingresa un nombre válido"
-                            }
+                            errorMessage={validacionN === "invalido" && "Ingresa un nombreA valido"}
                             validationState={validacionN}
                             onValueChange={setNombreA}
                           />
-
-                          <Input
+                        </div>
+                        <div className="flex gap-4 w-full">
+                        <Input
                             isRequired
                             isClearable
                             onClear={() => console.log("input cleared")}
                             value={descripcion}
                             type="text"
-                            label="Descripción"
+                            label="Descripcion"
                             variant="bordered"
                             color={validacionN === "invalido" ? "danger" : "success"}
-                            errorMessage={
-                              validacionN === "invalido" && "Ingresa una descripción válida"
-                            }
+                            errorMessage={validacionN === "invalido" && "Ingresa un nombreA valido"}
                             validationState={validacionN}
                             onValueChange={setDescripcion}
                           />
-
                         </div>
                         </div>
                     </ModalBody>
@@ -366,7 +341,7 @@ export default function App() {
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {actividadesData.length} actividades</span>
+          <span className="text-default-400 text-small">Total {actividad.length} campos amplios</span>
           <label className="flex items-center text-default-400 text-small">
             Actividades por pagina:
             <select
@@ -387,13 +362,14 @@ export default function App() {
     onRowsPerPageChange,
     onSearchChange,
     onClear,
-    actividadesData.length,
+   actividad.length,
     onOpenModal2,
     nombreA,
     descripcion,
     handleAgregar,
     isOpenModal2,
     onOpenChangeModal2,
+    validacionN,
   ]);
 
   const bottomContent = React.useMemo(() => {
@@ -446,7 +422,7 @@ export default function App() {
         </TableColumn>
       )}
     </TableHeader>
-    <TableBody emptyContent={"No se encontraron actividades"} items={sortedItems}>
+    <TableBody emptyContent={"No se encontraron campoA"} items={sortedItems}>
       {(item) => (
         <TableRow key={item.idA}>
           {(columnKey) => <TableCell>{renderCell(item, columnKey, onOpenModal1)}</TableCell>}

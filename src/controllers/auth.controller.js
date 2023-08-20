@@ -64,6 +64,18 @@ async function getUltimoId() {
     return null;
   }
 }
+
+export const getUsuarios = async (req, res) => {
+  try {
+    const response = await axios.get(`${api}/candidato`);
+    const candidatos = response.data;
+    return res.status(200).json(candidatos);
+  } catch (error) {
+    console.error('Error al obtener candidatos:', error);
+    return res.status(500).json(["Error en el servidor"]);
+  }
+};
+
 export const register = async (req, res) => {
   const { tipoIden, identificacion, email, sexo, titulo, fecha_nacimiento, nombre1, nombre2, apellido1, apellido2 } = req.body;
 

@@ -14,7 +14,8 @@ import {
   DropdownItem,
   Pagination,
   Modal, ModalContent, ModalHeader, ModalBody, ModalFooter,
-  useDisclosure
+  useDisclosure,
+  Chip
 } from "@nextui-org/react";
 
 import {EditIcon} from "../../assets/EditIcon";
@@ -26,35 +27,66 @@ import { PlusIcon } from "../../assets/PlusIcon";
 
 const columns = [
   {name: "NOMBRE", uid: "nombreA", sortable: true},
+  {name: "CAMPO AMPLIO", uid: "campoAmplio"},
   {name: "DESCRIPCION", uid: "descripcion"},
   {name: "ACCIONES", uid: "actions"},
 ];
 
-const INITIAL_VISIBLE_COLUMNS = ["nombreA", "descripcion", "actions"];
+const INITIAL_VISIBLE_COLUMNS = ["nombreA", "descripcion", "campoAmplio","actions"];
 
-const actividades = [
+const campoA = [
   {
     idA: 1,
-    nombreA: "Actividad 1",
-    descripcion: "Descripcion de la actividad 1"
+    nombreA: "Campo Especifico 1",
+    descripcion: "Descripcion del campo 1",
+    ca_id: 1
   },
   {
     idA: 2,
-    nombreA: "Actividad 2",
-    descripcion: "Descripcion de la actividad 2"
+    nombreA: "Campo Especifico 2",
+    descripcion: "Descripcion del campo 2",
+    ca_id: 2
 },
 ];
+
+const nomCampA = [
+    {
+        ca_id: 1,
+        nombreCA: "Campo Amplio 1",
+    },
+    {
+        ca_id: 2,
+        nombreCA: "Campo Amplio 2",
+    }
+]
+
+const statusOptions = [];
+
+campoA.forEach(campo => {
+  const matchingNomCampA = nomCampA.find(item => item.ca_id === campo.ca_id);
+  if (matchingNomCampA && !statusOptions.some(option => option.name === matchingNomCampA.nombreCA)) {
+    statusOptions.push({ name: matchingNomCampA.nombreCA, uid: matchingNomCampA.nombreCA });
+  }
+
+  console.log(statusOptions);
+});
 
 
 export default function App() {
 
-  //!Variables para rellenar a todas las actividades
-  const [actividadesData, setActividadesData] = React.useState(actividades);
+  //!Variables para rellenar a todas las campoA
+  const [actividad, setActividad] = React.useState(campoA);
 
   //!Variables de agregacion y actualizacion
   const [idA, setIdA] = React.useState(0); //Para actualizar
   const [nombreA, setNombreA] = React.useState("");
   const [descripcion, setDescripcion] = React.useState("");
+  const [selectedKeys, setSelectedKeys] = React.useState(new Set(["Selecciona"]));
+
+  const selectedValue = React.useMemo(
+    () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
+    [selectedKeys]
+  );
 
   //!Variables para abrir y cerrar los modales de agregar y actualizar
   const { isOpen: isOpenModal1, onOpen: onOpenModal1, onOpenChange: onOpenChangeModal1 } = useDisclosure();
@@ -74,53 +106,33 @@ export default function App() {
 
   //!Funcion para agregar una nueva actividad
   const handleAgregar = React.useCallback(() => {
-    if (nombreA.trim() === "" || descripcion.trim() === "") {
-      // Muestra un mensaje de error o realiza alguna acción apropiada aquí
-      console.log("Error: Los campos no pueden estar vacíos");
-      return;
-    }
-  
     const newUser = {
-      idA: actividades.length + 1,  
+      idA: campoA.length + 1,  
       nombreA: nombreA,
       descripcion: descripcion,
     };
-    setActividadesData((prevUsers) => [...prevUsers, newUser]);
-    clearInputFields(); // Llama a la función para limpiar los campos de entrada
-    onOpenChangeModal2(); 
-  }, [actividadesData, nombreA, descripcion, onOpenChangeModal2]);
-  
+    setActividad((prevUsers) => [...prevUsers, newUser]);
+    clearInputFields(); // Call the function to clear input fields
+  }, [nombreA, descripcion]);
 
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
     console.log("Deleting user with idA: ", idA);
-    console.log(actividadesData);
-    setActividadesData((prevActivities) =>
-      prevActivities.filter((activity) => activity.idA !== idA)
-    );
-    console.log(actividadesData);
-  }, [actividadesData]);
-  
+    console.log(actividad);
+    setActividad((prevUsers) => prevUsers.filter((user) => user.idA !== idA));
+    console.log(actividad);
+  }, [actividad]);
 
   //!Funcion de actualizar
   const handleActualizar = React.useCallback(() => {
-    if (nombreA.trim() === "" || descripcion.trim() === "") {
-      // Muestra un mensaje de error o realiza alguna acción apropiada aquí
-      console.log("Error: Los campos no pueden estar vacíos");
-      return;
-    }
-  
     const editedUser = {
       idA: idA,
       nombreA: nombreA,
       descripcion: descripcion,
     };
-    setActividadesData((prevUsers) =>
-      prevUsers.map((user) => (user.idA === idA ? editedUser : user))
-    );
-    clearInputFields(); // Llama a la función para limpiar los campos de entrada
-    onOpenChangeModal1(); // Cierra el modal de editar
-  }, [idA, nombreA, descripcion, onOpenChangeModal1]);
+    setActividad((prevUsers) => prevUsers.map((user) => (user.idA === idA ? editedUser : user)));
+    clearInputFields(); // Call the function to clear input fields
+  }, [idA, nombreA, descripcion]);
 
 
   const renderCell = React.useCallback((user, columnKey) => {
@@ -144,9 +156,18 @@ export default function App() {
       case "descripcion":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">Descripcion de la actividad</p>
+            <p className="text-bold text-sm capitalize">Descripcion del campo amplio</p>
             <p className="text-bold text-sm capitalize text-default-400">{user.descripcion}</p>
           </div>
+        );
+      case "campoAmplio":
+        const foundCampoA = campoA.find(item => item.ca_id === user.ca_id);
+        const matchingNomCampA = foundCampoA ? nomCampA.find(item => item.ca_id === foundCampoA.ca_id) : null;
+
+        return (
+            <Chip className="capitalize" color="success" size="sm" variant="flat">
+            {matchingNomCampA ? matchingNomCampA.nombreCA : 'No matching value'}
+            </Chip>
         );
       case "actions":
         return (
@@ -174,12 +195,11 @@ export default function App() {
   //!Funciones de filtro
   const [filterValue, setFilterValue] = React.useState("");
   const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS));
-  const [statusFilter] = React.useState("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(1);
   const [sortDescriptor, setSortDescriptor] = React.useState({
     column: "age",
     direction: "ascending",
-  });
+  });   
   const [page, setPage] = React.useState(1);
 
   const hasSearchFilter = Boolean(filterValue);
@@ -191,7 +211,7 @@ export default function App() {
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...actividadesData];
+    let filteredUsers = [...actividad];
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter((user) =>
@@ -199,14 +219,8 @@ export default function App() {
       );
     }
 
-    // if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
-    //   filteredUsers = filteredUsers.filter((user) =>
-    //     Array.from(statusFilter).includes(user.sexo),
-    //   );
-    // }
-
     return filteredUsers;
-  }, [filterValue, statusFilter, hasSearchFilter, actividadesData]);
+  }, [filterValue, hasSearchFilter, actividad]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -313,11 +327,11 @@ export default function App() {
               <ModalContent>
                 {(onClose) => (
                   <>
-                    <ModalHeader className="flex flex-col gap-1">Agregar Actividad</ModalHeader>
+                    <ModalHeader className="flex flex-col gap-1">Agregar usuario</ModalHeader>
                     <ModalBody>
                       <div className="flex flex-wrap gap-8">
                         <div className="w-full">
-                        <Input
+                          <Input
                             isRequired
                             isClearable
                             onClear={() => console.log("input cleared")}
@@ -326,29 +340,53 @@ export default function App() {
                             label="Nombre"
                             variant="bordered"
                             color={validacionN === "invalido" ? "danger" : "success"}
-                            errorMessage={
-                              validacionN === "invalido" && "Ingresa un nombre válido"
-                            }
+                            errorMessage={validacionN === "invalido" && "Ingresa un nombreA valido"}
                             validationState={validacionN}
                             onValueChange={setNombreA}
                           />
-
-                          <Input
+                        </div>
+                        <div className="flex gap-4 w-full">
+                        <Input
                             isRequired
                             isClearable
                             onClear={() => console.log("input cleared")}
                             value={descripcion}
                             type="text"
-                            label="Descripción"
+                            label="Descripcion"
                             variant="bordered"
                             color={validacionN === "invalido" ? "danger" : "success"}
-                            errorMessage={
-                              validacionN === "invalido" && "Ingresa una descripción válida"
-                            }
+                            errorMessage={validacionN === "invalido" && "Ingresa un nombreA valido"}
                             validationState={validacionN}
                             onValueChange={setDescripcion}
                           />
+                        </div>
+                        <div className="flex items-center gap-4">
 
+                        <Chip color="success" variant="bordered">Campo Amplio: </Chip>
+                            <Dropdown>
+                              <DropdownTrigger>
+                                  <Button 
+                                    variant="flat"
+                                    className="capitalize"
+                                  >
+                                    {selectedValue}
+                                  </Button>
+                                </DropdownTrigger>
+                                <DropdownMenu 
+                                  aria-label="Single selection actions"
+                                  variant="flat"
+                                  disallowEmptySelection
+                                  selectionMode="single"
+                                  selectedKeys={selectedKeys}
+                                  onSelectionChange={setSelectedKeys}
+                                >
+                                    {statusOptions.map((column) => (
+                                    <DropdownItem key={column.name} className="capitalize">
+                                        {capitalize(column.name)}
+                                    </DropdownItem>
+                                    ))}
+                                </DropdownMenu>
+                            </Dropdown>                         
                         </div>
                         </div>
                     </ModalBody>
@@ -366,7 +404,7 @@ export default function App() {
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {actividadesData.length} actividades</span>
+          <span className="text-default-400 text-small">Total {actividad.length} campos amplios</span>
           <label className="flex items-center text-default-400 text-small">
             Actividades por pagina:
             <select
@@ -387,13 +425,16 @@ export default function App() {
     onRowsPerPageChange,
     onSearchChange,
     onClear,
-    actividadesData.length,
+   actividad.length,
     onOpenModal2,
     nombreA,
     descripcion,
     handleAgregar,
     isOpenModal2,
     onOpenChangeModal2,
+    validacionN,
+    selectedKeys,
+    selectedValue
   ]);
 
   const bottomContent = React.useMemo(() => {
@@ -446,7 +487,7 @@ export default function App() {
         </TableColumn>
       )}
     </TableHeader>
-    <TableBody emptyContent={"No se encontraron actividades"} items={sortedItems}>
+    <TableBody emptyContent={"No se encontraron campoA"} items={sortedItems}>
       {(item) => (
         <TableRow key={item.idA}>
           {(columnKey) => <TableCell>{renderCell(item, columnKey, onOpenModal1)}</TableCell>}
@@ -492,6 +533,34 @@ export default function App() {
                     onValueChange={setDescripcion}
                     />
                 </div>
+                
+                <div className="flex items-center gap-4">
+                <Chip color="success" variant="bordered">Campo Amplio: </Chip>
+                            <Dropdown>
+                              <DropdownTrigger>
+                                  <Button 
+                                    variant="flat"
+                                    className="capitalize"
+                                  >
+                                    {selectedValue}
+                                  </Button>
+                                </DropdownTrigger>
+                                <DropdownMenu 
+                                  aria-label="Single selection actions"
+                                  variant="flat"
+                                  disallowEmptySelection
+                                  selectionMode="single"
+                                  selectedKeys={selectedKeys}
+                                  onSelectionChange={setSelectedKeys}
+                                >
+                                    {statusOptions.map((column) => (
+                                    <DropdownItem key={column.name} className="capitalize">
+                                        {capitalize(column.name)}
+                                    </DropdownItem>
+                                    ))}
+                                </DropdownMenu>
+                            </Dropdown>   
+                    </div>
             </div>
           </ModalBody>
           <ModalFooter>
