@@ -30,7 +30,7 @@ import InformacionPersonal from "./pages/InformacionPersonal";
 
 import ListaPostulantes from "./pages/ListaPostulantes";
 
-import Actividad from "./components/CRUD/CEspecifico";
+import Actividad from "./components/CRUD/Contratacion";
 
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
