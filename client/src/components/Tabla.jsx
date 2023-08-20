@@ -266,7 +266,7 @@ export default function App() {
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {users.length} users</span>
+          <span className="text-default-400 text-small">Total {users.length} usuarios</span>
           <label className="flex items-center text-default-400 text-small">
             Usuarios por pagina:
             <select

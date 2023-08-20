@@ -26,30 +26,34 @@ import { PlusIcon } from "../../assets/PlusIcon";
 
 const columns = [
   {name: "NOMBRE", uid: "nombreA", sortable: true},
+  {name: "CAMPO AMPLIO", uid: "campoAmplio", sortable: true},
   {name: "DESCRIPCION", uid: "descripcion"},
   {name: "ACCIONES", uid: "actions"},
 ];
 
 const INITIAL_VISIBLE_COLUMNS = ["nombreA", "descripcion", "actions"];
 
-const actividades = [
+const campoA = [
   {
     idA: 1,
-    nombreA: "Actividad 1",
-    descripcion: "Descripcion de la actividad 1"
+    nombreA: "Campo 1",
+    descripcion: "Descripcion del campo 1"
   },
   {
     idA: 2,
-    nombreA: "Actividad 2",
-    descripcion: "Descripcion de la actividad 2"
+    nombreA: "Campo 2",
+    descripcion: "Descripcion del campo 2"
 },
 ];
 
+const nomCampA = [
+    "campo1", "campo2"
+]
 
 export default function App() {
 
-  //!Variables para rellenar a todas las actividades
-  const [actividad, setActividad] = React.useState(actividades);
+  //!Variables para rellenar a todas las campoA
+  const [actividad, setActividad] = React.useState(campoA);
 
   //!Variables de agregacion y actualizacion
   const [idA, setIdA] = React.useState(0); //Para actualizar
@@ -75,7 +79,7 @@ export default function App() {
   //!Funcion para agregar una nueva actividad
   const handleAgregar = React.useCallback(() => {
     const newUser = {
-      idA: actividades.length + 1,  
+      idA: campoA.length + 1,  
       nombreA: nombreA,
       descripcion: descripcion,
     };
@@ -124,7 +128,7 @@ export default function App() {
       case "descripcion":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">Descripcion de la actividad</p>
+            <p className="text-bold text-sm capitalize">Descripcion del campo amplio</p>
             <p className="text-bold text-sm capitalize text-default-400">{user.descripcion}</p>
           </div>
         );
@@ -342,7 +346,7 @@ export default function App() {
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {actividad.length} actividades</span>
+          <span className="text-default-400 text-small">Total {actividad.length} campos amplios</span>
           <label className="flex items-center text-default-400 text-small">
             Actividades por pagina:
             <select
@@ -422,7 +426,7 @@ export default function App() {
         </TableColumn>
       )}
     </TableHeader>
-    <TableBody emptyContent={"No se encontraron actividades"} items={sortedItems}>
+    <TableBody emptyContent={"No se encontraron campoA"} items={sortedItems}>
       {(item) => (
         <TableRow key={item.idA}>
           {(columnKey) => <TableCell>{renderCell(item, columnKey, onOpenModal1)}</TableCell>}
