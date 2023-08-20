@@ -5,7 +5,7 @@ import {Tabs,
         CardBody,
         } from "@nextui-org/react";
 
-import styles from "../styles/Solicitud.module.css";
+import styles from "./stylesCRUD.module.css";
 // import Boton from "../components/Boton.jsx"
 import Tabla from "../components/Tabla.jsx"
 import Actividad from "../components/CRUD/Actividad.jsx"
@@ -27,14 +27,6 @@ const Solicitud = () => {
         panel: styles.panel,
       }} 
       aria-label="Options">
-
-      <Tab key="inicio" title="Inicio">
-        <Card>
-          <CardBody>
-            <CInicio/>
-          </CardBody>
-        </Card>  
-      </Tab>
 
       <Tab key="candidato" title="Candidato">
         <Card>

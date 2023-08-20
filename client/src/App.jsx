@@ -27,6 +27,7 @@ import SolicitudesPostulantes from "./pages/SolicitudesPostulantes";
 import InfoPostRRHH from "./pages/InformacionPostulacionRRHH";
 import InicioRRHH from "./pages/InicioRRHH";
 import InformacionPersonal from "./pages/InformacionPersonal";
+import PRUEBA from "./pages/PRUEBA.jsx";
 
 import ListaPostulantes from "./pages/ListaPostulantes";
 
@@ -54,6 +55,7 @@ const App = () => {
             <Route path="/proceso" element={<Proceso />} />
             <Route path="/academica" element={<Solicitud />} />
             <Route path="/actividad" element={<Actividad />} />
+            <Route path="/prueba" element={<PRUEBA />} />
             <Route path="/" element={<Inicio />} />
             <Route element={<ProtectedRoute />}>
               <Route element={<ProtectedRouteRRHH />}>
