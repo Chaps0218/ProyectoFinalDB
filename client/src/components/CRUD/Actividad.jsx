@@ -49,7 +49,7 @@ const actividades = [
 export default function App() {
 
   //!Variables para rellenar a todas las actividades
-  const [actividad, setActividad] = React.useState(actividades);
+  const [actividadesData, setActividadesData] = React.useState(actividades);
 
   //!Variables de agregacion y actualizacion
   const [idA, setIdA] = React.useState(0); //Para actualizar
@@ -74,33 +74,53 @@ export default function App() {
 
   //!Funcion para agregar una nueva actividad
   const handleAgregar = React.useCallback(() => {
+    if (nombreA.trim() === "" || descripcion.trim() === "") {
+      // Muestra un mensaje de error o realiza alguna acción apropiada aquí
+      console.log("Error: Los campos no pueden estar vacíos");
+      return;
+    }
+  
     const newUser = {
       idA: actividades.length + 1,  
       nombreA: nombreA,
       descripcion: descripcion,
     };
-    setActividad((prevUsers) => [...prevUsers, newUser]);
-    clearInputFields(); // Call the function to clear input fields
-  }, [actividad, nombreA, descripcion]);
+    setActividadesData((prevUsers) => [...prevUsers, newUser]);
+    clearInputFields(); // Llama a la función para limpiar los campos de entrada
+    onOpenChangeModal2(); 
+  }, [actividadesData, nombreA, descripcion, onOpenChangeModal2]);
+  
 
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
     console.log("Deleting user with idA: ", idA);
-    console.log(actividad);
-    setActividad((prevUsers) => prevUsers.filter((user) => user.idA !== idA));
-    console.log(actividad);
-  }, [actividad]);
+    console.log(actividadesData);
+    setActividadesData((prevActivities) =>
+      prevActivities.filter((activity) => activity.idA !== idA)
+    );
+    console.log(actividadesData);
+  }, [actividadesData]);
+  
 
   //!Funcion de actualizar
   const handleActualizar = React.useCallback(() => {
+    if (nombreA.trim() === "" || descripcion.trim() === "") {
+      // Muestra un mensaje de error o realiza alguna acción apropiada aquí
+      console.log("Error: Los campos no pueden estar vacíos");
+      return;
+    }
+  
     const editedUser = {
       idA: idA,
       nombreA: nombreA,
       descripcion: descripcion,
     };
-    setActividad((prevUsers) => prevUsers.map((user) => (user.idA === idA ? editedUser : user)));
-    clearInputFields(); // Call the function to clear input fields
-  }, [idA, nombreA, descripcion]);
+    setActividadesData((prevUsers) =>
+      prevUsers.map((user) => (user.idA === idA ? editedUser : user))
+    );
+    clearInputFields(); // Llama a la función para limpiar los campos de entrada
+    onOpenChangeModal1(); // Cierra el modal de editar
+  }, [idA, nombreA, descripcion, onOpenChangeModal1]);
 
 
   const renderCell = React.useCallback((user, columnKey) => {
@@ -171,7 +191,7 @@ export default function App() {
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...actividad];
+    let filteredUsers = [...actividadesData];
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter((user) =>
@@ -186,7 +206,7 @@ export default function App() {
     // }
 
     return filteredUsers;
-  }, [filterValue, statusFilter, hasSearchFilter, actividad]);
+  }, [filterValue, statusFilter, hasSearchFilter, actividadesData]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -293,11 +313,11 @@ export default function App() {
               <ModalContent>
                 {(onClose) => (
                   <>
-                    <ModalHeader className="flex flex-col gap-1">Agregar usuario</ModalHeader>
+                    <ModalHeader className="flex flex-col gap-1">Agregar Actividad</ModalHeader>
                     <ModalBody>
                       <div className="flex flex-wrap gap-8">
                         <div className="w-full">
-                          <Input
+                        <Input
                             isRequired
                             isClearable
                             onClear={() => console.log("input cleared")}
@@ -306,25 +326,29 @@ export default function App() {
                             label="Nombre"
                             variant="bordered"
                             color={validacionN === "invalido" ? "danger" : "success"}
-                            errorMessage={validacionN === "invalido" && "Ingresa un nombreA valido"}
+                            errorMessage={
+                              validacionN === "invalido" && "Ingresa un nombre válido"
+                            }
                             validationState={validacionN}
                             onValueChange={setNombreA}
                           />
-                        </div>
-                        <div className="flex gap-4 w-full">
-                        <Input
+
+                          <Input
                             isRequired
                             isClearable
                             onClear={() => console.log("input cleared")}
                             value={descripcion}
                             type="text"
-                            label="Descripcion"
+                            label="Descripción"
                             variant="bordered"
                             color={validacionN === "invalido" ? "danger" : "success"}
-                            errorMessage={validacionN === "invalido" && "Ingresa un nombreA valido"}
+                            errorMessage={
+                              validacionN === "invalido" && "Ingresa una descripción válida"
+                            }
                             validationState={validacionN}
                             onValueChange={setDescripcion}
                           />
+
                         </div>
                         </div>
                     </ModalBody>
@@ -342,7 +366,7 @@ export default function App() {
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {actividad.length} actividades</span>
+          <span className="text-default-400 text-small">Total {actividadesData.length} actividades</span>
           <label className="flex items-center text-default-400 text-small">
             Actividades por pagina:
             <select
@@ -363,7 +387,7 @@ export default function App() {
     onRowsPerPageChange,
     onSearchChange,
     onClear,
-   actividad.length,
+    actividadesData.length,
     onOpenModal2,
     nombreA,
     descripcion,
