@@ -26,19 +26,22 @@ import { PlusIcon } from "../../assets/PlusIcon";
 
 const columns = [
   {name: "NOMBRE", uid: "nombreA", sortable: true},
+  {name: "DESCRIPCION", uid: "descripcion"},
   {name: "ACCIONES", uid: "actions"},
 ];
 
-const INITIAL_VISIBLE_COLUMNS = ["nombreA", "actions"];
+const INITIAL_VISIBLE_COLUMNS = ["nombreA", "descripcion", "actions"];
 
 const campoA = [
   {
     idA: 1,
-    nombreA: "Contratacion 1",
+    nombreA: "Departamento 1",
+    descripcion: "Descripcion del depa1"
   },
   {
     idA: 2,
-    nombreA: "Contratacion 2",
+    nombreA: "Departamento 2",
+    descripcion: "Descripcion del depa2"
 },
 ];
 
@@ -51,6 +54,7 @@ export default function App() {
   //!Variables de agregacion y actualizacion
   const [idA, setIdA] = React.useState(0); //Para actualizar
   const [nombreA, setNombreA] = React.useState("");
+  const [descripcion, setDescripcion] = React.useState("");
 
   //!Variables para abrir y cerrar los modales de agregar y actualizar
   const { isOpen: isOpenModal1, onOpen: onOpenModal1, onOpenChange: onOpenChangeModal1 } = useDisclosure();
@@ -59,6 +63,7 @@ export default function App() {
   //Limpio los valores
   const clearInputFields = () => {
     setNombreA("");
+    setDescripcion("");
   };
 
   const validacionN = React.useMemo(() => {
@@ -72,10 +77,11 @@ export default function App() {
     const newUser = {
       idA: campoA.length + 1,  
       nombreA: nombreA,
+      descripcion: descripcion,
     };
     setActividad((prevUsers) => [...prevUsers, newUser]);
     clearInputFields(); // Call the function to clear input fields
-  }, [nombreA]);
+  }, [nombreA, descripcion]);
 
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
@@ -90,10 +96,11 @@ export default function App() {
     const editedUser = {
       idA: idA,
       nombreA: nombreA,
+      descripcion: descripcion,
     };
     setActividad((prevUsers) => prevUsers.map((user) => (user.idA === idA ? editedUser : user)));
     clearInputFields(); // Call the function to clear input fields
-  }, [idA, nombreA]);
+  }, [idA, nombreA, descripcion]);
 
 
   const renderCell = React.useCallback((user, columnKey) => {
@@ -104,6 +111,7 @@ export default function App() {
       onOpenModal1(); // Open the modal
       setIdA(idA); // Clear the idA
       setNombreA(nombreA);
+      setDescripcion(descripcion);
     }
 
     switch (columnKey) {
@@ -113,6 +121,13 @@ export default function App() {
             <p className="text-bold text-sm capitalize">{cellValue}</p>
           </div>
         );
+      case "descripcion":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-sm capitalize">Descripcion del departamento</p>
+            <p className="text-bold text-sm capitalize text-default-400">{user.descripcion}</p>
+          </div>
+        );
       case "actions":
         return (
           <div className="relative flex items-center gap-2">
@@ -120,7 +135,7 @@ export default function App() {
           <Button color="success" 
             isIconOnly 
             variant="faded" 
-            onPress={ () => handleButtonPress(user.idA, user.nombreA)}
+            onPress={ () => handleButtonPress(user.idA, user.nombreA, user.descripcion)}
             >
               <EditIcon />
             </Button>
@@ -295,6 +310,21 @@ export default function App() {
                             onValueChange={setNombreA}
                           />
                         </div>
+                        <div className="flex gap-4 w-full">
+                        <Input
+                            isRequired
+                            isClearable
+                            onClear={() => console.log("input cleared")}
+                            value={descripcion}
+                            type="text"
+                            label="Descripcion"
+                            variant="bordered"
+                            color={validacionN === "invalido" ? "danger" : "success"}
+                            errorMessage={validacionN === "invalido" && "Ingresa un nombreA valido"}
+                            validationState={validacionN}
+                            onValueChange={setDescripcion}
+                          />
+                        </div>
                         </div>
                     </ModalBody>
                     <ModalFooter>
@@ -311,9 +341,9 @@ export default function App() {
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {actividad.length} contrataciones</span>
+          <span className="text-default-400 text-small">Total {actividad.length} departamentos</span>
           <label className="flex items-center text-default-400 text-small">
-            Contrataciones por pagina:
+            Departamento por pagina:
             <select
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
@@ -335,6 +365,7 @@ export default function App() {
    actividad.length,
     onOpenModal2,
     nombreA,
+    descripcion,
     handleAgregar,
     isOpenModal2,
     onOpenChangeModal2,
@@ -355,10 +386,10 @@ export default function App() {
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
           <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage}>
-            Previous
+            Previo
           </Button>
           <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage}>
-            Next
+            Siguiente
           </Button>
         </div>
       </div>
@@ -391,7 +422,7 @@ export default function App() {
         </TableColumn>
       )}
     </TableHeader>
-    <TableBody emptyContent={"No se encontraron campoA"} items={sortedItems}>
+    <TableBody emptyContent={"No se encontraron departamentos"} items={sortedItems}>
       {(item) => (
         <TableRow key={item.idA}>
           {(columnKey) => <TableCell>{renderCell(item, columnKey, onOpenModal1)}</TableCell>}
@@ -420,6 +451,21 @@ export default function App() {
                     errorMessage={validacionN === "invalido" && "Ingresa un nombreA valido"}
                     validationState={validacionN}
                     onValueChange={setNombreA}
+                    />
+                </div>
+                <div className="flex gap-4 w-full">
+                <Input
+                    isRequired
+                    isClearable
+                    onClear={() => console.log("input cleared")}
+                    value={descripcion}
+                    type="text"
+                    label="Descripcion"
+                    variant="bordered"
+                    color={validacionN === "invalido" ? "danger" : "success"}
+                    errorMessage={validacionN === "invalido" && "Ingresa un nombreA valido"}
+                    validationState={validacionN}
+                    onValueChange={setDescripcion}
                     />
                 </div>
             </div>
