@@ -14,7 +14,8 @@ import {
   DropdownItem,
   Pagination,
   Modal, ModalContent, ModalHeader, ModalBody, ModalFooter,
-  useDisclosure
+  useDisclosure,
+  Chip
 } from "@nextui-org/react";
 
 import {EditIcon} from "../../assets/EditIcon";
@@ -26,29 +27,50 @@ import { PlusIcon } from "../../assets/PlusIcon";
 
 const columns = [
   {name: "NOMBRE", uid: "nombreA", sortable: true},
-  {name: "CAMPO AMPLIO", uid: "campoAmplio", sortable: true},
+  {name: "CAMPO AMPLIO", uid: "campoAmplio"},
   {name: "DESCRIPCION", uid: "descripcion"},
   {name: "ACCIONES", uid: "actions"},
 ];
 
-const INITIAL_VISIBLE_COLUMNS = ["nombreA", "descripcion", "actions"];
+const INITIAL_VISIBLE_COLUMNS = ["nombreA", "descripcion", "campoAmplio","actions"];
 
 const campoA = [
   {
     idA: 1,
-    nombreA: "Campo 1",
-    descripcion: "Descripcion del campo 1"
+    nombreA: "Campo Especifico 1",
+    descripcion: "Descripcion del campo 1",
+    ca_id: 1
   },
   {
     idA: 2,
-    nombreA: "Campo 2",
-    descripcion: "Descripcion del campo 2"
+    nombreA: "Campo Especifico 2",
+    descripcion: "Descripcion del campo 2",
+    ca_id: 2
 },
 ];
 
 const nomCampA = [
-    "campo1", "campo2"
+    {
+        ca_id: 1,
+        nombreCA: "Campo Amplio 1",
+    },
+    {
+        ca_id: 2,
+        nombreCA: "Campo Amplio 2",
+    }
 ]
+
+const statusOptions = [];
+
+campoA.forEach(campo => {
+  const matchingNomCampA = nomCampA.find(item => item.ca_id === campo.ca_id);
+  if (matchingNomCampA && !statusOptions.some(option => option.name === matchingNomCampA.nombreCA)) {
+    statusOptions.push({ name: matchingNomCampA.nombreCA, uid: matchingNomCampA.nombreCA });
+  }
+
+  console.log(statusOptions);
+});
+
 
 export default function App() {
 
@@ -59,6 +81,12 @@ export default function App() {
   const [idA, setIdA] = React.useState(0); //Para actualizar
   const [nombreA, setNombreA] = React.useState("");
   const [descripcion, setDescripcion] = React.useState("");
+  const [selectedKeys, setSelectedKeys] = React.useState(new Set(["Selecciona"]));
+
+  const selectedValue = React.useMemo(
+    () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
+    [selectedKeys]
+  );
 
   //!Variables para abrir y cerrar los modales de agregar y actualizar
   const { isOpen: isOpenModal1, onOpen: onOpenModal1, onOpenChange: onOpenChangeModal1 } = useDisclosure();
@@ -85,7 +113,7 @@ export default function App() {
     };
     setActividad((prevUsers) => [...prevUsers, newUser]);
     clearInputFields(); // Call the function to clear input fields
-  }, [actividad, nombreA, descripcion]);
+  }, [nombreA, descripcion]);
 
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
@@ -132,6 +160,15 @@ export default function App() {
             <p className="text-bold text-sm capitalize text-default-400">{user.descripcion}</p>
           </div>
         );
+      case "campoAmplio":
+        const foundCampoA = campoA.find(item => item.ca_id === user.ca_id);
+        const matchingNomCampA = foundCampoA ? nomCampA.find(item => item.ca_id === foundCampoA.ca_id) : null;
+
+        return (
+            <Chip className="capitalize" color="success" size="sm" variant="flat">
+            {matchingNomCampA ? matchingNomCampA.nombreCA : 'No matching value'}
+            </Chip>
+        );
       case "actions":
         return (
           <div className="relative flex items-center gap-2">
@@ -158,12 +195,11 @@ export default function App() {
   //!Funciones de filtro
   const [filterValue, setFilterValue] = React.useState("");
   const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS));
-  const [statusFilter] = React.useState("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(1);
   const [sortDescriptor, setSortDescriptor] = React.useState({
     column: "age",
     direction: "ascending",
-  });
+  });   
   const [page, setPage] = React.useState(1);
 
   const hasSearchFilter = Boolean(filterValue);
@@ -183,14 +219,8 @@ export default function App() {
       );
     }
 
-    // if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
-    //   filteredUsers = filteredUsers.filter((user) =>
-    //     Array.from(statusFilter).includes(user.sexo),
-    //   );
-    // }
-
     return filteredUsers;
-  }, [filterValue, statusFilter, hasSearchFilter, actividad]);
+  }, [filterValue, hasSearchFilter, actividad]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -330,6 +360,34 @@ export default function App() {
                             onValueChange={setDescripcion}
                           />
                         </div>
+                        <div className="flex items-center gap-4">
+
+                        <Chip color="success" variant="bordered">Campo Amplio: </Chip>
+                            <Dropdown>
+                              <DropdownTrigger>
+                                  <Button 
+                                    variant="flat"
+                                    className="capitalize"
+                                  >
+                                    {selectedValue}
+                                  </Button>
+                                </DropdownTrigger>
+                                <DropdownMenu 
+                                  aria-label="Single selection actions"
+                                  variant="flat"
+                                  disallowEmptySelection
+                                  selectionMode="single"
+                                  selectedKeys={selectedKeys}
+                                  onSelectionChange={setSelectedKeys}
+                                >
+                                    {statusOptions.map((column) => (
+                                    <DropdownItem key={column.name} className="capitalize">
+                                        {capitalize(column.name)}
+                                    </DropdownItem>
+                                    ))}
+                                </DropdownMenu>
+                            </Dropdown>                         
+                        </div>
                         </div>
                     </ModalBody>
                     <ModalFooter>
@@ -374,6 +432,9 @@ export default function App() {
     handleAgregar,
     isOpenModal2,
     onOpenChangeModal2,
+    validacionN,
+    selectedKeys,
+    selectedValue
   ]);
 
   const bottomContent = React.useMemo(() => {
@@ -472,6 +533,34 @@ export default function App() {
                     onValueChange={setDescripcion}
                     />
                 </div>
+                
+                <div className="flex items-center gap-4">
+                <Chip color="success" variant="bordered">Campo Amplio: </Chip>
+                            <Dropdown>
+                              <DropdownTrigger>
+                                  <Button 
+                                    variant="flat"
+                                    className="capitalize"
+                                  >
+                                    {selectedValue}
+                                  </Button>
+                                </DropdownTrigger>
+                                <DropdownMenu 
+                                  aria-label="Single selection actions"
+                                  variant="flat"
+                                  disallowEmptySelection
+                                  selectionMode="single"
+                                  selectedKeys={selectedKeys}
+                                  onSelectionChange={setSelectedKeys}
+                                >
+                                    {statusOptions.map((column) => (
+                                    <DropdownItem key={column.name} className="capitalize">
+                                        {capitalize(column.name)}
+                                    </DropdownItem>
+                                    ))}
+                                </DropdownMenu>
+                            </Dropdown>   
+                    </div>
             </div>
           </ModalBody>
           <ModalFooter>

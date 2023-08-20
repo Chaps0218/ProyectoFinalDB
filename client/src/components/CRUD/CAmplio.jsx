@@ -81,7 +81,7 @@ export default function App() {
     };
     setActividad((prevUsers) => [...prevUsers, newUser]);
     clearInputFields(); // Call the function to clear input fields
-  }, [actividad, nombreA, descripcion]);
+  }, [nombreA, descripcion]);
 
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
@@ -154,7 +154,6 @@ export default function App() {
   //!Funciones de filtro
   const [filterValue, setFilterValue] = React.useState("");
   const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS));
-  const [statusFilter] = React.useState("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(1);
   const [sortDescriptor, setSortDescriptor] = React.useState({
     column: "age",
@@ -186,7 +185,7 @@ export default function App() {
     // }
 
     return filteredUsers;
-  }, [filterValue, statusFilter, hasSearchFilter, actividad]);
+  }, [filterValue, hasSearchFilter, actividad]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -370,6 +369,7 @@ export default function App() {
     handleAgregar,
     isOpenModal2,
     onOpenChangeModal2,
+    validacionN,
   ]);
 
   const bottomContent = React.useMemo(() => {
