@@ -1,12 +1,133 @@
-import React, { useState } from 'react';
-import PopupDocument from './PopupDocument'; 
-import Popup from './Popup'; 
+import React, { useEffect, useState } from 'react';
+import { extraerOferta, extraerContrato,extraerTipoContrato, extraerPersonalAcademico, extraercampoAmplio, extraercampoEspecifico, extraerSede, extraerDepartamento, extraerActividad } from "../api/contratacion";
+import PopupDocument from './PopupDocument';
+import Popup from './Popup';
 import './CustomComponentForm.css'
+
 
 const CustomComponentForm = ({ title }) => {
     // Estado para controlar si se muestra la ventana emergente
+    const [contratos, setContratos] = useState([]);
+    const [ofertas, setOfertas] = useState([]);
+    const [personalAcademico, setPersonalAcademico] = useState([]);
+    const [campoAmplio, setCampoAmplio] = useState([]);
+    const [campoEspecifico, setCampoEspecifico] = useState([]);
+    const [sede, setSede] = useState([]);
+    const [departamento, setDepartamento] = useState([]);
+    const [actividad, setActividad] = useState([]);
+    const [tipoContrato, setTipoContrato] = useState([]);
+    
+
     const [showPopup, setShowPopup] = useState(false);
     const [showPopup2, setShowPopup2] = useState(false);
+
+
+
+    useEffect(() => {
+        extraerContrato()
+            .then((res) => {
+                setContratos(res.data);
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    useEffect(() => {
+        extraerOferta()
+            .then((res) => {
+                setOfertas(res.data);
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    useEffect(() => {
+        extraerTipoContrato()
+            .then((res) => {
+                setTipoContrato(res.data);
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    useEffect(() => {
+        extraerPersonalAcademico()
+            .then((res) => {
+                setPersonalAcademico(res.data);
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    useEffect(() => {
+        extraercampoAmplio()
+            .then((res) => {
+                setCampoAmplio(res.data);
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    useEffect(() => {
+        extraercampoEspecifico()
+            .then((res) => {
+                setCampoEspecifico(res.data);
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    useEffect(() => {
+        extraerSede()
+            .then((res) => {
+                setSede(res.data);
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    useEffect(() => {
+        extraerDepartamento()
+            .then((res) => {
+                setDepartamento(res.data);
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    useEffect(() => {
+        extraerActividad()
+            .then((res) => {
+                setActividad(res.data);
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+
+
+
+
+
+
 
     // Función para abrir la ventana emergente
     const handleOpenPopup = () => {
@@ -40,13 +161,13 @@ const CustomComponentForm = ({ title }) => {
     return (
         <div className="documents-list">
 
-            
+
             <h1 className="documents-title">{title}</h1>
             <hr className="documents-divider" />
 
 
-            
-            
+
+
             <div className="form-line">
                 <div>
                     <h1>Proceso:</h1>
@@ -65,7 +186,7 @@ const CustomComponentForm = ({ title }) => {
                     </select>
                 </div>
             </div>
-            
+
             <div className="form-line">
                 <div>
                     <h1>Tipo de personal académico:</h1>
@@ -85,7 +206,7 @@ const CustomComponentForm = ({ title }) => {
                     </select>
                 </div>
             </div>
-            
+
             <div className="form-line">
                 <div>
                     <h1>Campo específico:</h1>
@@ -128,8 +249,8 @@ const CustomComponentForm = ({ title }) => {
                     </tbody>
                 </table>
             </div>
-            
-            
+
+
             <div className='buttons-container'>
                 <button className='button-enviar-info' onClick={handleAccept}>Enviar información</button>
                 {showPopup2 && (
