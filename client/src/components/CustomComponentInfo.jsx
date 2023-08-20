@@ -4,23 +4,7 @@ import Popup from './Popup';
 import './CustomComponentInfo.css'
 
 const CustomComponentForm = ({ title }) => {
-    // Estado para controlar si se muestra la ventana emergente
-    const [showPopup, setShowPopup] = useState(false);
-    const [showPopup2, setShowPopup2] = useState(false);
 
-    // Función para abrir la ventana emergente
-    const handleOpenPopup = () => {
-        setShowPopup(true);
-    };
-
-    const handleAccept = () => {
-        setShowPopup2(true);
-    };
-
-    // Función para cerrar la ventana emergente
-    const handleClosePopup = () => {
-        setShowPopup(false);
-    };
 
     return (
         <div className="documents-list">
