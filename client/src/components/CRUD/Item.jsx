@@ -27,7 +27,7 @@ import { PlusIcon } from "../../assets/PlusIcon";
 
 const columns = [
   {name: "NOMBRE", uid: "nombreA", sortable: true},
-  {name: "CAMPO AMPLIO", uid: "campoAmplio"},
+  {name: "PERSONAL ACADEMICO", uid: "campoAmplio"},
   {name: "DESCRIPCION", uid: "descripcion"},
   {name: "ACCIONES", uid: "actions"},
 ];
@@ -37,33 +37,35 @@ const INITIAL_VISIBLE_COLUMNS = ["nombreA", "descripcion", "campoAmplio","action
 const campoA = [
   {
     idA: 1,
-    nombreA: "Campo Especifico 1",
-    descripcion: "Descripcion del campo 1",
-    ca_id: 1
+    nombreA: "Item 1",
+    descripcion: "Descripcion 1",
+    pa_id: 1
   },
   {
     idA: 2,
-    nombreA: "Campo Especifico 2",
-    descripcion: "Descripcion del campo 2",
-    ca_id: 2
+    nombreA: "Item 2",
+    descripcion: "Descripcion 2",
+    pa_id: 2
 },
 ];
 
 const nomCampA = [
     {
-        ca_id: 1,
-        nombreCA: "Campo Amplio 1",
-    },
-    {
-        ca_id: 2,
-        nombreCA: "Campo Amplio 2",
-    }
+        pa_id: 1,
+        nombreCA: "Personal Academico 1",
+        descripcion: "Descripcion 1"
+      },
+      {
+        pa_id: 2,
+        nombreCA: "Personal Academico 2",
+        descripcion: "Descripcion 2"
+      },
 ]
 
 const statusOptions = [];
 
 campoA.forEach(campo => {
-  const matchingNomCampA = nomCampA.find(item => item.ca_id === campo.ca_id);
+  const matchingNomCampA = nomCampA.find(item => item.pa_id === campo.pa_id);
   if (matchingNomCampA && !statusOptions.some(option => option.name === matchingNomCampA.nombreCA)) {
     statusOptions.push({ name: matchingNomCampA.nombreCA, uid: matchingNomCampA.nombreCA });
   }
@@ -71,10 +73,11 @@ campoA.forEach(campo => {
   console.log(statusOptions);
 });
 
-const getCaIdFromNombreCA = (nameCA) => {
-    const foundItem = nomCampA.find((item) => item.nombreCA === nameCA);
-    return foundItem ? foundItem.ca_id : null;
-  };
+const getPaIdFromNombreCA = (nameCA) => {
+    const foundItem = nomCampA.find(item => item.nombreCA === nameCA);
+    return foundItem ? foundItem.pa_id : null;
+};
+
 
 export default function App() {
 
@@ -115,7 +118,7 @@ export default function App() {
       idA: campoA.length + 1,  
       nombreA: nombreA,
       descripcion: descripcion,
-      ca_id: getCaIdFromNombreCA(selectedValue),
+      pa_id: getPaIdFromNombreCA(selectedValue),
     };
     setActividad((prevUsers) => [...prevUsers, newUser]);
     clearInputFields(); // Call the function to clear input fields
@@ -131,12 +134,18 @@ export default function App() {
 
   //!Funcion de actualizar
   const handleActualizar = React.useCallback(() => {
+    
+    console.log(getPaIdFromNombreCA(selectedValue))
+    console.log(selectedValue)
+
     const editedUser = {
       idA: idA,
       nombreA: nombreA,
       descripcion: descripcion,
-      ca_id: getCaIdFromNombreCA(selectedValue),
+      pa_id: getPaIdFromNombreCA(selectedValue),
     };
+
+
     setActividad((prevUsers) => prevUsers.map((user) => (user.idA === idA ? editedUser : user)));
     clearInputFields(); // Call the function to clear input fields
   }, [idA, nombreA, descripcion, selectedValue]);
@@ -163,13 +172,13 @@ export default function App() {
       case "descripcion":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">Descripcion del campo amplio</p>
+            <p className="text-bold text-sm capitalize">Descripcion del item</p>
             <p className="text-bold text-sm capitalize text-default-400">{user.descripcion}</p>
           </div>
         );
       case "campoAmplio":
-        const foundCampoA = campoA.find(item => item.ca_id === user.ca_id);
-        const matchingNomCampA = foundCampoA ? nomCampA.find(item => item.ca_id === foundCampoA.ca_id) : null;
+        const foundCampoA = campoA.find(item => item.pa_id === user.pa_id);
+        const matchingNomCampA = foundCampoA ? nomCampA.find(item => item.pa_id === foundCampoA.pa_id) : null;
 
         return (
             <Chip className="capitalize" color="success" size="sm" variant="flat">
@@ -334,7 +343,7 @@ export default function App() {
               <ModalContent>
                 {(onClose) => (
                   <>
-                    <ModalHeader className="flex flex-col gap-1">Agregar usuario</ModalHeader>
+                    <ModalHeader className="flex flex-col gap-1">Agregar item</ModalHeader>
                     <ModalBody>
                       <div className="flex flex-wrap gap-8">
                         <div className="w-full">
@@ -369,7 +378,7 @@ export default function App() {
                         </div>
                         <div className="flex items-center gap-4">
 
-                        <Chip color="success" variant="bordered">Campo Amplio: </Chip>
+                        <Chip color="success" variant="bordered">Personal Academico: </Chip>
                             <Dropdown>
                               <DropdownTrigger>
                                   <Button 
@@ -542,7 +551,7 @@ export default function App() {
                 </div>
                 
                 <div className="flex items-center gap-4">
-                <Chip color="success" variant="bordered">Campo Amplio: </Chip>
+                <Chip color="success" variant="bordered">Personal Academico: </Chip>
                             <Dropdown>
                               <DropdownTrigger>
                                   <Button 
