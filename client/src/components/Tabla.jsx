@@ -268,8 +268,9 @@ export default function App() {
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
             >
+              <option value="1">1</option>
+              <option value="5">5</option>
               <option value="10">10</option>
-              <option value="15">15</option>
               <option value="20">20</option>
             </select>
           </label>
@@ -299,10 +300,10 @@ export default function App() {
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
           <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage}>
-            Previous
+            Anterior
           </Button>
           <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage}>
-            Next
+            Siguiente
           </Button>
         </div>
       </div>
