@@ -311,7 +311,7 @@ export default function App() {
   }, [page, pages, onNextPage, onPreviousPage]);
 
   return (
-    <div>
+    <div >
     <Table
     aria-label="Example table with custom cells, pagination and sorting"
     isHeaderSticky

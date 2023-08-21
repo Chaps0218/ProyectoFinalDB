@@ -28,6 +28,7 @@
 
 .tabList {
     width: 100%;
+    overflow: scroll !important; /* Show scrollbars */
 }
 
 .container {
