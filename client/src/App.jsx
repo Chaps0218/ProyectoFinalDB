@@ -31,7 +31,7 @@ import PRUEBA from "./pages/PRUEBA.jsx";
 
 import ListaPostulantes from "./pages/ListaPostulantes";
 
-import Actividad from "./components/CRUD/Requisito";
+import Actividad from "./components/CRUD/Departamento";
 
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);

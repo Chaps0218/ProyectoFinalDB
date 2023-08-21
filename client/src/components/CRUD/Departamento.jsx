@@ -55,6 +55,12 @@ export default function App() {
   const [idA, setIdA] = React.useState(0); //Para actualizar
   const [nombreA, setNombreA] = React.useState("");
   const [descripcion, setDescripcion] = React.useState("");
+  const [showError, setShowError] = React.useState(false);
+  const [nombreAFocused, setNombreAFocused] = React.useState(false);
+  const [descripcionFocused, setDescripcionFocused] = React.useState(false);
+
+
+
 
   //!Variables para abrir y cerrar los modales de agregar y actualizar
   const { isOpen: isOpenModal1, onOpen: onOpenModal1, onOpenChange: onOpenChangeModal1 } = useDisclosure();
@@ -67,20 +73,54 @@ export default function App() {
   };
 
   const validacionN = React.useMemo(() => {
-    if (nombreA === "") return undefined;
-
-    return nombreA === "" ? "invalido" : "valido";
-  }, [nombreA]);
+    return nombreA === "" && nombreAFocused ? "invalido" : "valido";
+  }, [nombreA, nombreAFocused]);
+  
+  const validacionD = React.useMemo(() => {
+    return descripcion === "" && descripcionFocused ? "invalido" : "valido";
+  }, [descripcion, descripcionFocused]);
+  
+  const handleNombreAFocus = () => {
+    setNombreAFocused(false);
+  };
+  
+  const handleNombreABlur = () => {
+    if (nombreA.trim() === "") {
+      setNombreAFocused(true);
+    }
+  };
+  
+  const handleDescripcionFocus = () => {
+    setDescripcionFocused(false);
+  };
+  
+  const handleDescripcionBlur = () => {
+    if (descripcion.trim() === "") {
+      setDescripcionFocused(true);
+    }
+  };
+  
 
   //!Funcion para agregar una nueva actividad
   const handleAgregar = React.useCallback(() => {
+    if (nombreA.trim() === "" || descripcion.trim() === "") {
+      setNombreAFocused(true);
+      setDescripcionFocused(true);
+      setTimeout(() => {
+        setNombreAFocused(false);
+        setDescripcionFocused(false);
+      }, 2000);
+      
+      return;
+    }
     const newUser = {
-      idA: campoA.length + 1,  
+      idA: campoA.length + 1,
       nombreA: nombreA,
       descripcion: descripcion,
     };
     setActividad((prevUsers) => [...prevUsers, newUser]);
     clearInputFields(); // Call the function to clear input fields
+    setShowError(false);
   }, [nombreA, descripcion]);
 
   //!Funcion de eliminado
@@ -304,8 +344,10 @@ export default function App() {
                             type="text"
                             label="Nombre"
                             variant="bordered"
+                            onFocus={handleNombreAFocus}
+                            onBlur={handleNombreABlur}
                             color={validacionN === "invalido" ? "danger" : "success"}
-                            errorMessage={validacionN === "invalido" && "Ingresa un nombreA valido"}
+                            errorMessage={validacionN === "invalido" && "Ingresa un nombre valido"}
                             validationState={validacionN}
                             onValueChange={setNombreA}
                           />
@@ -319,9 +361,11 @@ export default function App() {
                             type="text"
                             label="Descripcion"
                             variant="bordered"
-                            color={validacionN === "invalido" ? "danger" : "success"}
-                            errorMessage={validacionN === "invalido" && "Ingresa un nombreA valido"}
-                            validationState={validacionN}
+                            onFocus={handleDescripcionFocus}
+                            onBlur={handleDescripcionBlur}
+                            color={validacionD === "invalido" ? "danger" : "success"}
+                            errorMessage={validacionD === "invalido" && "Ingresa una descripción válida"}
+                            validationState={validacionD}
                             onValueChange={setDescripcion}
                           />
                         </div>
