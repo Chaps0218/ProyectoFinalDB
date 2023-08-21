@@ -26,56 +26,56 @@ import {capitalize} from "../utils";
 import { PlusIcon } from "../../assets/PlusIcon";
 
 const columns = [
-  {name: "DETALLE", uid: "tx_detalle", sortable: true},
-  {name: "REQUISITO", uid: "campoAmplio"},
-  {name: "DESCRIPCION", uid: "tx_descripcion"},
-  {name: "PUNTAJE MINIMO", uid: "tx_puntaje_min"},
-  {name: "PUNTAJE MAXIMO", uid: "tx_puntaje_max"},
-  {name: "PUNTAJE ASIGNADO", uid: "tx_puntaje_asignado"},
-  {name: "OBSERVACION", uid: "tx_observacion"},
+  {name: "APROBACION", uid: "sol_aprobacion", sortable: true},
+  {name: "CANDIDATO", uid: "cand_id", sortable: true},
+  {name: "RECURSOS HUMANOS", uid: "rh_id", sortable: true},
   {name: "ACCIONES", uid: "actions"},
 ];
 
-const INITIAL_VISIBLE_COLUMNS = ["tx_detalle", "tx_descriRequisitpcion", "campoAmplio","actions", "tx_puntaje_min", "tx_puntaje_max", "tx_puntaje_asignado", " tx_observacion"];
+const INITIAL_VISIBLE_COLUMNS = ["sol_aprobacion", "cand_id","actions", "rh_id"];
 
 const campoA = [
   {
-    tx_id: 1,
-    tx_detalle: "Titulo exp 1",
-    tx_descripcion: "Descripcion 1",
-    rq_id: 1,
-    tx_puntaje_min: 0,
-    tx_puntaje_max: 20,
-    tx_puntaje_asignado: 15,
-    tx_observacion: "Observacion 1"
+    sol_id: 1,
+    sol_aprobacion: true,
+    rh_id: 1,
+    cand_id: 1,
   },
   {
-    tx_id: 2,
-    tx_detalle: "Titulo exp 2",
-    tx_descripcion: "Descripcion 2",
-    rq_id: 2,
-    tx_puntaje_min: 1,
-    tx_puntaje_max: 18,
-    tx_puntaje_asignado: 12,
-    tx_observacion: "Observacion 2"
+    sol_id: 2,
+    sol_aprobacion: false,
+    rh_id: 2,
+    cand_id: 2,
 },
 ];
 
-const requisitos = [
+const candidatos = [
     {
-        rq_id: 1,
-        nombreCA: "R1",
+        cand_id: 1,
+        nombreCA: "C1",
     },
     {
-        rq_id: 2,
-        nombreCA: "R2",
+        cand_id: 2,
+        nombreCA: "C2",
+    }
+]
+
+const recursos = [
+    {
+        rh_id: 1,
+        nombreRH: "R1",
+    },
+    {
+        rh_id: 2,
+        nombreRH: "R2",
     }
 ]
 
 const statusOptions = [];
+const statusOptionsR = [];
 
 campoA.forEach(campo => {
-  const matchingNomCampA = requisitos.find(item => item.rq_id === campo.rq_id);
+  const matchingNomCampA = candidatos.find(item => item.cand_id === campo.cand_id);
   if (matchingNomCampA && !statusOptions.some(option => option.name === matchingNomCampA.nombreCA)) {
     statusOptions.push({ name: matchingNomCampA.nombreCA, uid: matchingNomCampA.nombreCA });
   }
@@ -83,10 +83,35 @@ campoA.forEach(campo => {
   console.log(statusOptions);
 });
 
+campoA.forEach(campo => {
+    const matchingNomCampAR = recursos.find(item => item.rh_id === campo.rh_id);
+    if (matchingNomCampAR && !statusOptionsR.some(option => option.name === matchingNomCampAR.nombreRH)) {
+      statusOptionsR.push({ name: matchingNomCampAR.nombreRH, uid: matchingNomCampAR.nombreRH });
+    }
+  
+    console.log(statusOptionsR);
+  });
+
+
 const getCaIdFromNombreCA = (nameCA) => {
-    const foundItem = requisitos.find((item) => item.nombreCA === nameCA);
-    return foundItem ? foundItem.rq_id : null;
+    const foundItem = candidatos.find((item) => item.nombreCA === nameCA);
+    return foundItem ? foundItem.cand_id : null;
   };
+
+const getRHIdFromNombreRH = (nameCA) => {
+    const foundItem = recursos.find((item) => item.nombreRH === nameCA);
+    return foundItem ? foundItem.rh_id : null;
+};
+
+const findNombreById = (cand_id) => {
+  const candidato = candidatos.find((c) => c.cand_id === cand_id);
+
+  if (candidato) {
+    return candidato.nombreCA;
+  } else {
+    return "Candidato not found";
+  }
+}
 
 export default function App() {
 
@@ -94,18 +119,25 @@ export default function App() {
   const [actividad, setActividad] = React.useState(campoA);
 
   //!Variables de agregacion y actualizacion
-  const [tx_id, setIdA] = React.useState(0); //Para actualizar
-  const [tx_detalle, setNombreA] = React.useState("");
-  const [tx_descripcion, setDescripcion] = React.useState("");
-  const [tx_puntaje_min, setTx_puntaje_min] = React.useState(0);
-  const [tx_puntaje_max, setTx_puntaje_max] = React.useState(0);
-  const [tx_puntaje_asignado, setTx_puntaje_asignado] = React.useState(0);
-  const [tx_observacion, setTx_observacion] = React.useState("");
+  const [sol_id, setId] = React.useState(0); //Para actualizar
+  const [sol_aprobacion, setSol_aprobacion] = React.useState(false);
   const [selectedKeys, setSelectedKeys] = React.useState(new Set(["Selecciona"]));
+  const [selectedKeysR, setSelectedKeysR] = React.useState(new Set(["Selecciona"]));
+  const [selectedKeysB, setSelectedKeysB] = React.useState(new Set(["Selecciona"]));
 
   const selectedValue = React.useMemo(
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
     [selectedKeys]
+  );
+
+  const selectedValueR = React.useMemo(
+    () => Array.from(selectedKeysR).join(", ").replaceAll("_", " "),
+    [selectedKeysR]
+  );
+
+  const selectedValueB = React.useMemo(
+    () => Array.from(selectedKeysB).join(", ").replaceAll("_", " "),
+    [selectedKeysB]
   );
 
   //!Variables para abrir y cerrar los modales de agregar y actualizar
@@ -114,125 +146,85 @@ export default function App() {
 
   //Limpio los valores
   const clearInputFields = () => {
-    setNombreA("");
-    setDescripcion("");
-    setTx_puntaje_min(0);
-    setTx_puntaje_max(0);
-    setTx_puntaje_asignado(0);
-    setTx_observacion("");
+    setSol_aprobacion("");
     setSelectedKeys(new Set(["Selecciona"]));
+    setSelectedKeysR(new Set(["Selecciona"]));
   };
 
   const validacionN = React.useMemo(() => {
-    if (tx_detalle === "") return undefined;
+    if (sol_aprobacion === "") return undefined;
 
-    return tx_detalle === "" ? "invalido" : "valido";
-  }, [tx_detalle]);
+    return sol_aprobacion === "" ? "invalido" : "valido";
+  }, [sol_aprobacion]);
 
   //!Funcion para agregar una nueva actividad
   const handleAgregar = React.useCallback(() => {
     const newUser = {
-        tx_id: campoA.length + 1,  
-        tx_detalle: tx_detalle,
-        tx_descripcion: tx_descripcion,
-        rq_id: getCaIdFromNombreCA(selectedValue),
-        tx_puntaje_min: tx_puntaje_min,
-        tx_puntaje_max: tx_puntaje_max,
-        tx_puntaje_asignado: tx_puntaje_asignado,
-        tx_observacion: tx_observacion,
+        sol_id: campoA.length + 1,  
+        sol_aprobacion: sol_aprobacion === "si" ? true : false,
+        rh_id: getRHIdFromNombreRH(selectedValueR),
+        cand_id: getCaIdFromNombreCA(selectedValue),
     };
     setActividad((prevUsers) => [...prevUsers, newUser]);
     clearInputFields(); // Call the function to clear input fields
-  }, [tx_detalle, tx_descripcion, selectedValue, tx_puntaje_min, tx_puntaje_max, tx_puntaje_asignado, tx_observacion]);
+  }, [sol_aprobacion, selectedValue, selectedValueR]);
 
   //!Funcion de eliminado
-  const handleDelete = React.useCallback((tx_id) => {
-    console.log("Deleting user with tx_id: ", tx_id);
+  const handleDelete = React.useCallback((sol_id) => {
+    console.log("Deleting user with sol_id: ", sol_id);
     console.log(actividad);
-    setActividad((prevUsers) => prevUsers.filter((user) => user.tx_id !== tx_id));
+    setActividad((prevUsers) => prevUsers.filter((user) => user.sol_id !== sol_id));
     console.log(actividad);
   }, [actividad]);
 
   //!Funcion de actualizar
   const handleActualizar = React.useCallback(() => {
     const editedUser = {
-        tx_id: tx_id,
-        tx_detalle: tx_detalle,
-        tx_descripcion: tx_descripcion,
-        rq_id: getCaIdFromNombreCA(selectedValue),
-        tx_puntaje_min: tx_puntaje_min,
-        tx_puntaje_max: tx_puntaje_max,
-        tx_puntaje_asignado: tx_puntaje_asignado,
-        tx_observacion: tx_observacion,
+        sol_id: sol_id,
+        sol_aprobacion: sol_aprobacion === "true" ? true : false,
+        rh_id: getRHIdFromNombreRH(selectedValueR),
+        cand_id: getCaIdFromNombreCA(selectedValue),
     };
-    setActividad((prevUsers) => prevUsers.map((user) => (user.tx_id === tx_id ? editedUser : user)));
+    setActividad((prevUsers) => prevUsers.map((user) => (user.sol_id === sol_id ? editedUser : user)));
     clearInputFields(); // Call the function to clear input fields
-  }, [tx_id, tx_detalle, tx_descripcion, selectedValue, tx_puntaje_min, tx_puntaje_max, tx_puntaje_asignado, tx_observacion]);
+  }, [sol_id, sol_aprobacion, selectedValue, selectedValueR]);
 
 
   const renderCell = React.useCallback((user, columnKey) => {
 
     const cellValue = user[columnKey];
 
-    const handleButtonPress = (tx_id, tx_detalle, tx_descripcion, tx_puntaje_min, tx_puntaje_max, tx_puntaje_asignado, tx_observacion) => {
+    const handleButtonPress = (sol_id, sol_aprobacion) => {
         onOpenModal1(); // Open the modal
-        setIdA(tx_id); // Clear the tx_id
-        setNombreA(tx_detalle);
-        setDescripcion(tx_descripcion);
-        setTx_puntaje_min(tx_puntaje_min);
-        setTx_puntaje_max(tx_puntaje_max);
-        setTx_puntaje_asignado(tx_puntaje_asignado);
-        setTx_observacion(tx_observacion);
+        setId(sol_id); // Clear the sol_id
+        setSol_aprobacion(sol_aprobacion);
     }
 
     switch (columnKey) {
-      case "tx_detalle":
+      case "sol_aprobacion":
         return (
-        <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">{cellValue}</p>
-          </div>
-        );
-      case "tx_descripcion":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">Descripcion del Titulo</p>
-            <p className="text-bold text-sm capitalize text-default-400">{user.tx_descripcion}</p>
-          </div>
-        );
-        case "tx_puntaje_min":
-        return (
-          <Chip className="capitalize" color={user.tx_puntaje_min <= 10 ? "danger" : "warning"} size="sm" variant="flat">
-            {cellValue}
+          <Chip className="capitalize" color={cellValue === true ? "success" : "danger"} size="sm" variant="flat">
+            {cellValue === true ? "Si" : "No"}
           </Chip>
         );
-        case "tx_puntaje_max":
-        return (
-            <Chip className="capitalize" color={user.tx_puntaje_max <= 10 ? "danger" : "warning"} size="sm" variant="flat">
-            {cellValue}
-          </Chip>
-        );
-        case "tx_puntaje_asignado":
-        return (
-            <Chip className="capitalize" color={user.tx_puntaje_asignado <= 10 ? "danger" : "warning"} size="sm" variant="flat">
-            {cellValue}
-          </Chip>
-        );
-        case "tx_observacion":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">Observacion</p>
-            <p className="text-bold text-sm capitalize text-default-400">{user.tx_observacion}</p>
-          </div>
-        );
-      case "campoAmplio":
-        const foundCampoA = campoA.find(item => item.rq_id === user.rq_id);
-        const matchingNomCampA = foundCampoA ? requisitos.find(item => item.rq_id === foundCampoA.rq_id) : null;
+      case "cand_id":
+        const foundCampoA = campoA.find(item => item.cand_id === user.cand_id);
+        const matchingNomCampA = foundCampoA ? candidatos.find(item => item.cand_id === foundCampoA.cand_id) : null;
 
         return (
-            <Chip className="capitalize" color="success" size="sm" variant="flat">
+            <Chip className="capitalize" color="warning" size="sm" variant="flat">
             {matchingNomCampA ? matchingNomCampA.nombreCA : 'No matching value'}
             </Chip>
         );
+        case "rh_id":
+          const foundCampoAR = campoA.find(item => item.rh_id === user.rh_id);
+          const matchingNomCampAR = foundCampoAR ? recursos.find(item => item.rh_id === foundCampoAR.rh_id) : null;
+  
+          return (
+              <Chip className="capitalize" color="primary" size="sm" variant="flat">
+              {matchingNomCampAR ? matchingNomCampAR.nombreRH : 'No matching value'}
+              </Chip>
+          );
       case "actions":
         return (
           <div className="relative flex items-center gap-2">
@@ -240,12 +232,12 @@ export default function App() {
           <Button color="success" 
             isIconOnly 
             variant="faded" 
-            onPress={ () => handleButtonPress(user.tx_id, user.tx_detalle, user.tx_descripcion)}
+            onPress={ () => handleButtonPress(user.sol_id, user.sol_aprobacion, user.rh_id)}
             >
               <EditIcon />
             </Button>
 
-            <Button isIconOnly color="danger" variant="faded" aria-label="Like" onClick={() => handleDelete(user.tx_id)}>
+            <Button isIconOnly color="danger" variant="faded" aria-label="Like" onClick={() => handleDelete(user.sol_id)}>
               <DeleteIcon />
             </Button>  
           </div>
@@ -279,7 +271,7 @@ export default function App() {
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter((user) =>
-        user.tx_detalle.toLowerCase().includes(filterValue.toLowerCase()),
+        findNombreById(user.cand_id).toLowerCase().includes(filterValue.toLowerCase()),
       );
     }
 
@@ -301,7 +293,8 @@ export default function App() {
       const first = a[sortDescriptor.column];
       const second = b[sortDescriptor.column];
       const cmp = first < second ? -1 : first > second ? 1 : 0;
-
+      console.log(first);
+      console.log(second);
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [sortDescriptor, items]);
@@ -346,7 +339,7 @@ export default function App() {
           <Input
             isClearable
             className="w-full sm:max-w-[44%]"
-            placeholder="Buscar por detalle..."
+            placeholder="Buscar por candidato..."
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}
@@ -391,66 +384,55 @@ export default function App() {
               <ModalContent>
                 {(onClose) => (
                   <>
-                    <ModalHeader className="flex flex-col gap-1">Agregar titulo</ModalHeader>
+                    <ModalHeader className="flex flex-col gap-1">Agregar solicitud</ModalHeader>
                     <ModalBody>
                       <div className="flex flex-wrap gap-8">
                         <div className="w-full">
-                          <Input
-                            isRequired
-                            isClearable
-                            onClear={() => console.log("input cleared")}
-                            value={tx_detalle}
-                            type="text"
-                            label="Nombre"
-                            variant="bordered"
-                            color={validacionN === "invalido" ? "danger" : "success"}
-                            errorMessage={validacionN === "invalido" && "Ingresa un tx_detalle valido"}
-                            validationState={validacionN}
-                            onValueChange={setNombreA}
-                          />
+
+                        <Dropdown>
+                              <DropdownTrigger>
+                                  <Button 
+                                    variant="flat"
+                                    className="capitalize"
+                                  >
+                                    {selectedValue}
+                                  </Button>
+                                </DropdownTrigger>
+                                <DropdownMenu 
+                                  aria-label="Single selection actions"
+                                  variant="flat"
+                                  disallowEmptySelection
+                                  selectionMode="single"
+                                  selectedKeys={selectedKeysB}
+                                  onSelectionChange={setSelectedKeysB}
+                                >
+
+                                <DropdownItem key="si">Si</DropdownItem>
+                                <DropdownItem key="no">No</DropdownItem>
+                                    
+                                </DropdownMenu>
+                            </Dropdown>   
+
+
                         </div>
                         <div className="flex gap-4 w-full">
                         <Input
                             isRequired
                             isClearable
                             onClear={() => console.log("input cleared")}
-                            value={tx_descripcion}
+                            value={sol_aprobacion}
                             type="text"
                             label="Descripcion"
                             variant="bordered"
                             color={validacionN === "invalido" ? "danger" : "success"}
-                            errorMessage={validacionN === "invalido" && "Ingresa un tx_detalle valido"}
+                            errorMessage={validacionN === "invalido" && "Ingresa un sol_aprobacion valido"}
                             validationState={validacionN}
-                            onValueChange={setDescripcion}
+                            onValueChange={setId}
                           />
                         </div>
 
-                        <div className="flex gap-4 w-full">
-                            <Input
-                                type="number"
-                                label="Puntaje Minimo"
-                                placeholder="0"
-                                value={tx_puntaje_min}
-                                onValueChange={setTx_puntaje_min}
-                            />    
-                            <Input
-                                type="number"
-                                label="Puntaje Maximo"
-                                placeholder="0"
-                                value={tx_puntaje_max}
-                                onValueChange={setTx_puntaje_max}
-                            />         
+                        <div className="flex gap-4 w-full">      
 
-                            </div>
-
-                            <div className="flex gap-4 w-full">
-                                <Input
-                                    type="number"
-                                    label="Puntaje Asignado"
-                                    placeholder="0"
-                                    value={tx_puntaje_asignado}
-                                    onValueChange={setTx_puntaje_asignado}
-                                />     
                             </div>
                             
                             <div className="flex items-center gap-4">
@@ -487,14 +469,14 @@ export default function App() {
                                 isRequired
                                 isClearable
                                 onClear={() => console.log("input cleared")}
-                                value={tx_observacion}
+                                value={sol_aprobacion}
                                 type="text"
                                 label="Observacion"
                                 variant="bordered"
                                 color={validacionN === "invalido" ? "danger" : "success"}
-                                errorMessage={validacionN === "invalido" && "Ingresa un tx_detalle valido"}
+                                errorMessage={validacionN === "invalido" && "Ingresa un sol_aprobacion valido"}
                                 validationState={validacionN}
-                                onValueChange={setTx_observacion}
+                                onValueChange={setId}
                                 />
                             </div>
                         </div>
@@ -536,18 +518,13 @@ export default function App() {
     onClear,
    actividad.length,
     onOpenModal2,   
-    tx_detalle,
-    tx_descripcion,
+    sol_aprobacion,
     handleAgregar,
     isOpenModal2,
     onOpenChangeModal2,
     validacionN,
     selectedKeys,
     selectedValue,
-    tx_puntaje_min,
-    tx_puntaje_max,
-    tx_puntaje_asignado,
-    tx_observacion,
   ]);
 
   const bottomContent = React.useMemo(() => {
@@ -602,7 +579,7 @@ export default function App() {
     </TableHeader>
     <TableBody emptyContent={"No se encontraron titulos"} items={sortedItems}>
       {(item) => (
-        <TableRow key={item.tx_id}>
+        <TableRow key={item.sol_id}>
           {(columnKey) => <TableCell>{renderCell(item, columnKey, onOpenModal1)}</TableCell>}
         </TableRow>
       )}
@@ -621,58 +598,15 @@ export default function App() {
                     isRequired
                     isClearable
                     onClear={() => console.log("input cleared")}
-                    value={tx_detalle}
+                    value={sol_aprobacion}
                     type="text"
                     label="Nombre"
                     variant="bordered"
                     color={validacionN === "invalido" ? "danger" : "success"}
-                    errorMessage={validacionN === "invalido" && "Ingresa un tx_detalle valido"}
+                    errorMessage={validacionN === "invalido" && "Ingresa un sol_aprobacion valido"}
                     validationState={validacionN}
-                    onValueChange={setNombreA}
+                    onValueChange={selectedKeys}
                     />
-                </div>
-                <div className="flex gap-4 w-full">
-                <Input
-                    isRequired
-                    isClearable
-                    onClear={() => console.log("input cleared")}
-                    value={tx_descripcion}
-                    type="text"
-                    label="Descripcion"
-                    variant="bordered"
-                    color={validacionN === "invalido" ? "danger" : "success"}
-                    errorMessage={validacionN === "invalido" && "Ingresa un tx_detalle valido"}
-                    validationState={validacionN}
-                    onValueChange={setDescripcion}
-                    />
-                </div>
-
-                <div className="flex gap-4 w-full">
-                <Input
-                    type="number"
-                    label="Puntaje Minimo"
-                    placeholder="0"
-                    value={tx_puntaje_min}
-                    onValueChange={setTx_puntaje_min}
-                />    
-                <Input
-                    type="number"
-                    label="Puntaje Maximo"
-                    placeholder="0"
-                    value={tx_puntaje_max}
-                    onValueChange={setTx_puntaje_max}
-                />         
-
-                </div>
-
-                <div className="flex gap-4 w-full">
-                    <Input
-                        type="number"
-                        label="Puntaje Asignado"
-                        placeholder="0"
-                        value={tx_puntaje_asignado}
-                        onValueChange={setTx_puntaje_asignado}
-                    />     
                 </div>
                 
                 <div className="flex items-center gap-4">
@@ -705,19 +639,7 @@ export default function App() {
                 </div>
 
                 <div className="flex gap-4 w-full">
-                <Input
-                    isRequired
-                    isClearable
-                    onClear={() => console.log("input cleared")}
-                    value={tx_observacion}
-                    type="text"
-                    label="Observacion"
-                    variant="bordered"
-                    color={validacionN === "invalido" ? "danger" : "success"}
-                    errorMessage={validacionN === "invalido" && "Ingresa un tx_detalle valido"}
-                    validationState={validacionN}
-                    onValueChange={setTx_observacion}
-                    />
+
                 </div>
 
             </div>
