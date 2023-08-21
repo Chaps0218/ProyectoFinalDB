@@ -5,8 +5,8 @@
   align-items: center;
   justify-content: flex-start;
   padding: 50px;
-  max-height: 900px; /* Ajusta el valor según tus necesidades */
-  height: 600px; 
+  height: 78vh; 
+  width: 70vw;
   overflow-y: auto; /* Habilita el desplazamiento vertical si el contenido excede la altura máxima */
 }
 

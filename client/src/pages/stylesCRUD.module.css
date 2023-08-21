@@ -1,23 +1,23 @@
-/* Aplica los estilos a la clase .container del componente Solicitud */
 .container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 800px;
-    height: 500px;
+    width: 70vw;
+    height: 78vh;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-    background: var(--background-color); /* Asegúrate de definir la variable --background-color en tus estilos */
+    background: var(--background-color);
     padding: 20px;
-    overflow: hidden; /* Oculta el contenido que desborde el contenedor */
+    overflow: hidden;
   }
   
-  /* Si deseas aplicar estos estilos a las pestañas también */
   .tabList {
     display: flex;
-    width: 44%; /* Ocupa todo el ancho del contenedor */
-    padding: 10px 0; /* Agrega un espacio superior e inferior */
+    width: 67.5vw;
+    padding: 10px 0;
     margin-left: 5px;
+    overflow: scroll;
+    scroll-behavior: smooth;
   }
   
   .tab {
@@ -32,6 +32,6 @@
   }
 
   .panel{
-    width: 100%; /* Ocupa todo el ancho del contenedor */
+    width: 100%;
   }
   
