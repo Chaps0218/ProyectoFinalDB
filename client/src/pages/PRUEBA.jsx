@@ -11,6 +11,16 @@ import Tabla from "../components/Tabla.jsx"
 import Actividad from "../components/CRUD/Actividad.jsx"
 import CAmplio from "../components/CRUD/CAmplio.jsx"
 import CInicio from "../components/CustomComponentInfo"
+import CEspecifico from "../components/CRUD/CEspecifico.jsx"
+import Sede from "../components/CRUD/Sede.jsx"
+import Departamento from "../components/CRUD/Departamento.jsx"
+import Item from "../components/CRUD/Item.jsx"
+import Contratacion from "../components/CRUD/Contratacion.jsx"
+import PersonalA from "../components/CRUD/PersonalA.jsx"
+import Tituloexp from "../components/CRUD/Tituloexp.jsx"
+import Postulacion from "../components/CRUD/Postulacion.jsx"
+import Requisito from "../components/CRUD/Requisito.jsx"
+
 
 const Solicitud = () => {
 
@@ -27,6 +37,14 @@ const Solicitud = () => {
         panel: styles.panel,
       }} 
       aria-label="Options">
+
+      <Tab key="inicio" title="Inicio">
+        <Card>
+          <CardBody>
+            <CInicio/>
+          </CardBody>
+        </Card>  
+      </Tab>
 
       <Tab key="candidato" title="Candidato">
         <Card>
@@ -55,7 +73,7 @@ const Solicitud = () => {
       <Tab key="campoEspecifico" title="Campo Especifico">
         <Card>
           <CardBody>
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <CEspecifico/>
           </CardBody>
         </Card>  
       </Tab>
@@ -63,9 +81,7 @@ const Solicitud = () => {
       <Tab key="sede" title="Sede">
         <Card>
           <CardBody>
-            <div>
-              <h1>Introduzca su pagina aqui. (Tildes omitidas intencionalmente)</h1>
-            </div>
+            <Sede/>
           </CardBody>
         </Card>  
       </Tab>
@@ -73,9 +89,7 @@ const Solicitud = () => {
       <Tab key="departamento" title="Departamento">
         <Card>
           <CardBody>
-            <div>
-              <h1>Introduzca su pagina aqui. (Tildes omitidas intencionalmente)</h1>
-            </div>
+            <Departamento/>
           </CardBody>
         </Card>  
       </Tab>
@@ -83,9 +97,7 @@ const Solicitud = () => {
       <Tab key="item" title="Item">
         <Card>
           <CardBody>
-            <div>
-              <h1>Introduzca su pagina aqui. (Tildes omitidas intencionalmente)</h1>
-            </div>
+            <Item/>
           </CardBody>
         </Card>  
       </Tab>
@@ -93,9 +105,7 @@ const Solicitud = () => {
       <Tab key="contratación" title="Contratación">
         <Card>
           <CardBody>
-            <div>
-              <h1>Introduzca su pagina aqui. (Tildes omitidas intencionalmente)</h1>
-            </div>
+            <Contratacion/>
           </CardBody>
         </Card>  
       </Tab>
@@ -113,9 +123,7 @@ const Solicitud = () => {
       <Tab key="postulación" title="Postulación">
         <Card>
           <CardBody>
-            <div>
-              <h1>Introduzca su pagina aqui. (Tildes omitidas intencionalmente)</h1>
-            </div>
+            <Postulacion/>
           </CardBody>
         </Card>  
       </Tab>
@@ -123,9 +131,7 @@ const Solicitud = () => {
       <Tab key="requisito" title="Requisito">
         <Card>
           <CardBody>
-            <div>
-              <h1>Introduzca su pagina aqui. (Tildes omitidas intencionalmente)</h1>
-            </div>
+            <Requisito/>
           </CardBody>
         </Card>  
       </Tab>

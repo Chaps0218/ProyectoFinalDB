@@ -28,12 +28,14 @@
 
 .tabList {
     width: 100%;
+    overflow: scroll !important; /* Show scrollbars */
 }
 
 .container {
     display: flex;
     flex-direction: column;
     position: relative;
+    
     margin: 1rem;
     font-family: 'Poppins', sans-serif;
 }

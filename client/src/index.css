@@ -20,3 +20,7 @@ body.dark-mode {
   --background-color: #111111;
   --text-color: white;
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: contents !important; 
+}

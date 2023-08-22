@@ -4,8 +4,8 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 800px;
-    height: 500px;
+    height: 78vh; 
+    width: 70vw;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
     background: var(--background-color);
@@ -95,11 +95,12 @@
 .scrollable-table-container {
     max-height: 280px; /* Ajusta la altura máxima deseada */
     overflow: auto;
-    margin-top: 10px; /* Agrega un margen superior para separar del contenido superior */
+    margin-top: 20px; /* Agrega un margen superior para separar del contenido superior */
 }
 
 .custom-table {
-    width: 750px; /* Cambiado a 100% para ocupar todo el espacio disponible */
+    height: 80vh; 
+    width: 65vw;
     border-collapse: collapse;
 }
 
@@ -147,8 +148,8 @@
 }
 
 .candidate-details {
-    width: 750px;
-    height: 350px;
+    height: 60vh; 
+    width: 68vw;
     padding: 20px;
     background-color: #f8f8f8;
     border-radius: 10px;
