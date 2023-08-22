@@ -92,9 +92,9 @@ const CustomComponentCalificacion = ({ title, parametros }) => {
   };
   
   return (
-    <div className="documents-list">
-      <h1 className="documents-title">{title}</h1>
-      <hr className="documents-divider" />
+    <div className="custom-component-postulante">
+      <h1 className="custom-title">{title}</h1>
+      <hr className="custom-divider" />
       <div className="documents-container">
         <div className="parametros">
           {parametros.map((parametro, index) => {
