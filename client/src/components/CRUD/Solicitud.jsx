@@ -121,9 +121,9 @@ export default function App() {
   //!Variables de agregacion y actualizacion
   const [sol_id, setId] = React.useState(0); //Para actualizar
   const [sol_aprobacion, setSol_aprobacion] = React.useState(false);
-  const [selectedKeys, setSelectedKeys] = React.useState(new Set(["Selecciona"]));
-  const [selectedKeysR, setSelectedKeysR] = React.useState(new Set(["Selecciona"]));
-  const [selectedKeysB, setSelectedKeysB] = React.useState(new Set(["Selecciona"]));
+  const [selectedKeys, setSelectedKeys] = React.useState(new Set(["Selecciona"])); //Candidatos
+  const [selectedKeysR, setSelectedKeysR] = React.useState(new Set(["Selecciona"])); //RRHH
+  const [selectedKeysB, setSelectedKeysB] = React.useState(new Set(["Selecciona"])); //Aprobacion
 
   const selectedValue = React.useMemo(
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
@@ -149,25 +149,27 @@ export default function App() {
     setSol_aprobacion("");
     setSelectedKeys(new Set(["Selecciona"]));
     setSelectedKeysR(new Set(["Selecciona"]));
+    setSelectedKeysB(new Set(["Selecciona"]));
   };
 
-  const validacionN = React.useMemo(() => {
-    if (sol_aprobacion === "") return undefined;
+  // const validacionN = React.useMemo(() => {
+  //   if (sol_aprobacion === "") return undefined;
 
-    return sol_aprobacion === "" ? "invalido" : "valido";
-  }, [sol_aprobacion]);
+  //   return sol_aprobacion === "" ? "invalido" : "valido";
+  // }, [sol_aprobacion]);
 
   //!Funcion para agregar una nueva actividad
   const handleAgregar = React.useCallback(() => {
+    console.log(selectedKeysB.currentKey);
     const newUser = {
         sol_id: campoA.length + 1,  
-        sol_aprobacion: sol_aprobacion === "si" ? true : false,
+        sol_aprobacion: selectedKeysB.currentKey === "si" ? true : false,
         rh_id: getRHIdFromNombreRH(selectedValueR),
         cand_id: getCaIdFromNombreCA(selectedValue),
     };
     setActividad((prevUsers) => [...prevUsers, newUser]);
     clearInputFields(); // Call the function to clear input fields
-  }, [sol_aprobacion, selectedValue, selectedValueR]);
+  }, [selectedValue, selectedValueR, selectedKeysB]);
 
   //!Funcion de eliminado
   const handleDelete = React.useCallback((sol_id) => {
@@ -386,100 +388,106 @@ export default function App() {
                   <>
                     <ModalHeader className="flex flex-col gap-1">Agregar solicitud</ModalHeader>
                     <ModalBody>
-                      <div className="flex flex-wrap gap-8">
-                        <div className="w-full">
-
-                        <Dropdown>
-                              <DropdownTrigger>
-                                  <Button 
-                                    variant="flat"
-                                    className="capitalize"
-                                  >
-                                    {selectedValue}
-                                  </Button>
-                                </DropdownTrigger>
-                                <DropdownMenu 
-                                  aria-label="Single selection actions"
-                                  variant="flat"
-                                  disallowEmptySelection
-                                  selectionMode="single"
-                                  selectedKeys={selectedKeysB}
-                                  onSelectionChange={setSelectedKeysB}
-                                >
-
-                                <DropdownItem key="si">Si</DropdownItem>
-                                <DropdownItem key="no">No</DropdownItem>
+                      <div className="flex justify-between items-center">
+                        <div className="m-2">
+                
+                            <Chip color="success" variant="bordered">Aprobación: </Chip> 
                                     
-                                </DropdownMenu>
-                            </Dropdown>   
-
-
                         </div>
-                        <div className="flex gap-4 w-full">
-                        <Input
-                            isRequired
-                            isClearable
-                            onClear={() => console.log("input cleared")}
-                            value={sol_aprobacion}
-                            type="text"
-                            label="Descripcion"
-                            variant="bordered"
-                            color={validacionN === "invalido" ? "danger" : "success"}
-                            errorMessage={validacionN === "invalido" && "Ingresa un sol_aprobacion valido"}
-                            validationState={validacionN}
-                            onValueChange={setId}
-                          />
-                        </div>
+                              <Dropdown>
+                                <DropdownTrigger>
+                                    <Button 
+                                      variant="flat"
+                                      className="capitalize"
+                                    >
+                                      {selectedValueB}
+                                    </Button>
+                                  </DropdownTrigger>
+                                  <DropdownMenu 
+                                    aria-label="Single selection actions"
+                                    variant="flat"
+                                    disallowEmptySelection
+                                    selectionMode="single"
+                                    selectedKeys={selectedKeysB}
+                                    onSelectionChange={setSelectedKeysB}
+                                  >
 
-                        <div className="flex gap-4 w-full">      
-
+                                  <DropdownItem key="si">Si</DropdownItem>
+                                  <DropdownItem key="no">No</DropdownItem>
+                                      
+                                  </DropdownMenu>
+                              </Dropdown>   
+                 
+                        <div className=" m-2">
+                            <Chip color="warning" variant="bordered">Candidato: </Chip> 
+                                
                             </div>
+                              <Dropdown>
+                                <DropdownTrigger>
+                                    <Button 
+                                      variant="flat"
+                                      className="capitalize"
+                                    >
+                                      {selectedValue}
+                                    </Button>
+                                  </DropdownTrigger>
+                                  <DropdownMenu 
+                                    aria-label="Single selection actions"
+                                    variant="flat"
+                                    disallowEmptySelection
+                                    selectionMode="single"
+                                    selectedKeys={selectedKeys}
+                                    onSelectionChange={setSelectedKeys}
+                                  >
+
+                                  {statusOptions.map((column) => (
+                                    <DropdownItem key={column.name} className="capitalize">
+                                        {capitalize(column.name)}
+                                    </DropdownItem>
+                                    ))}
+                                      
+                                  </DropdownMenu>
+                              </Dropdown>   
+                      
+                      </div>
+
+                      <div className="flex justify-center items-center">
                             
-                            <div className="flex items-center gap-4">
-                            <Chip color="success" variant="bordered">Item: </Chip> 
-
-                            <Dropdown>
-                                        <DropdownTrigger>
-                                            <Button 
-                                                variant="flat"
-                                                className="capitalize"
-                                            >
-                                                {selectedValue}
-                                            </Button>
-                                            </DropdownTrigger>
-                                            <DropdownMenu 
-                                            aria-label="Single selection actions"
-                                            variant="flat"
-                                            disallowEmptySelection
-                                            selectionMode="single"
-                                            selectedKeys={selectedKeys}
-                                            onSelectionChange={setSelectedKeys}
-                                            >
-                                                {statusOptions.map((column) => (
-                                                <DropdownItem key={column.name} className="capitalize">
-                                                    {capitalize(column.name)}
-                                                </DropdownItem>
-                                                ))}
-                                            </DropdownMenu>
-                            </Dropdown>  
+                            <div className="flex-grow-0">
+                            <Chip color="primary" variant="bordered">Recursos humanos: </Chip> 
                             </div>
 
-                            <div className="flex gap-4 w-full">
-                            <Input
-                                isRequired
-                                isClearable
-                                onClear={() => console.log("input cleared")}
-                                value={sol_aprobacion}
-                                type="text"
-                                label="Observacion"
-                                variant="bordered"
-                                color={validacionN === "invalido" ? "danger" : "success"}
-                                errorMessage={validacionN === "invalido" && "Ingresa un sol_aprobacion valido"}
-                                validationState={validacionN}
-                                onValueChange={setId}
-                                />
+                            <div className="m-2 flex-grow-2">
+                              <Dropdown>
+                                <DropdownTrigger>
+                                    <Button 
+                                      variant="flat"
+                                      className="capitalize"
+                                    >
+                                      {selectedValueR}
+                                    </Button>
+                                  </DropdownTrigger>
+                                  <DropdownMenu 
+                                    aria-label="Single selection actions"
+                                    variant="flat"
+                                    disallowEmptySelection
+                                    selectionMode="single"
+                                    selectedKeys={selectedKeysR}
+                                    onSelectionChange={setSelectedKeysR}
+                                  >
+
+                                  {statusOptionsR.map((column) => (
+                                    <DropdownItem key={column.name} className="capitalize">
+                                        {capitalize(column.name)}
+                                    </DropdownItem>
+                                    ))}
+                                      
+                                  </DropdownMenu>
+                              </Dropdown>  
                             </div>
+
                         </div>
+
                     </ModalBody>
                     <ModalFooter>
                       <Button variant="outline" onClick={onClose}>
@@ -518,13 +526,15 @@ export default function App() {
     onClear,
    actividad.length,
     onOpenModal2,   
-    sol_aprobacion,
     handleAgregar,
     isOpenModal2,
     onOpenChangeModal2,
-    validacionN,
     selectedKeys,
     selectedValue,
+    selectedKeysB,
+    selectedKeysR,
+    selectedValueB, 
+    selectedValueR
   ]);
 
   const bottomContent = React.useMemo(() => {
@@ -592,58 +602,107 @@ export default function App() {
         <>
           <ModalHeader className="flex flex-col gap-1">Actualizar Titulo</ModalHeader>
           <ModalBody>
-          <div className="flex flex-wrap gap-8">
-                <div className="w-full">
-                    <Input
-                    isRequired
-                    isClearable
-                    onClear={() => console.log("input cleared")}
-                    value={sol_aprobacion}
-                    type="text"
-                    label="Nombre"
-                    variant="bordered"
-                    color={validacionN === "invalido" ? "danger" : "success"}
-                    errorMessage={validacionN === "invalido" && "Ingresa un sol_aprobacion valido"}
-                    validationState={validacionN}
-                    onValueChange={selectedKeys}
-                    />
+              <div className="flex justify-between items-center">
+                <div className="m-2">
+        
+                    <Chip color="success" variant="bordered">Aprobación: </Chip> 
+                            
                 </div>
-                
-                <div className="flex items-center gap-4">
-                <Chip color="success" variant="bordered">Item: </Chip> 
+                      <Dropdown>
+                        <DropdownTrigger>
+                            <Button 
+                              variant="flat"
+                              className="capitalize"
+                            >
+                              {selectedValueB}
+                            </Button>
+                          </DropdownTrigger>
+                          <DropdownMenu 
+                            aria-label="Single selection actions"
+                            variant="flat"
+                            disallowEmptySelection
+                            selectionMode="single"
+                            selectedKeys={selectedKeysB}
+                            onSelectionChange={setSelectedKeysB}
+                          >
 
-                <Dropdown>
-                              <DropdownTrigger>
-                                  <Button 
-                                    variant="flat"
-                                    className="capitalize"
-                                  >
-                                    {selectedValue}
-                                  </Button>
-                                </DropdownTrigger>
-                                <DropdownMenu 
-                                  aria-label="Single selection actions"
-                                  variant="flat"
-                                  disallowEmptySelection
-                                  selectionMode="single"
-                                  selectedKeys={selectedKeys}
-                                  onSelectionChange={setSelectedKeys}
-                                >
-                                    {statusOptions.map((column) => (
-                                    <DropdownItem key={column.name} className="capitalize">
-                                        {capitalize(column.name)}
-                                    </DropdownItem>
-                                    ))}
-                                </DropdownMenu>
-                </Dropdown>  
+                          <DropdownItem key="si">Si</DropdownItem>
+                          <DropdownItem key="no">No</DropdownItem>
+                              
+                          </DropdownMenu>
+                      </Dropdown>   
+          
+                <div className=" m-2">
+                    <Chip color="warning" variant="bordered">Candidato: </Chip> 
+                        
+                    </div>
+                      <Dropdown>
+                        <DropdownTrigger>
+                            <Button 
+                              variant="flat"
+                              className="capitalize"
+                            >
+                              {selectedValue}
+                            </Button>
+                          </DropdownTrigger>
+                          <DropdownMenu 
+                            aria-label="Single selection actions"
+                            variant="flat"
+                            disallowEmptySelection
+                            selectionMode="single"
+                            selectedKeys={selectedKeys}
+                            onSelectionChange={setSelectedKeys}
+                          >
+
+                          {statusOptions.map((column) => (
+                            <DropdownItem key={column.name} className="capitalize">
+                                {capitalize(column.name)}
+                            </DropdownItem>
+                            ))}
+                              
+                          </DropdownMenu>
+                      </Dropdown>   
+              
+              </div>
+
+              <div className="flex justify-center items-center">
+                    
+                    <div className="flex-grow-0">
+                    <Chip color="primary" variant="bordered">Recursos humanos: </Chip> 
+                    </div>
+
+                    <div className="m-2 flex-grow-2">
+                      <Dropdown>
+                        <DropdownTrigger>
+                            <Button 
+                              variant="flat"
+                              className="capitalize"
+                            >
+                              {selectedValueR}
+                            </Button>
+                          </DropdownTrigger>
+                          <DropdownMenu 
+                            aria-label="Single selection actions"
+                            variant="flat"
+                            disallowEmptySelection
+                            selectionMode="single"
+                            selectedKeys={selectedKeysR}
+                            onSelectionChange={setSelectedKeysR}
+                          >
+
+                          {statusOptionsR.map((column) => (
+                            <DropdownItem key={column.name} className="capitalize">
+                                {capitalize(column.name)}
+                            </DropdownItem>
+                            ))}
+                              
+                          </DropdownMenu>
+                      </Dropdown>  
+                    </div>
+
                 </div>
 
-                <div className="flex gap-4 w-full">
-
-                </div>
-
-            </div>
-          </ModalBody>
+            </ModalBody>
           <ModalFooter>
             <Button variant="outline" onClick={onClose}>
               Cancelar
