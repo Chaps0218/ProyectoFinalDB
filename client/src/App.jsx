@@ -30,6 +30,7 @@ import InformacionPersonal from "./pages/InformacionPersonal";
 import PRUEBA from "./pages/PRUEBA.jsx";
 
 import ListaPostulantes from "./pages/ListaPostulantes";
+import Calificacion from "./pages/Calificacion";
 
 import Actividad from "./components/CRUD/Solicitud";
 
@@ -56,6 +57,11 @@ const App = () => {
             <Route path="/academica" element={<Solicitud />} />
             <Route path="/actividad" element={<Actividad />} />
             <Route path="/prueba" element={<PRUEBA />} />
+            <Route path="/calificacion" element={<Calificacion />} />
+
+
+
+
             <Route path="/" element={<Inicio />} />
             <Route element={<ProtectedRoute />}>
               <Route element={<ProtectedRouteRRHH />}>

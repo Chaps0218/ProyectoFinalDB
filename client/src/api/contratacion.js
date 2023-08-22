@@ -38,8 +38,10 @@ export const extraerActividad = () => axios.get(`${API}/actividad`, {
     withCredentials: true,
 });
 
+export const agregarActividad = (actividad) => axios.post(`${API}/actividad`, actividad, {
+    withCredentials: true,
+});
 
-
-
-
-
+export const editarActividad = (id, actividad) => {axios.put(`${API}/actividad/${id}`, actividad, {
+    withCredentials: true,
+}); console.log(id, actividad)}

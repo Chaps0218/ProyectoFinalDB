@@ -9,6 +9,8 @@ import {
     extraerSede,
     extraerDepartamento,
     extraerActividad,
+    agregarActividad,
+    editarActividad,
 }
     from "../controllers/procesopostulacion.controller.js";
 
@@ -23,6 +25,8 @@ router.get("/campo_especifico", extraercampoEspecifico);
 router.get("/sede", extraerSede);
 router.get("/departamento", extraerDepartamento);
 router.get("/actividad", extraerActividad);
+router.post("/actividad", agregarActividad);
+router.put("/actividad/:id", editarActividad);
 
 export default router;
 

@@ -27,7 +27,7 @@ const columns = [
   {name: "NÚMERO DE IDENTIFICACIÓN", uid: "noIdentificacion", sortable: true},
   {name: "EDAD", uid: "fechaNacimiento", sortable: true},
   {name: "SEXO", uid: "sexo", sortable: true},
-  {name: "TITULO", uid: "titulo", sortable: true},
+  {name: "TÍTULO", uid: "titulo", sortable: true},
 ];
 
 const INITIAL_VISIBLE_COLUMNS = ["nombre", "noIdentificacion", "fechaNacimiento", "sexo", "titulo"];
