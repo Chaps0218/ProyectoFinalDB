@@ -11,8 +11,9 @@ const Plataforma = () => {
     <div className="parent-container">
       <div className="plataforma-container">
         <div className="top-item">
-          <TopBar>
-          </TopBar>
+        <TopBar
+          title="Información del postulante"
+          ></TopBar>
         </div>
         <div className="left-item">
           <Menu

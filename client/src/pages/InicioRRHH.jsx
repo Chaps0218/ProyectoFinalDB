@@ -12,7 +12,7 @@ const InicioRRHH = () => {
       <div className="plataforma-container">
         <div className="top-item">
           <TopBar
-            title="Recursos Humanos"
+            title="Inicio"
           ></TopBar>
         </div>
         <div className="left-item">

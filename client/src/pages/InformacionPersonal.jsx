@@ -11,8 +11,9 @@ const InfoPostRRHH = () => {
     <div className="parent-container">
       <div className="plataforma-container">
         <div className="top-item">
-          <TopBar>
-          </TopBar>
+        <TopBar
+          title="Información personal"
+          ></TopBar>
         </div>
         <div className="left-item">
           <MenuRRHH

@@ -24,10 +24,10 @@ const MenuRRHH = ({ title, subtitle1, subtitle2, subtitle3, icon1, icon2, icon3 
                 <hr className="menu-divider" />
             </div>
             <div>
-                <a href="/PrincipalRRHH"><FiHome /> Inicio</a>
+                <a href="/inicioRRHH"><FiHome /> Inicio</a>
                 <a href="/solicitudesPostulantes"><FiArrowUpCircle /> {subtitle1} <span>{icon1}</span></a>
                 <a href="/infoPostRRHH"><FiInfo />{subtitle2}<span>{icon2}</span></a>
-                <a href="/infoP"><FiUser /> {subtitle3}<span>{icon3}</span></a>
+                <a href="/informacionPersonal"><FiUser /> {subtitle3}<span>{icon3}</span></a>
             </div>
             <button className="menu-button" onClick={() => { logout(); }}>Cerrar sesión</button>
         </div>
