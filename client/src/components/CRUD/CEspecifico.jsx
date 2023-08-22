@@ -82,7 +82,7 @@ export default function App() {
         }));
         setNomCampA(formattedData);
 
-        if (statusOptions.length > 0) return;
+        statusOptions.splice(0);
         
         formattedData.forEach(campo => {
    
