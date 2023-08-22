@@ -1,10 +1,10 @@
 import React from 'react';
-import FilePreview from './FilePreview';
+// import FilePreview from './FilePreview';
 import documento from '../assets/prueba.png';
 
 
 import './PopupCalificacion.css'; // Asegúrate de tener los estilos CSS en este archivo
-import { image } from '@nextui-org/theme';
+// import { image } from '@nextui-org/theme';
 const PopupCalificacion = ({ show, onClose, title, subtitle, candidato, calificaciones, onConfirm, onCancel }) => {
     return show ? (
       <div className="popupdoc-overlay">

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect} from "react";
 import {
   Table,
   TableHeader,
@@ -103,7 +103,7 @@ export default function App() {
     agregarActividad(newActividad);
     clearInputFields(); // Llama a la función para limpiar los campos de entrada
     onOpenChangeModal1(); // Cierra el modal de agregar
-  }, [actividadesData, nombreA, descripcion]);
+  }, [actividadesData, nombreA, descripcion, onOpenChangeModal1]);
 
 
   //!Funcion de eliminado

@@ -80,7 +80,7 @@ export default function App() {
       .catch((error) => {
         console.error("Error al obtener contrato:", error);
       });
-  }, []);
+  }, [getUsuarios]);
 
   const renderCell = React.useCallback((user, columnKey) => {
 
