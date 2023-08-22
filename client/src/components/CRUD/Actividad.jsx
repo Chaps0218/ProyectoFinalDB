@@ -102,8 +102,8 @@ export default function App() {
     };
     agregarActividad(newActividad);
     clearInputFields(); // Llama a la función para limpiar los campos de entrada
-    onOpenChangeModal1(); // Cierra el modal de agregar
-  }, [actividadesData, nombreA, descripcion, onOpenChangeModal1]);
+    onOpenChangeModal2(); // Cierra el modal de agregar
+  }, [actividadesData, nombreA, descripcion, onOpenChangeModal2]);
 
 
   //!Funcion de eliminado
@@ -142,6 +142,7 @@ export default function App() {
     const cellValue = user[columnKey];
 
     const handleButtonPress = (idA, nombreA, descripcion) => {
+      console.log("Abierto");
       onOpenModal1(); // Open the modal
       setIdA(idA); // Clear the idA
       setNombreA(nombreA);
