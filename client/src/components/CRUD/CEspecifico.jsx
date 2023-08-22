@@ -61,9 +61,6 @@ const campoA = [
 //   }
 // ]
 
-const statusOptions = [];
-
-
 
 export default function App() {
 
@@ -127,6 +124,8 @@ export default function App() {
     return foundItem ? foundItem.ca_id : null;
   };
 
+  const statusOptions = nomCampA.map(item => item.nombreCA);
+  
   //!Variables de agregacion y actualizacion
   const [idA, setIdA] = React.useState(0); //Para actualizar
   const [nombreA, setNombreA] = React.useState("");
