@@ -1,9 +1,9 @@
-.custom-component {
+.custom-component-postulante {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    height: 78vh; 
-    width: 70vw;
+    width: auto;
+    height: 78vh;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
     background: var(--background-color);

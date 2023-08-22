@@ -16,7 +16,7 @@ const Menu = ({ title, subtitle1, subtitle2, subtitle3, icon1, icon2, icon3 }) =
     };
     const { isAuthenticated, logout, user } = useAuth();
     return (
-        <div className="menu">
+        <div className="menu-candidato">
             <div>
                 <h1 className="menu-title">
                     {isAuthenticated ? (
