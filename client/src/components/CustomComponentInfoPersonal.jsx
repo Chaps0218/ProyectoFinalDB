@@ -44,9 +44,9 @@ const CustomComponentForm2 = ({ title }) => {
 };
 
 return (
-    <div className="documents-list">
-        <h1 className="documents-title">Datos</h1>
-        <hr className="documents-divider" />
+    <div className="custom-component-postulante">
+        <h1 className="custom-title">Datos</h1>
+        <hr className="custom-divider" />
 
         <div className="form-section">
            

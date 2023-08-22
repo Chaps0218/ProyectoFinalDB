@@ -48,11 +48,10 @@ const CustomComponentSolicitudes = ({ title }) => {
     const [candidateRating, setCandidateRating] = useState(0);
 
     return (
-        <div className="custom-component">
+        <div className="custom-component-postulante">
             <h1 className="custom-title">{title}</h1>
             <hr className="custom-divider" />
             <div className="custom-content">
-                <div className="custom-section">
                     {selectedCandidate ? (
                         <div className="candidate-details">
                         <div className="candidate-header">
@@ -90,7 +89,7 @@ const CustomComponentSolicitudes = ({ title }) => {
                         </div>
                     </div>
                     ) : (
-                        <div>
+                        <div className='form-line-container'>
                         <div className='form-line'>
                         <div className='pendiente'>
                             <button>
@@ -163,7 +162,6 @@ const CustomComponentSolicitudes = ({ title }) => {
                             </div>
                         </div>
                     )}
-                </div>
             </div>
             {showConfirmationPopup && (
                 <div className="confirmation-overlay">

@@ -1,10 +1,3 @@
-.documents-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    width: 100vw;
-}
 
 .documents-title {
     font-size: 24px;
@@ -16,6 +9,10 @@
     height: 2px;
     background-color: #ccc;
     margin-bottom: 20px;
+}
+.form-line-container{
+    width: 100%;
+    display: flex;
 }
 
 .form-line {
