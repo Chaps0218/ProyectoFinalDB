@@ -35,32 +35,20 @@ const columns = [
 
 const INITIAL_VISIBLE_COLUMNS = ["nombreA", "descripcion", "campoAmplio", "actions"];
 
-const campoA = [
-  {
-    idA: 1,
-    nombreA: "Campo Especifico 1",
-    descripcion: "Descripcion del campo 1",
-    ca_id: 1
-  },
-  {
-    idA: 2,
-    nombreA: "Campo Especifico 2",
-    descripcion: "Descripcion del campo 2",
-    ca_id: 2
-  },
-];
-
-// const nomCampA = [
+// const campoA = [
 //   {
-//     ca_id: 1,
-//     nombreCA: "Campo Amplio 1",
+//     idA: 1,
+//     nombreA: "Campo Especifico 1",
+//     descripcion: "Descripcion del campo 1",
+//     ca_id: 1
 //   },
 //   {
-//     ca_id: 2,
-//     nombreCA: "Campo Amplio 2",
-//   }
-// ]
-
+//     idA: 2,
+//     nombreA: "Campo Especifico 2",
+//     descripcion: "Descripcion del campo 2",
+//     ca_id: 2
+//   },
+// ];
 const statusOptions = [];
 
 
@@ -111,21 +99,27 @@ export default function App() {
     };
   }, []);
 
-  console.log(actividad);
-  console.log(nomCampA);
-  actividad.forEach(campo => {
-    const matchingNomCampA = nomCampA.find(item => item.ca_id === campo.ca_id);
-    if (matchingNomCampA && !statusOptions.some(option => option.name === matchingNomCampA.nombreCA)) {
-      statusOptions.push({ name: matchingNomCampA.nombreCA, uid: matchingNomCampA.nombreCA });
-    }
+  const rellenoCA = () => {
+    const uniqueStatusOptions = new Set();
   
-    console.log(statusOptions);
-  });
+    nomCampA.forEach(campo => {
+      uniqueStatusOptions.add({ name: campo.nombreCA, uid: campo.ca_id });
+    });
   
-  const getCaIdFromNombreCA = (nameCA) => {
-    const foundItem = nomCampA.find((item) => item.nombreCA === nameCA);
-    return foundItem ? foundItem.ca_id : null;
+    // Convert the Set back to an array
+    const updatedStatusOptions = Array.from(uniqueStatusOptions);
+  
+    console.log(updatedStatusOptions);
+    return updatedStatusOptions;
   };
+  
+  // Call the function to get the updated statusOptions
+  const updatedStatusOptions = rellenoCA();  
+  
+  const getCaIdFromNombreCA = useCallback((nombreCA) => {
+    const foundItem = nomCampA.find((item) => item.nombreCA === nombreCA);
+    return foundItem ? foundItem.ca_id : null;
+  }, [nomCampA]);
 
   //!Variables de agregacion y actualizacion
   const [idA, setIdA] = React.useState(0); //Para actualizar
@@ -170,11 +164,10 @@ export default function App() {
     agregarcampoEspecifico(newActividad);
     clearInputFields(); // Llama a la función para limpiar los campos de entrada
     onOpenChangeModal2(); // Cierra el modal de agregar
-  }, [nombreA, descripcion, onOpenChangeModal2]);
+  }, [nombreA, descripcion, onOpenChangeModal2, getCaIdFromNombreCA, selectedValue]);
 
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
-    console.log("Deleting user with idA: ", idA);
     eliminarcampoEspecifico(idA);
   }, [actividad]);
 
@@ -190,7 +183,11 @@ export default function App() {
       ce_descripcion: descripcion,
       ca_id: getCaIdFromNombreCA(selectedValue),
     };
-    
+
+    console.log(selectedValue)
+    if(selectedValue === "Selecciona"){
+      window.alert("Error: Debe seleccionar un campo amplio");
+      return;}
     editarcampoEspecifico(idA, editedUser);
 
     clearInputFields(); // Llama a la función para limpiar los campos de entrada
@@ -223,7 +220,7 @@ export default function App() {
           </div>
         );
       case "campoAmplio":
-        const foundCampoA = campoA.find(item => item.ca_id === user.ca_id);
+        const foundCampoA = actividad.find(item => item.ca_id === user.ca_id);
         const matchingNomCampA = foundCampoA ? nomCampA.find(item => item.ca_id === foundCampoA.ca_id) : null;
 
         return (
@@ -442,7 +439,7 @@ export default function App() {
                               selectedKeys={selectedKeys}
                               onSelectionChange={setSelectedKeys}
                             >
-                              {statusOptions.map((column) => (
+                              {updatedStatusOptions.map((column) => (
                                 <DropdownItem key={column.name} className="capitalize">
                                   {capitalize(column.name)}
                                 </DropdownItem>
@@ -615,7 +612,7 @@ export default function App() {
                         selectedKeys={selectedKeys}
                         onSelectionChange={setSelectedKeys}
                       >
-                        {statusOptions.map((column) => (
+                        {updatedStatusOptions.map((column) => (
                           <DropdownItem key={column.name} className="capitalize">
                             {capitalize(column.name)}
                           </DropdownItem>

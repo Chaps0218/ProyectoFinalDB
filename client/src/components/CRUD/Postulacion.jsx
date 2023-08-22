@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   Table,
   TableHeader,
@@ -23,6 +23,7 @@ import { SearchIcon } from "../../assets/SearchIcon";
 import {ChevronDownIcon} from "../../assets/ChevronDownIcon";
 import {capitalize} from "../utils";
 import { PlusIcon } from "../../assets/PlusIcon";
+import { extraerContrato, agregarContrato, editarContrato, eliminarContrato } from "../../api/contratacion";
 
 const columns = [
   {name: "PERIODO", uid: "nombreA", sortable: true},
@@ -46,7 +47,29 @@ const campoA = [
 export default function App() {
 
   //!Variables para rellenar a todas las campoA
-  const [actividad, setActividad] = React.useState(campoA);
+  const [actividad, setActividad] = React.useState([]);
+
+  useEffect(() => {
+    const fetchData = () => {
+      extraerContrato()
+        .then((response) => {
+          const contratoData = response.data.contrato;
+          const formattedData = contratoData.map((item) => ({
+            idA: item[0],
+            nombreA: item[1]
+          }));
+          setActividad(formattedData);
+        })
+        .catch((error) => {
+          console.error("Error al obtener contrato:", error);
+        });
+    };
+    fetchData();
+    const intervalId = setInterval(fetchData, 3000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   //!Variables de agregacion y actualizacion
   const [idA, setIdA] = React.useState(0); //Para actualizar
@@ -69,31 +92,41 @@ export default function App() {
 
   //!Funcion para agregar una nueva actividad
   const handleAgregar = React.useCallback(() => {
-    const newUser = {
-      idA: campoA.length + 1,  
-      nombreA: nombreA,
+    if (nombreA.trim() === "") {
+      window.alert("Error: Los campos no pueden estar vacíos");
+      return;
+    }
+
+    const newActividad = {
+      post_periodo: nombreA,
     };
-    setActividad((prevUsers) => [...prevUsers, newUser]);
-    clearInputFields(); // Call the function to clear input fields
-  }, [nombreA]);
+    agregarContrato(newActividad);
+    clearInputFields(); // Llama a la función para limpiar los campos de entrada
+    onOpenChangeModal2(); // Cierra el modal de agregar
+  }, [nombreA, onOpenChangeModal2]);
 
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
-    console.log("Deleting user with idA: ", idA);
-    console.log(actividad);
-    setActividad((prevUsers) => prevUsers.filter((user) => user.idA !== idA));
-    console.log(actividad);
+    eliminarContrato(idA);
   }, [actividad]);
 
   //!Funcion de actualizar
   const handleActualizar = React.useCallback(() => {
+    if (nombreA.trim() === "") {
+      window.alert("Error: Los campos no pueden estar vacíos");
+      return;
+    }
+
     const editedUser = {
-      idA: idA,
-      nombreA: nombreA,
+      post_id: idA,
+      post_periodo: nombreA,
     };
-    setActividad((prevUsers) => prevUsers.map((user) => (user.idA === idA ? editedUser : user)));
-    clearInputFields(); // Call the function to clear input fields
-  }, [idA, nombreA]);
+    
+    editarContrato(idA, editedUser);
+
+    clearInputFields(); // Llama a la función para limpiar los campos de entrada
+    onOpenChangeModal1(); // Cierra el modal de editar
+  }, [idA, nombreA, onOpenChangeModal1]);
 
 
   const renderCell = React.useCallback((user, columnKey) => {

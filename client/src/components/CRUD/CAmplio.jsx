@@ -100,7 +100,6 @@ export default function App() {
   }, [nombreA, descripcion, onOpenChangeModal2]);
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
-    console.log("Deleting user with idA: ", idA);
     eliminarcampoAmplio(idA);
   }, [actividad]);
 

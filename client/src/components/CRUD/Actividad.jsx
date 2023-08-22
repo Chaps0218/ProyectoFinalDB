@@ -101,7 +101,6 @@ export default function App() {
 
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
-    console.log("Deleting user with idA: ", idA);
     eliminarActividad(idA);
   }, [actividadesData]);
 
@@ -131,7 +130,6 @@ export default function App() {
     const cellValue = user[columnKey];
 
     const handleButtonPress = (idA, nombreA, descripcion) => {
-      console.log("Abierto");
       onOpenModal1(); // Open the modal
       setIdA(idA); // Clear the idA
       setNombreA(nombreA);

@@ -27,25 +27,11 @@ import { extraerSede, agregarSede, editarSede, eliminarSede } from "../../api/co
 
 const columns = [
   {name: "NOMBRE", uid: "nombreA", sortable: true},
-  {name: "DESCRIPCION", uid: "descripcion"},
+  {name: "DESCRIPCIÓN", uid: "descripcion"},
   {name: "ACCIONES", uid: "actions"},
 ];
 
 const INITIAL_VISIBLE_COLUMNS = ["nombreA", "descripcion", "actions"];
-
-const campoA = [
-  {
-    idA: 1,
-    nombreA: "Sede 1",
-    descripcion: "Descripcion 1"
-  },
-  {
-    idA: 2,
-    nombreA: "Sede 2",
-    descripcion: "Descripcion 2"
-},
-];
-
 
 export default function App() {
 
@@ -114,7 +100,6 @@ export default function App() {
 
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
-    console.log("Deleting user with idA: ", idA);
     eliminarSede(idA);
   }, [actividad]);
 

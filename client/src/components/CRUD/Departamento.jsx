@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   Table,
   TableHeader,
@@ -23,10 +23,11 @@ import { SearchIcon } from "../../assets/SearchIcon";
 import {ChevronDownIcon} from "../../assets/ChevronDownIcon";
 import {capitalize} from "../utils";
 import { PlusIcon } from "../../assets/PlusIcon";
+import { extraerDepartamento, agregarDepartamento, editarDepartamento, eliminarDepartamento } from "../../api/contratacion";
 
 const columns = [
   {name: "NOMBRE", uid: "nombreA", sortable: true},
-  {name: "DESCRIPCION", uid: "descripcion"},
+  {name: "DESCRIPCIÓN", uid: "descripcion"},
   {name: "ACCIONES", uid: "actions"},
 ];
 
@@ -49,7 +50,30 @@ const campoA = [
 export default function App() {
 
   //!Variables para rellenar a todas las campoA
-  const [actividad, setActividad] = React.useState(campoA);
+  const [actividad, setActividad] = React.useState([]);
+  
+  useEffect(() => {
+    const fetchData = () => {
+      extraerDepartamento()
+        .then((response) => {
+          const contratoData = response.data.departamento;
+          const formattedData = contratoData.map((item) => ({
+            idA: item[0],
+            nombreA: item[1],
+            descripcion: item[2]
+          }));
+          setActividad(formattedData);
+        })
+        .catch((error) => {
+          console.error("Error al obtener contrato:", error);
+        });
+    };
+    fetchData();
+    const intervalId = setInterval(fetchData, 3000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   //!Variables de agregacion y actualizacion
   const [idA, setIdA] = React.useState(0); //Para actualizar
@@ -58,9 +82,6 @@ export default function App() {
   const [showError, setShowError] = React.useState(false);
   const [nombreAFocused, setNombreAFocused] = React.useState(false);
   const [descripcionFocused, setDescripcionFocused] = React.useState(false);
-
-
-
 
   //!Variables para abrir y cerrar los modales de agregar y actualizar
   const { isOpen: isOpenModal1, onOpen: onOpenModal1, onOpenChange: onOpenChangeModal1 } = useDisclosure();
@@ -104,43 +125,43 @@ export default function App() {
   //!Funcion para agregar una nueva actividad
   const handleAgregar = React.useCallback(() => {
     if (nombreA.trim() === "" || descripcion.trim() === "") {
-      setNombreAFocused(true);
-      setDescripcionFocused(true);
-      setTimeout(() => {
-        setNombreAFocused(false);
-        setDescripcionFocused(false);
-      }, 2000);
-      
+      window.alert("Error: Los campos no pueden estar vacíos");
       return;
     }
-    const newUser = {
-      idA: campoA.length + 1,
-      nombreA: nombreA,
-      descripcion: descripcion,
+
+    const newActividad = {
+      dept_nombre: nombreA,
+      dept_descripcion: descripcion,
     };
-    setActividad((prevUsers) => [...prevUsers, newUser]);
-    clearInputFields(); // Call the function to clear input fields
-    setShowError(false);
-  }, [nombreA, descripcion]);
+    agregarDepartamento(newActividad);
+    clearInputFields(); // Llama a la función para limpiar los campos de entrada
+    onOpenChangeModal2(); // Cierra el modal de agregar
+  }, [nombreA, descripcion, onOpenChangeModal2]);
 
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
-    console.log("Deleting user with idA: ", idA);
-    console.log(actividad);
-    setActividad((prevUsers) => prevUsers.filter((user) => user.idA !== idA));
-    console.log(actividad);
+    eliminarDepartamento(idA);
   }, [actividad]);
 
   //!Funcion de actualizar
   const handleActualizar = React.useCallback(() => {
+    console.log(idA, nombreA, descripcion)
+    if (nombreA.trim() === "" || descripcion.trim() === "") {
+      window.alert("Error: Los campos no pueden estar vacíos");
+      return;
+    }
+
     const editedUser = {
-      idA: idA,
-      nombreA: nombreA,
-      descripcion: descripcion,
+      dept_id: idA,
+      dept_nombre: nombreA,
+      dept_descripcion: descripcion,
     };
-    setActividad((prevUsers) => prevUsers.map((user) => (user.idA === idA ? editedUser : user)));
-    clearInputFields(); // Call the function to clear input fields
-  }, [idA, nombreA, descripcion]);
+    
+    editarDepartamento(idA, editedUser);
+
+    clearInputFields(); // Llama a la función para limpiar los campos de entrada
+    onOpenChangeModal1(); // Cierra el modal de editar
+  }, [idA, nombreA, descripcion, onOpenChangeModal1]);
 
 
   const renderCell = React.useCallback((user, columnKey) => {
@@ -164,8 +185,7 @@ export default function App() {
       case "descripcion":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">Descripcion del departamento</p>
-            <p className="text-bold text-sm capitalize text-default-400">{user.descripcion}</p>
+            <p className="text-bold text-sm capitalize">{user.descripcion}</p>
           </div>
         );
       case "actions":
@@ -332,7 +352,7 @@ export default function App() {
               <ModalContent>
                 {(onClose) => (
                   <>
-                    <ModalHeader className="flex flex-col gap-1">Agregar usuario</ModalHeader>
+                    <ModalHeader className="flex flex-col gap-1">Agregar Departamento</ModalHeader>
                     <ModalBody>
                       <div className="flex flex-wrap gap-8">
                         <div className="w-full">
@@ -479,7 +499,7 @@ export default function App() {
     <ModalContent>
       {(onClose) => ( 
         <>
-          <ModalHeader className="flex flex-col gap-1">Actualizar usuario</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1">Actualizar Departamento</ModalHeader>
           <ModalBody>
           <div className="flex flex-wrap gap-8">
                 <div className="w-full">

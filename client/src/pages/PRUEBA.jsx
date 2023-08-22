@@ -20,6 +20,7 @@ import PersonalA from "../components/CRUD/PersonalA.jsx"
 import Tituloexp from "../components/CRUD/Tituloexp.jsx"
 import Postulacion from "../components/CRUD/Postulacion.jsx"
 import Requisito from "../components/CRUD/Requisito.jsx"
+import SolicitudCrud from '../components/CRUD/SolicitudCrud.jsx';
 
 
 const Solicitud = () => {
@@ -94,6 +95,14 @@ const Solicitud = () => {
         </Card>  
       </Tab>
 
+      <Tab key="personalA" title="Personal Académico">
+        <Card>
+          <CardBody>
+            <PersonalA/>
+          </CardBody>
+        </Card>
+      </Tab>
+
       <Tab key="item" title="Item">
         <Card>
           <CardBody>
@@ -113,9 +122,7 @@ const Solicitud = () => {
       <Tab key="solicitud" title="Solicitud">
         <Card>
           <CardBody>
-            <div>
-              <h1>Introduzca su pagina aqui. (Tildes omitidas intencionalmente)</h1>
-            </div>
+            <SolicitudCrud/>
           </CardBody>
         </Card>  
       </Tab>
@@ -134,6 +141,14 @@ const Solicitud = () => {
             <Requisito/>
           </CardBody>
         </Card>  
+      </Tab>
+
+      <Tab key="tituloexp" title="Título Experiencia">
+        <Card>
+          <CardBody>
+            <Tituloexp/>
+          </CardBody>
+        </Card>
       </Tab>
 
       <Tab key="oferta" title="Oferta">
