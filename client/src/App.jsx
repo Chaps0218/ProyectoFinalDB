@@ -59,22 +59,6 @@ const App = () => {
             <Route path="/prueba" element={<PRUEBA />} />
             <Route path="/calificacion" element={<Calificacion />} />
 
-            <Route path="/registroRRHH" element={<RegistroRRHH />} />
-                <Route path="/inicioRRHH" element={<InicioRRHH />} />
-                <Route path="/PrincipalRRHH" element={<PrincipalRRHH />} />
-                <Route path="/recursoshumanos" element={<Recursoshumanos />} />
-                <Route path="/academica" element={<Solicitud />} />
-                <Route path="/infoPostRRHH" element={<InfoPostRRHH />} />
-                <Route path="/informacionrh" element={<Informacionrh />} />
-                <Route path="/informacionPersonal" element={<InformacionPersonal />} />
-                <Route path="/solicitudesPostulantes" element={<SolicitudesPostulantes />} />
-                <Route path="/listaPostulantes" element={<ListaPostulantes />} />
-
-                <Route path="/inicioPostulante" element={<InicioPostulante />} />
-                <Route path="/informacionPostulante" element={<InfoPostulante />} />
-                <Route path="/proceso" element={<Proceso />} />
-                <Route path="/postulacion" element={<Usuarios />} />
-                <Route path="/informacion" element={<Informacion />} />
 
             <Route path="/" element={<Inicio />} />
             <Route element={<ProtectedRoute />}>
