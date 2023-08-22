@@ -96,13 +96,13 @@ export default function App() {
     agregarActividad(newActividad);
     clearInputFields(); // Llama a la función para limpiar los campos de entrada
     onOpenChangeModal2(); // Cierra el modal de agregar
-  }, [actividadesData, nombreA, descripcion, onOpenChangeModal2]);
+  }, [nombreA, descripcion, onOpenChangeModal2]);
 
 
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
     eliminarActividad(idA);
-  }, [actividadesData]);
+  }, []);
 
 
   //!Funcion de actualizar
@@ -175,7 +175,7 @@ export default function App() {
   //!Funciones de filtro
   const [filterValue, setFilterValue] = React.useState("");
   const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS));
-  const [statusFilter] = React.useState("all");
+  // const [statusFilter] = React.useState("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(1);
   const [sortDescriptor, setSortDescriptor] = React.useState({
     column: "age",
@@ -207,7 +207,7 @@ export default function App() {
     // }
 
     return filteredUsers;
-  }, [filterValue, statusFilter, hasSearchFilter, actividadesData]);
+  }, [filterValue,hasSearchFilter, actividadesData]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -395,6 +395,7 @@ export default function App() {
     handleAgregar,
     isOpenModal2,
     onOpenChangeModal2,
+    validacionN
   ]);
 
   const bottomContent = React.useMemo(() => {

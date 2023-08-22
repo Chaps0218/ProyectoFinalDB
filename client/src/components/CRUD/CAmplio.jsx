@@ -101,7 +101,7 @@ export default function App() {
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
     eliminarcampoAmplio(idA);
-  }, [actividad]);
+  }, []);
 
   //!Funcion de actualizar
   const handleActualizar = React.useCallback(() => {

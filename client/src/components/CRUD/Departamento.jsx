@@ -33,18 +33,18 @@ const columns = [
 
 const INITIAL_VISIBLE_COLUMNS = ["nombreA", "descripcion", "actions"];
 
-const campoA = [
-  {
-    idA: 1,
-    nombreA: "Departamento 1",
-    descripcion: "Descripcion del depa1"
-  },
-  {
-    idA: 2,
-    nombreA: "Departamento 2",
-    descripcion: "Descripcion del depa2"
-},
-];
+// const campoA = [
+//   {
+//     idA: 1,
+//     nombreA: "Departamento 1",
+//     descripcion: "Descripcion del depa1"
+//   },
+//   {
+//     idA: 2,
+//     nombreA: "Departamento 2",
+//     descripcion: "Descripcion del depa2"
+// },
+// ];
 
 
 export default function App() {
@@ -79,7 +79,7 @@ export default function App() {
   const [idA, setIdA] = React.useState(0); //Para actualizar
   const [nombreA, setNombreA] = React.useState("");
   const [descripcion, setDescripcion] = React.useState("");
-  const [showError, setShowError] = React.useState(false);
+  // const [showError, setShowError] = React.useState(false);
   const [nombreAFocused, setNombreAFocused] = React.useState(false);
   const [descripcionFocused, setDescripcionFocused] = React.useState(false);
 
@@ -105,21 +105,21 @@ export default function App() {
     setNombreAFocused(false);
   };
   
-  const handleNombreABlur = () => {
+  const handleNombreABlur = useCallback(() => {
     if (nombreA.trim() === "") {
       setNombreAFocused(true);
     }
-  };
+  }, [nombreA]);
   
   const handleDescripcionFocus = () => {
     setDescripcionFocused(false);
   };
   
-  const handleDescripcionBlur = () => {
+  const handleDescripcionBlur = useCallback(() => {
     if (descripcion.trim() === "") {
       setDescripcionFocused(true);
     }
-  };
+  },[descripcion]);
   
 
   //!Funcion para agregar una nueva actividad
@@ -141,7 +141,7 @@ export default function App() {
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
     eliminarDepartamento(idA);
-  }, [actividad]);
+  }, []);
 
   //!Funcion de actualizar
   const handleActualizar = React.useCallback(() => {
@@ -434,6 +434,9 @@ export default function App() {
     isOpenModal2,
     onOpenChangeModal2,
     validacionN,
+    handleDescripcionBlur,
+    handleNombreABlur,
+    validacionD
   ]);
 
   const bottomContent = React.useMemo(() => {

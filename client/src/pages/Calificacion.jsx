@@ -31,48 +31,48 @@ const Calificacion = () => {
         });
 }, []);
 
-  const parametros = [
-    {
-      nombre: 'Calidad',
-      descripcion: 'La calidad se refiere a la excelencia inherente de un producto o servicio.',
-      puntajeMaximo: 5
-    },
-    {
-      nombre: 'Eficiencia',
-      descripcion: 'La eficiencia se refiere a la relación entre los recursos utilizados y los resultados obtenidos.',
-      puntajeMaximo: 10
-    },
-    {
-      nombre: 'Innovación',
-      descripcion: 'La innovación se refiere a la introducción de nuevos métodos, ideas o productos.',
-      puntajeMaximo: 7
-    },
-    {
-      nombre: 'Responsabilidad Social',
-      descripcion: 'La responsabilidad social se refiere a las obligaciones éticas y sociales de una organización.',
-      puntajeMaximo: 4
-    },
-    {
-      nombre: 'Calidad',
-      descripcion: 'La calidad se refiere a la excelencia inherente de un producto o servicio.',
-      puntajeMaximo: 5
-    },
-    {
-      nombre: 'Eficiencia',
-      descripcion: 'La eficiencia se refiere a la relación entre los recursos utilizados y los resultados obtenidos.',
-      puntajeMaximo: 10
-    },
-    {
-      nombre: 'Innovación',
-      descripcion: 'La innovación se refiere a la introducción de nuevos métodos, ideas o productos.',
-      puntajeMaximo: 7
-    },
-    {
-      nombre: 'Responsabilidad Social',
-      descripcion: 'La responsabilidad social se refiere a las obligaciones éticas y sociales de una organización.',
-      puntajeMaximo: 4
-    }
-  ];
+  // const parametros = [
+  //   {
+  //     nombre: 'Calidad',
+  //     descripcion: 'La calidad se refiere a la excelencia inherente de un producto o servicio.',
+  //     puntajeMaximo: 5
+  //   },
+  //   {
+  //     nombre: 'Eficiencia',
+  //     descripcion: 'La eficiencia se refiere a la relación entre los recursos utilizados y los resultados obtenidos.',
+  //     puntajeMaximo: 10
+  //   },
+  //   {
+  //     nombre: 'Innovación',
+  //     descripcion: 'La innovación se refiere a la introducción de nuevos métodos, ideas o productos.',
+  //     puntajeMaximo: 7
+  //   },
+  //   {
+  //     nombre: 'Responsabilidad Social',
+  //     descripcion: 'La responsabilidad social se refiere a las obligaciones éticas y sociales de una organización.',
+  //     puntajeMaximo: 4
+  //   },
+  //   {
+  //     nombre: 'Calidad',
+  //     descripcion: 'La calidad se refiere a la excelencia inherente de un producto o servicio.',
+  //     puntajeMaximo: 5
+  //   },
+  //   {
+  //     nombre: 'Eficiencia',
+  //     descripcion: 'La eficiencia se refiere a la relación entre los recursos utilizados y los resultados obtenidos.',
+  //     puntajeMaximo: 10
+  //   },
+  //   {
+  //     nombre: 'Innovación',
+  //     descripcion: 'La innovación se refiere a la introducción de nuevos métodos, ideas o productos.',
+  //     puntajeMaximo: 7
+  //   },
+  //   {
+  //     nombre: 'Responsabilidad Social',
+  //     descripcion: 'La responsabilidad social se refiere a las obligaciones éticas y sociales de una organización.',
+  //     puntajeMaximo: 4
+  //   }
+  // ];
   
   // const { isAuthenticated } = useAuth();
   return (

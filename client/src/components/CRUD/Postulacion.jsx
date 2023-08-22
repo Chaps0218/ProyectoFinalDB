@@ -32,16 +32,16 @@ const columns = [
 
 const INITIAL_VISIBLE_COLUMNS = ["nombreA", "actions"];
 
-const campoA = [
-  {
-    idA: 1,
-    nombreA: "Contratacion 1",
-  },
-  {
-    idA: 2,
-    nombreA: "Contratacion 2",
-},
-];
+// const campoA = [
+//   {
+//     idA: 1,
+//     nombreA: "Contratacion 1",
+//   },
+//   {
+//     idA: 2,
+//     nombreA: "Contratacion 2",
+// },
+// ];
 
 
 export default function App() {
@@ -108,7 +108,7 @@ export default function App() {
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
     eliminarContrato(idA);
-  }, [actividad]);
+  }, []);
 
   //!Funcion de actualizar
   const handleActualizar = React.useCallback(() => {

@@ -3,7 +3,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { ProtectedRouteRRHH } from "./ProtectedRouteRRHH";
 import { ProtectedRouteCandidato } from "./ProtectedRouteCandidato";
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeContext } from './context/ThemeContext';
 import Informacionrh from "./pages/Informacionrh";
 
@@ -12,8 +12,8 @@ import Inicio from './pages/Inicio';
 import Registro from './pages/Registro';
 import RegistroRRHH from "./pages/RegistroRRHH";
 import Login from './pages/Login';
-import Plataforma from "./pages/Plataforma";
-import Postulante from "./pages/Postulante";
+// import Plataforma from "./pages/Plataforma";
+// import Postulante from "./pages/Postulante";
 import Proceso from "./pages/Proceso";
 import Recursoshumanos from './pages/Recursoshumanos';
 import Solicitud from "./pages/Solicitud";
@@ -59,7 +59,7 @@ const App = () => {
             <Route path="/actividad" element={<Actividad />} />
             <Route path="/prueba" element={<PRUEBA />} />
             <Route path="/calificacion" element={<Calificacion />} />
-
+            <Route path="/infoPostRRHH" element={<InfoPostRRHH />} />
 
             <Route path="/" element={<Inicio />} />
             <Route element={<ProtectedRoute />}>

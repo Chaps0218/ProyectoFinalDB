@@ -49,6 +49,18 @@ const INITIAL_VISIBLE_COLUMNS = ["nombreA", "descripcion", "campoAmplio", "actio
 //     ca_id: 2
 //   },
 // ];
+
+// const nomCampA = [
+//   {
+//     ca_id: 1,
+//     nombreCA: "Campo Amplio 1",
+//   },
+//   {
+//     ca_id: 2,
+//     nombreCA: "Campo Amplio 2",
+//   }
+// ]
+
 const statusOptions = [];
 
 
@@ -69,6 +81,15 @@ export default function App() {
           descripcion: item[2]
         }));
         setNomCampA(formattedData);
+
+        if (statusOptions.length > 0) return;
+        
+        formattedData.forEach(campo => {
+   
+          statusOptions.push({ name: campo.nombreCA, uid: campo.nombreCA });  
+      
+          console.log(statusOptions);
+        });
       })
       .catch((error) => {
         console.error("Error al obtener contrato:", error);
@@ -99,27 +120,17 @@ export default function App() {
     };
   }, []);
 
-  const rellenoCA = () => {
-    const uniqueStatusOptions = new Set();
+  console.log(actividad);
+  console.log(nomCampA);
+
   
-    nomCampA.forEach(campo => {
-      uniqueStatusOptions.add({ name: campo.nombreCA, uid: campo.ca_id });
-    });
-  
-    // Convert the Set back to an array
-    const updatedStatusOptions = Array.from(uniqueStatusOptions);
-  
-    console.log(updatedStatusOptions);
-    return updatedStatusOptions;
-  };
-  
-  // Call the function to get the updated statusOptions
-  const updatedStatusOptions = rellenoCA();  
-  
-  const getCaIdFromNombreCA = useCallback((nombreCA) => {
-    const foundItem = nomCampA.find((item) => item.nombreCA === nombreCA);
-    return foundItem ? foundItem.ca_id : null;
-  }, [nomCampA]);
+  const getCaIdFromNombreCA = useCallback(
+    (nameCA) => {
+      const foundItem = nomCampA.find((item) => item.nombreCA === nameCA);
+      return foundItem ? foundItem.ca_id : null;
+    },
+    [nomCampA]
+  );
 
   //!Variables de agregacion y actualizacion
   const [idA, setIdA] = React.useState(0); //Para actualizar
@@ -168,8 +179,9 @@ export default function App() {
 
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
+    console.log("Deleting user with idA: ", idA);
     eliminarcampoEspecifico(idA);
-  }, [actividad]);
+  },[]);
 
   //!Funcion de actualizar
   const handleActualizar = React.useCallback(() => {
@@ -183,16 +195,12 @@ export default function App() {
       ce_descripcion: descripcion,
       ca_id: getCaIdFromNombreCA(selectedValue),
     };
-
-    console.log(selectedValue)
-    if(selectedValue === "Selecciona"){
-      window.alert("Error: Debe seleccionar un campo amplio");
-      return;}
+    
     editarcampoEspecifico(idA, editedUser);
 
     clearInputFields(); // Llama a la función para limpiar los campos de entrada
     onOpenChangeModal1(); // Cierra el modal de editar
-  }, [idA, nombreA, descripcion, onOpenChangeModal1]);
+  }, [idA, nombreA, descripcion, onOpenChangeModal1, getCaIdFromNombreCA, selectedValue]);
 
 
   const renderCell = React.useCallback((user, columnKey) => {
@@ -220,7 +228,7 @@ export default function App() {
           </div>
         );
       case "campoAmplio":
-        const foundCampoA = actividad.find(item => item.ca_id === user.ca_id);
+        const foundCampoA = nomCampA.find(item => item.ca_id === user.ca_id);
         const matchingNomCampA = foundCampoA ? nomCampA.find(item => item.ca_id === foundCampoA.ca_id) : null;
 
         return (
@@ -248,7 +256,7 @@ export default function App() {
       default:
         return cellValue;
     }
-  }, [handleDelete, onOpenModal1]);
+  }, [handleDelete, onOpenModal1, nomCampA]);
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   //!Funciones de filtro
@@ -439,7 +447,7 @@ export default function App() {
                               selectedKeys={selectedKeys}
                               onSelectionChange={setSelectedKeys}
                             >
-                              {updatedStatusOptions.map((column) => (
+                              {statusOptions.map((column) => (
                                 <DropdownItem key={column.name} className="capitalize">
                                   {capitalize(column.name)}
                                 </DropdownItem>
@@ -612,7 +620,7 @@ export default function App() {
                         selectedKeys={selectedKeys}
                         onSelectionChange={setSelectedKeys}
                       >
-                        {updatedStatusOptions.map((column) => (
+                        {statusOptions.map((column) => (
                           <DropdownItem key={column.name} className="capitalize">
                             {capitalize(column.name)}
                           </DropdownItem>

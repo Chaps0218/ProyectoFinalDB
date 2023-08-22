@@ -97,7 +97,7 @@ export default function App() {
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
     eliminarTipoContrato(idA);
-  }, [actividad]);
+  }, []);
 
   //!Funcion de actualizar
   const handleActualizar = React.useCallback(() => {
