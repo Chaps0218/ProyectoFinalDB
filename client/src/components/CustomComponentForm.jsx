@@ -33,7 +33,6 @@ const CustomComponentForm = ({ title }) => {
                 console.log(err);
             });
     }, []);
-    
 
     useEffect(() => {
         extraerOferta()
@@ -54,7 +53,7 @@ const CustomComponentForm = ({ title }) => {
         extraerTipoContrato()
             .then((res) => {
                 if (res.data && res.data.tipoContrato) {
-                    setSede(res.data.tipoContrato);
+                    setTipoContrato(res.data.tipoContrato);
                     console.log(res.data.tipoContrato);
                 } else {
                     console.log("Datos de tipo de contratos no encontrados en la respuesta.");
@@ -182,6 +181,28 @@ const CustomComponentForm = ({ title }) => {
         // ... (agregar más datos según sea necesario)
     ];
 
+    const [selectedIDs, setSelectedIDs] = useState({
+        contratos: "",
+        tipoContrato: "",
+        personalAcademico: "",
+        campoAmplio: "",
+        campoEspecifico: "",
+        sede: "",
+        departamento: "",
+    });
+
+    // Función para manejar el cambio en las selecciones y actualizar los IDs
+    const handleSelectChange = (key, selectedValue) => {
+        setSelectedIDs(prevSelectedIDs => ({
+            ...prevSelectedIDs,
+            [key]: selectedValue,
+        }));
+    };
+
+    useEffect(() => {
+        console.log("IDs seleccionados:", selectedIDs);
+    }, [selectedIDs]); // Este efecto se ejecutará cuando selectedIDs cambie
+
 
     return (
         <div className="custom-component-postulante">
@@ -196,7 +217,7 @@ const CustomComponentForm = ({ title }) => {
                 <div className="form-line">
                     <div>
                         <h1>Proceso:</h1>
-                        <select>
+                        <select onChange={(e) => handleSelectChange("contratos", e.target.value)}>
                             {contratos.map((item) => (
                                 <option key={item[0]} value={item[1]}>
                                     {item[1]}
@@ -206,7 +227,7 @@ const CustomComponentForm = ({ title }) => {
                     </div>
                     <div>
                         <h1>Tipo de Contrato:</h1>
-                        <select>
+                        <select onChange={(e) => handleSelectChange("tipoContrato", e.target.value)}>
                             {tipoContrato.map((item) => (
                                     <option key={item[0]} value={item[1]}>
                                         {item[1]}
@@ -219,7 +240,7 @@ const CustomComponentForm = ({ title }) => {
                 <div className="form-line">
                     <div>
                         <h1>Tipo de personal académico:</h1>
-                        <select>
+                        <select onChange={(e) => handleSelectChange("personalAcademico", e.target.value)}>
                             {personalAcademico.map((item) => (
                                 <option key={item[0]} value={item[1]}>
                                     {item[2]}
@@ -229,7 +250,7 @@ const CustomComponentForm = ({ title }) => {
                     </div>
                     <div>
                         <h1>Campo Amplio:</h1>
-                        <select>
+                        <select onChange={(e) => handleSelectChange("campoAmplio", e.target.value)}>
                             {campoAmplio.map((item) => (
                                 <option key={item[0]} value={item[1]}>
                                     {item[2]}
@@ -242,7 +263,7 @@ const CustomComponentForm = ({ title }) => {
                 <div className="form-line">
                     <div>
                         <h1>Campo específico:</h1>
-                        <select>
+                        <select onChange={(e) => handleSelectChange("campoEspecifico", e.target.value)}>
                             {campoEspecifico.map((item) => (
                                 <option key={item[0]} value={item[1]}>
                                     {item[2]}
@@ -252,7 +273,7 @@ const CustomComponentForm = ({ title }) => {
                     </div>
                     <div>
                         <h1>Sede:</h1>
-                        <select>
+                        <select onChange={(e) => handleSelectChange("sede", e.target.value)}>
                             {sede.map((item) => (
                                 <option key={item[0]} value={item[1]}>
                                     {item[2]}
@@ -262,7 +283,7 @@ const CustomComponentForm = ({ title }) => {
                     </div>
                     <div>
                         <h1>Departamento:</h1>
-                        <select>
+                        <select onChange={(e) => handleSelectChange("departamento", e.target.value)}>
                             {departamento.map((item) => (
                                 <option key={item[0]} value={item[1]}>
                                     {item[2]}
