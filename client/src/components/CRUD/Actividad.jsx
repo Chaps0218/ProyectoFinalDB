@@ -23,7 +23,7 @@ import { SearchIcon } from "../../assets/SearchIcon";
 import { ChevronDownIcon } from "../../assets/ChevronDownIcon";
 import { capitalize } from "../utils";
 import { PlusIcon } from "../../assets/PlusIcon";
-import { extraerActividad, agregarActividad, editarActividad } from "../../api/contratacion";
+import { extraerActividad, agregarActividad, editarActividad, eliminarActividad } from "../../api/contratacion";
 
 const columns = [
   { name: "NOMBRE", uid: "nombreA", sortable: true },
@@ -33,39 +33,32 @@ const columns = [
 
 const INITIAL_VISIBLE_COLUMNS = ["nombreA", "descripcion", "actions"];
 
-const actividades1 = [
-  {
-    idA: 1,
-    nombreA: "Actividad 1",
-    descripcion: "Descripcion de la actividad 1"
-  },
-  {
-    idA: 2,
-    nombreA: "Actividad 2",
-    descripcion: "Descripcion de la actividad 2"
-  },
-];
-
-
 export default function App() {
 
   //!Variables para rellenar a todas las actividades
   const [actividadesData, setActividadesData] = React.useState([]);
 
   useEffect(() => {
-    extraerActividad()
-      .then((response) => {
-        const contratoData = response.data.actividad;
-        const formattedData = contratoData.map((item) => ({
-          idA: item[0],
-          nombreA: item[1],
-          descripcion: item[2]
-        }));
-        setActividadesData(formattedData);
-      })
-      .catch((error) => {
-        console.error("Error al obtener contrato:", error);
-      });
+    const fetchData = () => {
+      extraerActividad()
+        .then((response) => {
+          const contratoData = response.data.actividad;
+          const formattedData = contratoData.map((item) => ({
+            idA: item[0],
+            nombreA: item[1],
+            descripcion: item[2]
+          }));
+          setActividadesData(formattedData);
+        })
+        .catch((error) => {
+          console.error("Error al obtener contrato:", error);
+        });
+    };
+    fetchData(); 
+    const intervalId = setInterval(fetchData, 3000);
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
   //!Variables de agregacion y actualizacion
@@ -109,11 +102,7 @@ export default function App() {
   //!Funcion de eliminado
   const handleDelete = React.useCallback((idA) => {
     console.log("Deleting user with idA: ", idA);
-    console.log(actividadesData);
-    setActividadesData((prevActivities) =>
-      prevActivities.filter((activity) => activity.idA !== idA)
-    );
-    console.log(actividadesData);
+    eliminarActividad(idA);
   }, [actividadesData]);
 
 
@@ -473,7 +462,7 @@ export default function App() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Actualizar usuario</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Actualizar Actividad</ModalHeader>
               <ModalBody>
                 <div className="flex flex-wrap gap-8">
                   <div className="w-full">

@@ -159,14 +159,14 @@ const CustomComponentForm = ({ title }) => {
     ];
 
     return (
-        <div className="documents-list">
+        <div className="custom-component-postulante">
+
+        
+            <h1 className="custom-title">{title}</h1>
+            <hr className="custom-divider" />
 
 
-            <h1 className="documents-title">{title}</h1>
-            <hr className="documents-divider" />
-
-
-
+            <div className='form-line-container'>
 
             <div className="form-line">
                 <div>
@@ -234,21 +234,23 @@ const CustomComponentForm = ({ title }) => {
                     </select>
                 </div>
             </div>
-
-
-            <div className="table-container">
-                <table className="custom-table">
-                    <tbody>
-                        {tableData.map((row, index) => (
-                            <tr key={index}>
-                                {row.map((cell, cellIndex) => (
-                                    <td key={cellIndex}>{cell}</td>
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
             </div>
+
+            <div className='documents-container'>
+                <div className="table-container">
+                    <table className="custom-table-form">
+                        <tbody>
+                            {tableData.map((row, index) => (
+                                <tr key={index}>
+                                    {row.map((cell, cellIndex) => (
+                                        <td key={cellIndex}>{cell}</td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>   
 
 
             <div className='buttons-container'>
