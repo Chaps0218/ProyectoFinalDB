@@ -93,8 +93,7 @@ export const extraerDepartamento = async(req,res) =>{
     }
 }
 
-
-export const  extraerActividad = async(req,res) =>{
+export const extraerActividad = async(req,res) =>{
     try {
         const response = await axios.get(`${api}/actividad/`);
         const actividad = response.data;
@@ -105,8 +104,25 @@ export const  extraerActividad = async(req,res) =>{
     }
 }
 
+export const agregarActividad = async(req,res) =>{
+    try {
+        const response = await axios.post(`${api}/actividad/`, req.body);
+        const actividad = response.data;
+        return res.json({actividad});
+    } catch (error) {
+        console.error('Error al agregar actividad:', error);
+        return res.status(500).json({message: 'Error al agregar actividad'});
+    }
+}
 
-
-
-
-
+export const editarActividad = async(req,res) =>{
+    try {
+        console.log(req.body)
+        const response = await axios.put(`${api}/actividad/${req.body.act_id}`, req.body);
+        const actividad = response.data;
+        return res.json({actividad});
+    } catch (error) {
+        console.error('Error al editar actividad:', error);
+        return res.status(500).json({message: 'Error al editar actividad'});
+    }
+}
