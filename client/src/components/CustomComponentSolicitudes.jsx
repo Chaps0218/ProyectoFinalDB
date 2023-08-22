@@ -28,6 +28,7 @@ const CustomComponentSolicitudes = ({ title }) => {
 
     const handleCancelAccept = () => {
         setShowConfirmationPopup(false);
+        setSelectedCandidate(null);
     };
 
     const handleDeclineCandidate = () => {
@@ -43,6 +44,8 @@ const CustomComponentSolicitudes = ({ title }) => {
     const handleCancelAcceptDec = () => {
         setShowDeclinePopup(false);
     };
+
+    const [candidateRating, setCandidateRating] = useState(0);
 
     return (
         <div className="custom-component-postulante">
@@ -68,6 +71,16 @@ const CustomComponentSolicitudes = ({ title }) => {
                                 <span>Campo Específico:</span>
                                 <span>{selectedCandidate.campoEspecifico}</span>
                             </div>
+
+                            <div className="info-item">
+        <span>Calificación:</span>
+        <input
+            type="number"
+            value={candidateRating}
+            onChange={(e) => setCandidateRating(Number(e.target.value))}
+        />
+    </div>
+
                         </div>
                         <div className="buttons">
                             <button onClick={handleAcceptCandidate}>Aceptar</button>

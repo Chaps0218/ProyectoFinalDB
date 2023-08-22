@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState} from "react";
 import { Input } from "@nextui-org/react";
 import "./CustomComponentCali.css";
 import PopupCalificacion from './PopupCalificacion';
@@ -11,16 +11,16 @@ const CustomComponentCalificacion = ({ title, parametros }) => {
 
 
         // Estado para controlar si se muestra la ventana emergente
-        const [showPopup2, setShowPopup2] = useState(false);
+        // const [ setShowPopup2] = useState(false);
     
         // Función para abrir la ventana emergente
-        const handleOpenPopup = () => {
-            setShowPopup(true);
+        // const handleOpenPopup = () => {
+        //     setShowPopup(true);
     
-        };
-        const handleAccept = () =>{
-            setShowPopup2(true);
-        };
+        // };
+        // const handleAccept = () =>{
+        //     setShowPopup2(true);
+        // };
     
         // Función para cerrar la ventana emergente
         const handleClosePopup = () => {
@@ -28,15 +28,15 @@ const CustomComponentCalificacion = ({ title, parametros }) => {
         };
 
     const [showPopup, setShowPopup] = useState(false);
-    const handleConfirm = () => {
-        console.log('Calificación confirmada');
-        setShowPopup(false); // Cerrar el popup
-      };
+    // const handleConfirm = () => {
+    //     console.log('Calificación confirmada');
+    //     setShowPopup(false); // Cerrar el popup
+    //   };
     
-      const handleCancel = () => {
-        console.log('Operación cancelada');
-        setShowPopup(false); // Cerrar el popup
-      };
+    //   const handleCancel = () => {
+    //     console.log('Operación cancelada');
+    //     setShowPopup(false); // Cerrar el popup
+    //   };
 
 
     const [calificaciones, setCalificaciones] = useState(

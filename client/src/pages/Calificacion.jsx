@@ -1,9 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import './styles.css';
 import MenuRRHH from '../components/MenuRRHH';
 import TopBar from '../components/TopBar';
 import CustomComponentCali from '../components/CustomComponentCali'
-import { useAuth } from "../context/AuthContext";
+// import { useAuth } from "../context/AuthContext";
 
 const Calificacion = () => {
   const parametros = [
@@ -49,7 +49,7 @@ const Calificacion = () => {
     }
   ];
   
-  const { isAuthenticated } = useAuth();
+  // const { isAuthenticated } = useAuth();
   return (
     <div className="parent-container">
       <div className="plataforma-container">
