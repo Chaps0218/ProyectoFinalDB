@@ -108,6 +108,7 @@
   .calificaciones-columns {
     display: flex;
     justify-content: space-between;
+    width: 340px;
 
   }
   

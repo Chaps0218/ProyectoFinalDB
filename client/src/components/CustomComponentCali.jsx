@@ -10,6 +10,7 @@ const CustomComponentCalificacion = ({ title, parametros }) => {
     };
 
 
+
         // Estado para controlar si se muestra la ventana emergente
         // const [ setShowPopup2] = useState(false);
     
@@ -49,7 +50,7 @@ const CustomComponentCalificacion = ({ title, parametros }) => {
 
 
   const handleCalificacionChange = (index, value) => {
-    const maxPuntaje = parametros[index].puntajeMaximo;
+    const maxPuntaje = parametros[index].tx_puntaje_max;
   
     // Verificar si el valor es un número entero válido y que esté en el rango de 0 a puntaje máximo
     if (value === "" || (/^(0|[1-9]\d*)$/.test(value) && value >= 0 && value <= maxPuntaje)) {
@@ -83,7 +84,7 @@ const CustomComponentCalificacion = ({ title, parametros }) => {
   
     // Mapea las calificaciones y los parámetros en un nuevo objeto
     const mapeadas = calificaciones.map((calificacion, index) => ({
-      parametro: parametros[index].nombre,
+      parametro: parametros[index].tx_descripcion,
       puntaje: calificacion,
     }));
   
@@ -113,9 +114,10 @@ const CustomComponentCalificacion = ({ title, parametros }) => {
                     🛈
                   </span>
                   {tooltipIndex === index && (
-                        <div className="tooltip">{parametro.descripcion}</div>
+                        <div className="tooltip">{parametro.tx_observacion}</div>
                   )}
-                  <label className="label-calificacion">{parametro.nombre}:</label>
+                  <label className="label-calificacion">{parametro.tx_descripcion}:</label>
+
                 </div>
 
                 <div className="calificaciones">
@@ -129,14 +131,14 @@ const CustomComponentCalificacion = ({ title, parametros }) => {
                     color={validationState === "invalid" ? "danger" : "success"}
                     errorMessage={
                       validationState === "invalid" &&
-                      `Ingrese un valor entre 0 y ${parametro.puntajeMaximo}`
+                      `Ingrese un valor entre 0 y ${parametro.tx_puntaje_max}`
                     }
                     validationState={validationState}
                     
-                    max={parametro.puntajeMaximo}
+                    max={parametro.tx_puntaje_max}
                   />
                   <span className="span-calificacion">
-                    / {parametro.puntajeMaximo}
+                    / {parametro.tx_puntaje_max}
                   </span>
                 </div>
               </div>

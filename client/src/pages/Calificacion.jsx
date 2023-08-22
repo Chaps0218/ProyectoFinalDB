@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+
 import './styles.css';
 import MenuRRHH from '../components/MenuRRHH';
 import TopBar from '../components/TopBar';
@@ -6,6 +7,30 @@ import CustomComponentCali from '../components/CustomComponentCali'
 // import { useAuth } from "../context/AuthContext";
 
 const Calificacion = () => {
+  const [data, setData] = useState([]);
+
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/v1/procesocontratacion/titulo_exp")
+        .then(response => response.json())
+        .then(data => {
+            const transformedData = data.map(item => ({
+                tx_id: item[0],
+                rq_id: item[1],
+                tx_descripcion: item[2],
+                tx_datalle: item[3],
+                tx_puntaje_min: item[4],
+                tx_puntaje_max: item[5],
+                tx_puntaje_asignado: item[6],
+                tx_observacion: item[7]
+            }));
+            setData(transformedData);
+        })
+        .catch(error => {
+            console.error("Hubo un error al recuperar los datos:", error);
+        });
+}, []);
+
   const parametros = [
     {
       nombre: 'Calidad',
@@ -69,7 +94,7 @@ const Calificacion = () => {
         <div className="right-item">
           <CustomComponentCali
           title="Calificación"
-          parametros={parametros}
+          parametros={data}
           ></CustomComponentCali>
 
         </div>

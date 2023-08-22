@@ -33,8 +33,8 @@
     top: -20px; /* Ajusta según tus necesidades */
     left: 10px; /* Ajusta según tus necesidades */
     z-index: 1000;
-    width: 300px; /* Ajusta para controlar el ancho máximo */
-    max-height: 100px;
+    width: 550px; /* Ajusta para controlar el ancho máximo */
+    max-height: 120px;
     overflow: auto; /* Permite el desplazamiento si el contenido es demasiado grande */
   }
   
