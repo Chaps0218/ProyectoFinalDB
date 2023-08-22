@@ -95,11 +95,12 @@
 .scrollable-table-container {
     max-height: 280px; /* Ajusta la altura máxima deseada */
     overflow: auto;
-    margin-top: 10px; /* Agrega un margen superior para separar del contenido superior */
+    margin-top: 20px; /* Agrega un margen superior para separar del contenido superior */
 }
 
 .custom-table {
-    width: 750px; /* Cambiado a 100% para ocupar todo el espacio disponible */
+    height: 80vh; 
+    width: 65vw;
     border-collapse: collapse;
 }
 
