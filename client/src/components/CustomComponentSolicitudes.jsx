@@ -44,6 +44,8 @@ const CustomComponentSolicitudes = ({ title }) => {
         setShowDeclinePopup(false);
     };
 
+    const [candidateRating, setCandidateRating] = useState(0);
+
     return (
         <div className="custom-component">
             <h1 className="custom-title">{title}</h1>
