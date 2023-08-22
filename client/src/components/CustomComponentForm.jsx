@@ -22,9 +22,9 @@ const CustomComponentForm = ({ title }) => {
     useEffect(() => {
         extraerContrato()
             .then((res) => {
-                if (res.data && res.data.contratos) {
-                    setContratos(res.data.contratos);
-                    console.log(res.data.contratos);
+                if (res.data && res.data.contrato) { // Cambio "contratos" por "contrato"
+                    setContratos(res.data.contrato); // Cambio "setSede" por "setContratos"
+                    console.log(res.data.contrato);
                 } else {
                     console.log("Datos de contratos no encontrados en la respuesta.");
                 }
@@ -33,6 +33,7 @@ const CustomComponentForm = ({ title }) => {
                 console.log(err);
             });
     }, []);
+    
 
     useEffect(() => {
         extraerOferta()
@@ -53,10 +54,10 @@ const CustomComponentForm = ({ title }) => {
         extraerTipoContrato()
             .then((res) => {
                 if (res.data && res.data.tipoContrato) {
-                    setTipoContrato(res.data.tipoContrato);
+                    setSede(res.data.tipoContrato);
                     console.log(res.data.tipoContrato);
                 } else {
-                    console.log("Datos de tipo de contrato no encontrados en la respuesta.");
+                    console.log("Datos de tipo de contratos no encontrados en la respuesta.");
                 }
             })
             .catch((err) => {
@@ -198,7 +199,7 @@ const CustomComponentForm = ({ title }) => {
                         <select>
                             {contratos.map((item) => (
                                 <option key={item[0]} value={item[1]}>
-                                    {item[2]}
+                                    {item[1]}
                                 </option>
                             ))}
                         </select>
@@ -207,10 +208,10 @@ const CustomComponentForm = ({ title }) => {
                         <h1>Tipo de Contrato:</h1>
                         <select>
                             {tipoContrato.map((item) => (
-                                <option key={item[0]} value={item[1]}>
-                                    {item[2]}
-                                </option>
-                            ))}
+                                    <option key={item[0]} value={item[1]}>
+                                        {item[1]}
+                                    </option>
+                                ))}
                         </select>
                     </div>
                 </div>
