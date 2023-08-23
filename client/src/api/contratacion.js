@@ -2,6 +2,10 @@ import axios from "axios";
 
 const API = "http://localhost:8800/api";
 
+export const extraerSolicitud = () => axios.get(`${API}/solicitud`, {
+    withCredentials: true,
+});
+
 export const extraerOferta = () => axios.get(`${API}/oferta`, {
     withCredentials: true,
 });

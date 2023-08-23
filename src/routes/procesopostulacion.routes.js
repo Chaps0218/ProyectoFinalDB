@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+    extraerSolicitud,
     extraerOferta,
     agregarOferta,
     editarOferta,
@@ -36,15 +37,12 @@ import {
     agregarActividad,
     editarActividad,
     eliminarActividad,
-    extraerSolicitud,
-    agregarSolicitud,
-    editarSolicitud,
-    eliminarSolicitud,
 }
     from "../controllers/procesopostulacion.controller.js";
 
 const router = Router();
 
+router.get("/solicitud", extraerSolicitud);
 router.get("/oferta", extraerOferta);
 router.post("/oferta", agregarOferta);
 router.put("/oferta/:id", editarOferta);
@@ -81,9 +79,5 @@ router.get("/actividad", extraerActividad);
 router.post("/actividad", agregarActividad);
 router.put("/actividad/:id", editarActividad);
 router.delete("/actividad/:id", eliminarActividad);
-router.get("/solicitud", extraerSolicitud);
-router.post("/solicitud", agregarSolicitud);
-router.put("/solicitud/:id", editarSolicitud);
-router.delete("/solicitud/:id", eliminarSolicitud);
 
 export default router;
