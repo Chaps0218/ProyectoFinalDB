@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import PopupDocument from './PopupDocument'; 
 import Popup from './Popup'; 
 import './CustomComponentInfoPersonal.css'
-import ChangePasswordPopup from './ChangePasswordPopup'; // Importa el componente del popup
+import ChangePasswordPopup from './ChangePasswordPopup';
 
 const CustomComponentForm2 = ({ title }) => {
-    // Estado para controlar si se muestra la ventana emergente
     const [showPopup, setShowPopup] = useState(false);
     const [showPopup2, setShowPopup2] = useState(false);
 
-    // Función para abrir la ventana emergente
     const handleOpenPopup = () => {
         setShowPopup(true);
     };
@@ -18,25 +16,17 @@ const CustomComponentForm2 = ({ title }) => {
         setShowPopup2(true);
     };
 
-    // Función para cerrar la ventana emergente
     const handleClosePopup = () => {
         setShowPopup(false);
     };
 
-    //nuevos
-    // Estados para almacenar los valores editables
   const [cargo, setCargo] = useState('');
   const [nombre, setNombre] = useState('');
-
-  // Estados para controlar la visualización de los campos editables y contraseña
   const [editandoCampos, setEditandoCampos] = useState(false);
   const [mostrarCambioContraseña, setMostrarCambioContraseña] = useState(false);
 
-  // Función para manejar el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí puedes realizar acciones como enviar los datos al servidor
-    // y manejar cualquier otra lógica necesaria
   };
 
   const handlePopupToggle = () => {

@@ -28,6 +28,7 @@ import InfoPostRRHH from "./pages/InformacionPostulacionRRHH";
 import InicioRRHH from "./pages/InicioRRHH";
 import InformacionPersonal from "./pages/InformacionPersonal";
 import PRUEBA from "./pages/PRUEBA.jsx";
+import InfoCuentaCandidato from "./pages/infoCuentaCandidato";
 
 import ListaPostulantes from "./pages/ListaPostulantes";
 import Calificacion from "./pages/Calificacion";
@@ -81,6 +82,7 @@ const App = () => {
                 <Route path="/proceso" element={<Proceso />} />
                 <Route path="/postulacion" element={<Usuarios />} />
                 <Route path="/informacion" element={<Informacion />} />
+                <Route path="/informacionPersonalCandidato" element={<InfoCuentaCandidato />} />
               </Route>
             </Route>
           </Routes>
