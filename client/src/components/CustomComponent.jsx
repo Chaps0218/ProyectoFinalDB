@@ -11,10 +11,10 @@ const CustomComponent = ({ title, subtitle1, subtitle2, icon1, icon2 }) => {
             <div className="custom-content">
                 <div className="custom-section-carusel">
                     <div className="custom-item">
-                        <a href="/opcion1"><span className='custom-icon'>{icon1}</span>{subtitle1}</a>
+                        <a href="/informacionPostulante"><span className='custom-icon'>{icon1}</span>{subtitle1}</a>
                     </div>
                     <div className="custom-item">
-                        <a href="/opcion1"><span className='custom-icon'>{icon2}</span>{subtitle2}</a>
+                        <a href="/postulacion"><span className='custom-icon'>{icon2}</span>{subtitle2}</a>
                     </div>
                 </div>
                 <div className="custom-carousel">
