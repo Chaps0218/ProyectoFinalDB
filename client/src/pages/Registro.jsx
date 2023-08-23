@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Popup from "../components/Popup";
+import PropTypes from "prop-types";
+import emailjs from "./emailjsInit";
 
 const Registro = () => {
 
@@ -18,9 +20,37 @@ const Registro = () => {
   const titulosF = ['Ingeniera', 'Licenciada', 'Doctora', 'Magister', 'Bachiller'];
   const [fallos, setFallos] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [showEmailValidationPopup, setShowEmailValidationPopup] = useState(false);
+
+  const validateEmailFormat = (email) => {
+    return email.endsWith("@gmail.com") ||
+      email.endsWith("@outlook.com") ||
+      email.endsWith("@hotmail.com") ||
+      email.endsWith("@outlook.es");
+  };
+
+  const EmailValidationPopup = ({ onClose }) => {
+    return (
+      <Popup
+        titulo="Error en el Correo Electrónico"
+        mensaje="Debe ingresar un correo válido perteneciente dentro de los siguientes dominios: gmail.com, hotmail.com o outlook.com"
+        onClose={onClose}
+        ruta="#"
+      />
+    );
+  };
+
+  EmailValidationPopup.propTypes = {
+    onClose: PropTypes.func.isRequired,
+  };
+
+  const handleChangeEmail = (event) => {
+    const email = event.target.value;
+  };
 
   const onCaptchaVerify = (response) => {
-    console.log('Captcha verificado:', response);
+
   };
 
   const handleChange = (event) => {
@@ -46,7 +76,6 @@ const Registro = () => {
   const navigate = useNavigate();
   const { signup, isAutheticated, errors: registerErrors } = useAuth();
   const onSubmit = handleSubmit(async (values) => {
-    console.log(values);
     let nombre1 = values.nombreCompleto.split(" ")[0];
     let nombre2 = values.nombreCompleto.split(" ")[1];
     let apellido1 = values.nombreCompleto.split(" ")[2];
@@ -55,24 +84,69 @@ const Registro = () => {
     values.nombre2 = nombre2;
     values.apellido1 = apellido1;
     values.apellido2 = apellido2;
-    console.log(values);
-    const res = signup(values);
-    // if (setFallos.length === 0) {console.log(fallos)}
-    console.log(fallos);
-    // if(res[0] === 200) setShowPopup(true);
-    // if(res[2] === undefined) alert(res[1]);
-    console.log(res);
-    setShowPopup(true); // Mostrar el PopUp si el registro fue exitoso
+
+    if (!validateEmailFormat(values.email)) {
+      setShowEmailValidationPopup(true);
+      return;
+    }
+
+    try {
+      const res = await signup(values);
+
+      if (res && res.status === 200) {
+
+        const birthDate = new Date(values.fecha_nacimiento);
+        birthDate.setDate(birthDate.getDate() + 1);
+        const day = String(birthDate.getDate()).padStart(2, '0');
+        const month = String(birthDate.getMonth() + 1).padStart(2, '0');
+        const yearLastTwoDigits = String(birthDate.getFullYear()).slice(-2);
+        const password = `${day}${month}${yearLastTwoDigits}`;
+
+        const templateParams = {
+          to_email: values.email,
+          subject: 'Confirmación de Postulación',
+          message: `Estimado(a) ${values.nombre1} ${values.apellido1},\n\n` +
+            `Le extendemos nuestro cordial saludo y le confirmamos su postulación al proceso de selección.` +
+            `\n\nA continuación, le proporcionamos los detalles de su postulación:\n\n` +
+            `Nombre completo: ${values.nombre1} ${values.nombre2 ? values.nombre2 : ''} ${values.apellido1} ${values.apellido2}\n` +
+            `Correo electrónico: ${values.email}\n` +
+            `Contraseña temporal: ${password}\n\n` +
+            `Le deseamos mucho éxito en el proceso de selección y quedamos a su disposición para cualquier consulta.\n\n` +
+            `Atentamente,\n\n` +
+            `El equipo de Recursos Humanos`,
+        };
+
+        if(values.email.endsWith("@gmail.com")){
+        emailjs.send('SERVICEGMAIL_SBDA', 'template_l2kfb7n', templateParams).then(
+          (response) => {
+            console.log('Email sent:', response);
+          },
+          (error) => {
+            console.error('Error sending email:', error);
+          }
+        );
+        }else{
+          emailjs.send('SERVICEOUTLOOK_SBDA', 'template_l2kfb7n', templateParams).then(
+            (response) => {
+              console.log('Email sent:', response);
+            },
+            (error) => {
+              console.error('Error sending email:', error);
+            }
+          );
+        }
+        setShowPopup(true);
+      }
+    } catch (error) {
+      console.log('Error:', error)
+    }
   });
 
   useEffect(() => {
-    if (isAutheticated) 
-    { navigate("/"); }
+    if (isAutheticated) { navigate("/"); }
   }, [isAutheticated]);
   useEffect(() => {
-    // Set the fallos state with the registerErrors array
     setFallos(registerErrors);
-    console.log(fallos);
   }, [registerErrors]);
 
   const [showFormulario2, setShowFormulario2] = useState(false);
@@ -83,49 +157,49 @@ const Registro = () => {
     if (tipoIden === 'cédula') {
       const var1 = parseInt(identificacion.slice(0, 2));
       const var2 = parseInt(identificacion.slice(2, 3));
-  
+
       if (identificacion.length !== 10) {
-          return alert('Cédula incorrecta: La cédula debe tener exactamente 10 caracteres.');
+        return alert('Cédula incorrecta: La cédula debe tener exactamente 10 caracteres.');
       } else if (isNaN(var1) || var1 < 1 || var1 > 24) {
-          return alert('Cédula incorrecta: Los dos primeros dígitos deben estar entre 1 y 24.');
+        return alert('Cédula incorrecta: Los dos primeros dígitos deben estar entre 1 y 24.');
       } else if (isNaN(var2) || var2 > 6) {
-          return alert('Cédula incorrecta: El tercer dígito debe ser mayor o igual a 6.');
+        return alert('Cédula incorrecta: El tercer dígito debe ser mayor o igual a 6.');
       }
-  
+
       let sum_par = 0;
       let sum_impar = 0;
       let sum;
-  
+
       let i = 1;
       const digits = identificacion.slice(0, 9);
       for (let c of digits) {
-          const digit = parseInt(c);
-          if (i % 2 === 0) {
-              sum_par += digit;
+        const digit = parseInt(c);
+        if (i % 2 === 0) {
+          sum_par += digit;
+        } else {
+          if (digit * 2 > 9) {
+            sum_impar += digit * 2 - 9;
           } else {
-              if (digit * 2 > 9) {
-                  sum_impar += digit * 2 - 9;
-              } else {
-                  sum_impar += digit * 2;
-              }
+            sum_impar += digit * 2;
           }
-          i++;
+        }
+        i++;
       }
-  
+
       sum = sum_par + sum_impar;
       const verifier = parseInt(identificacion.charAt(9));
-  
+
       if (sum % 10 === 0) {
-          if (verifier !== 0) {
-              return alert('Cédula incorrecta: El último dígito verificador debe ser 0.');
-          }
+        if (verifier !== 0) {
+          return alert('Cédula incorrecta: El último dígito verificador debe ser 0.');
+        }
       } else {
-          const higher = 10 - (sum % 10) + sum;
-          if (higher - sum !== verifier) {
-              return alert('La cédula ingresada es invalida');
-          }
+        const higher = 10 - (sum % 10) + sum;
+        if (higher - sum !== verifier) {
+          return alert('La cédula ingresada es invalida');
+        }
       }
-  }
+    }
     setShowFormulario2(true);
   }
 
@@ -229,6 +303,7 @@ const Registro = () => {
             <input
               type="date"
               {...register("fecha_nacimiento", { required: true })}
+              max={`${new Date(new Date().getFullYear() - 18, 11, 31).toISOString().split('T')[0]}`}
             />
             {errors.fecha_nacimiento && (
               <h4 className="text-red-500">La fecha de nacimiento es requerido</h4>
@@ -237,9 +312,14 @@ const Registro = () => {
             <input
               type="email"
               {...register("email", { required: true })}
+              onChange={handleChangeEmail}
             />
+
             {errors.email && <h4 className="text-red-500">El correo es requerido</h4>}
             <button type="submit" onClick={() => { onSubmit(); }}>Enviar</button>
+            {showEmailValidationPopup && (
+              <EmailValidationPopup onClose={() => setShowEmailValidationPopup(false)} />
+            )}
             {showPopup && (
               <Popup
                 titulo="¡Su cuenta ha sido creada exitosamente!"

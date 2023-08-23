@@ -166,7 +166,7 @@ export default function App() {
       window.alert("Error: Los campos no pueden estar vacíos");
       return;
     }
-
+    console.log(selectedValue)
     const newActividad = {
       ce_nombre: nombreA,
       ce_descripcion: descripcion,
