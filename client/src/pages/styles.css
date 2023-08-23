@@ -586,10 +586,7 @@ html, body {
   text-align: center;
 }
 
-.postulacionS{
-  max-height: auto; /* Set the maximum height for the component */
-  overflow-y: auto; /* Enable vertical scrollbar when content overflows */
-}
+
 
 /*AGREGAR NUEVOS ESTILOS*/
 

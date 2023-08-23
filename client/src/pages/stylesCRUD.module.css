@@ -25,10 +25,7 @@
   /* Width of the scrollbar */
 }
 
-::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
-  /* Color of the scrollbar track */
-}
+
 
 ::-webkit-scrollbar-thumb {
   background-color: #888;
