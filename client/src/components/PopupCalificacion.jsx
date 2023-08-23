@@ -18,8 +18,8 @@ const PopupCalificacion = ({ show, onClose, title, subtitle, candidato, califica
               <div className="candidato-info">
                 <img src={documento} alt="h" className="candidato-img" />
                 <div>
-                  <p>{candidato.nombre}</p>
-                  <p>{candidato.correo}</p>
+                  <p>{candidato.name1 +" "+candidato.lastname1 }</p>
+                  <p>{candidato.email}</p>
                 </div>
               </div>
             </div>
