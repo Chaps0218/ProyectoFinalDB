@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import FilePreview from './FilePreview';
 import documento from '../assets/prueba.png';
-
-
+import Popup from '../components/Popup';
 import './PopupCalificacion.css'; // Asegúrate de tener los estilos CSS en este archivo
 // import { image } from '@nextui-org/theme';
 const PopupCalificacion = ({ show, onClose, title, subtitle, candidato, calificaciones, onConfirm, onCancel }) => {
+  const [showPopup2, setShowPopup2] = useState(false);
+   // Función para abrir la ventana emergente
+   const handleOpenPopup = () => {
+    setShowPopup2(true);
+
+};
+const handleAccept = () =>{
+    setShowPopup2(true);
+};
+
+// Función para cerrar la ventana emergente
+const handleClosePopup = () => {
+    setShowPopup2(false);
+};
+
     return show ? (
       <div className="popupdoc-overlay">
         <div className="popupdoc-container">
@@ -41,9 +55,16 @@ const PopupCalificacion = ({ show, onClose, title, subtitle, candidato, califica
             </div>
           </div>
           <div className="buttons-pop">
-          <button className="button-calificacion" onClick={onConfirm}>
+          <button className="button-calificacion" onClick={handleAccept}>
               Si, calificar
             </button>
+                {showPopup2 && (
+                    <Popup
+                        titulo="DATOS SUBIDOS CORRECTAMENTE"
+                        ruta="/solicitudesPostulantes"
+                        onClose={handleClosePopup}
+                    />
+                )}
             <button className="button-calificacion" onClick={onClose}>
             No, volver
             </button>

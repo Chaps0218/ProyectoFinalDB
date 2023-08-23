@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import './CustomComponentSolicitudes.css';
 import { FiInfo, FiUser} from 'react-icons/fi';
 import * as api from '../api/contratacion';
+import Calificacion from '../pages/Calificacion';
+
 
 const CustomComponentSolicitudes = ({ title }) => {
+    
 
     const [selectedSolicitud, setSelectedSolicitud] = useState(null);
     const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
@@ -21,6 +24,12 @@ const CustomComponentSolicitudes = ({ title }) => {
     const handleAcceptCandidate = () => {
         setShowConfirmationPopup(true);
     };
+
+    const handleAcceptCalificar = () => {
+        window.location.href = "/calificacion";
+    };
+    
+    
 
     const handleConfirmAccept = () => {
         setShowConfirmationPopup(false);
@@ -83,18 +92,16 @@ const CustomComponentSolicitudes = ({ title }) => {
                                 <span>Campo Específico:</span>
                                 <span>{selectedSolicitud['ce_nombre']}</span>
                             </div>
-
                             <div className="info-item">
-        <span>Calificación:</span>
-        <input
-            type="number"
-            value={selectedSolicitud['tx_puntaje_max']}
-            onChange={(e) => setCandidateRating(Number(e.target.value))}
-        />
+                                <span>Calificación:</span>
+                                <span>{selectedSolicitud['tx_puntaje_max']}</span>
+                            </div>
+                            <div className="info-item">
     </div>
 
                         </div>
                         <div className="buttons">
+                            <button onClick={handleAcceptCalificar}>Calificar</button>
                             <button onClick={handleAcceptCandidate}>Aceptar</button>
                             <button onClick={handleDeclineCandidate}>Rechazar</button>
                             <button onClick={handleCloseCandidateDetails}>Cancelar</button>
