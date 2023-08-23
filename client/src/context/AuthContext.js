@@ -41,6 +41,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await registerRequest(user);
       setUser(res.data);
+      return res;
     } catch (error) {
       console.log(error);
       setErrors(error.response.data);
@@ -50,7 +51,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await registerRequestRRHH(user);
       setUser(res.data);
-      return res.data;
+      return res;
     } catch (error) {
       console.log(error);
       setErrors(error.response.data);

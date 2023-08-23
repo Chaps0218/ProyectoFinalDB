@@ -617,7 +617,6 @@ def create_solicitud(solicitud: solicitud):
         "sol_id": solicitud.sol_id,
         "rh_id": solicitud.rh_id,
         "sol_aprobacion": solicitud.sol_aprobacion,   
-        
     }
     cur = db.connection.cursor()
     cur.execute('INSERT INTO solicitud (cand_id, sol_id, rh_id, sol_aprobacion) VALUES (%(cand_id)s, %(sol_id)s, %(rh_id)s, %(sol_aprobacion)s)', new_solicitud)
@@ -627,6 +626,7 @@ def create_solicitud(solicitud: solicitud):
 @APIProcesoContratacion.put('/solicitud/{sol_id}')
 def update_solicitud(sol_id: int, solicitud: solicitud):
     updated_solicitud = {
+        "sol_id": solicitud.sol_id,
         "cand_id": solicitud.cand_id,
         "sol_id": solicitud.sol_id,
         "rh_id": solicitud.rh_id,

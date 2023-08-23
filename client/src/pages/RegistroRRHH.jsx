@@ -5,12 +5,43 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Popup from "../components/Popup";
+import PropTypes from "prop-types";
 
 const RegistroRRHH = () => {
 
     const [cargo, setCargo] = useState('');
     const cargos = ['Ingeniero', 'Licenciado', 'Doctor', 'Magister', 'Bachiller'];
 
+    const [isEmailValid, setIsEmailValid] = useState(true);
+    const [showEmailValidationPopup, setShowEmailValidationPopup] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
+
+    const validateEmailFormat = (email) => {
+        return (
+            email.endsWith('@espe.edu.ec')
+        );
+    };
+
+    const EmailValidationPopup = ({ onClose }) => {
+        return (
+            <Popup
+                titulo="Error en el Correo Electrónico"
+                mensaje="Debe ingresar un correo válido perteneciente al dominio espe.edu.ec"
+                onClose={onClose}
+                ruta="#"
+            />
+        );
+    };
+
+    EmailValidationPopup.propTypes = {
+        onClose: PropTypes.func.isRequired,
+      };
+
+      const handleChangeEmail = (event) => {
+        const email = event.target.value;
+      };
+    
     const handleChange2 = (event) => {
         setCargo(event.target.value);
     };
@@ -23,9 +54,23 @@ const RegistroRRHH = () => {
 
     const navigate = useNavigate();
     const { signuprrhh, isAutheticated, errors: registerErrors } = useAuth();
-    const onSubmit = handleSubmit(async (values) => {
-        await signuprrhh(values); 
-    });
+    const onSubmit = async (values) => {
+        if (!validateEmailFormat(values.email)) {
+          setShowEmailValidationPopup(true);
+          return;
+        }
+    
+        try {
+            const res = await signuprrhh(values);
+            console.log('Received Response:', res);
+        
+            if (res && res.status === 200) {
+              setShowPopup(true);
+            }
+          } catch (error) {
+            console.log('Error:', error)
+          }
+      };
 
     useEffect(() => {
         if (isAutheticated) { navigate("/"); }
@@ -97,7 +142,7 @@ const RegistroRRHH = () => {
                     {errors.cargo && (
                         <p className="text-red-500">El cargo es requerido</p>
                     )}
-                    <button type="submit" onClick={() => { onSubmit();}}>ENVIAR</button>
+                    <button type="submit" onClick={() => { onSubmit(); }}>ENVIAR</button>
                 </div>
             </div>
         </div>

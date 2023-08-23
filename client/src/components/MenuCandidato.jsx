@@ -33,6 +33,7 @@ const Menu = ({ title, subtitle1, subtitle2, subtitle3, icon1, icon2, icon3 }) =
                 <hr className="menu-divider" />
             </div>
             <div>
+                <a href="/informacionPersonalCandidato"><FiFile />Información de Cuenta<span>{icon2}</span></a>
                 <a href="/inicioPostulante"><FiHome /> Inicio</a>
                 <a href="/informacionPostulante"><FiUser /> {subtitle1} <span>{icon1}</span></a>
                 <a href="/postulacion"><FiFile />{subtitle2}<span>{icon2}</span></a>

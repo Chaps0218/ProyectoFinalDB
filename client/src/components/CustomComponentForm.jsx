@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { extraerOferta, extraerContrato,extraerTipoContrato, extraerPersonalAcademico, extraercampoAmplio, extraercampoEspecifico, extraerSede, extraerDepartamento, extraerActividad } from "../api/contratacion";
+import { extraerOferta, extraerContrato, extraerTipoContrato, extraerPersonalAcademico, extraercampoAmplio, extraercampoEspecifico, extraerSede, extraerDepartamento, extraerActividad } from "../api/contratacion";
 import PopupDocument from './PopupDocument';
 import Popup from './Popup';
 import './CustomComponentForm.css'
@@ -16,18 +16,18 @@ const CustomComponentForm = ({ title }) => {
     const [departamento, setDepartamento] = useState([]);
     const [actividad, setActividad] = useState([]);
     const [tipoContrato, setTipoContrato] = useState([]);
-    
-
     const [showPopup, setShowPopup] = useState(false);
     const [showPopup2, setShowPopup2] = useState(false);
-
-
 
     useEffect(() => {
         extraerContrato()
             .then((res) => {
-                setContratos(res.data);
-                console.log(res.data);
+                if (res.data && res.data.contrato) { // Cambio "contratos" por "contrato"
+                    setContratos(res.data.contrato); // Cambio "setSede" por "setContratos"
+                    console.log(res.data.contrato);
+                } else {
+                    console.log("Datos de contratos no encontrados en la respuesta.");
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -37,8 +37,12 @@ const CustomComponentForm = ({ title }) => {
     useEffect(() => {
         extraerOferta()
             .then((res) => {
-                setOfertas(res.data);
-                console.log(res.data);
+                if (res.data && res.data.ofertas) {
+                    setOfertas(res.data.ofertas);
+                    console.log(res.data.ofertas);
+                } else {
+                    console.log("Datos de ofertas no encontrados en la respuesta.");
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -48,30 +52,44 @@ const CustomComponentForm = ({ title }) => {
     useEffect(() => {
         extraerTipoContrato()
             .then((res) => {
-                setTipoContrato(res.data);
-                console.log(res.data);
+                if (res.data && res.data.tipoContrato) {
+                    setTipoContrato(res.data.tipoContrato);
+                    console.log(res.data.tipoContrato);
+                } else {
+                    console.log("Datos de tipo de contratos no encontrados en la respuesta.");
+                }
             })
             .catch((err) => {
                 console.log(err);
             });
     }, []);
+    
 
     useEffect(() => {
         extraerPersonalAcademico()
             .then((res) => {
-                setPersonalAcademico(res.data);
-                console.log(res.data);
+                if (res.data && res.data.personalAcademico) {
+                    setPersonalAcademico(res.data.personalAcademico);
+                    console.log(res.data.personalAcademico);
+                } else {
+                    console.log("Datos de personal académico no encontrados en la respuesta.");
+                }
             })
             .catch((err) => {
                 console.log(err);
             });
     }, []);
 
+
     useEffect(() => {
         extraercampoAmplio()
             .then((res) => {
-                setCampoAmplio(res.data);
-                console.log(res.data);
+                if (res.data && res.data.campoAmplio) {
+                    setCampoAmplio(res.data.campoAmplio);
+                    console.log(res.data.campoAmplio);
+                } else {
+                    console.log("Datos de campo amplio no encontrados en la respuesta.");
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -81,8 +99,12 @@ const CustomComponentForm = ({ title }) => {
     useEffect(() => {
         extraercampoEspecifico()
             .then((res) => {
-                setCampoEspecifico(res.data);
-                console.log(res.data);
+                if (res.data && res.data.campoEspecifico) {
+                    setCampoEspecifico(res.data.campoEspecifico);
+                    console.log(res.data.campoEspecifico);
+                } else {
+                    console.log("Datos de campo especifico no encontrados en la respuesta.");
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -92,8 +114,12 @@ const CustomComponentForm = ({ title }) => {
     useEffect(() => {
         extraerSede()
             .then((res) => {
-                setSede(res.data);
-                console.log(res.data);
+                if (res.data && res.data.sede) {
+                    setSede(res.data.sede);
+                    console.log(res.data.sede);
+                } else {
+                    console.log("Datos de sede no encontrados en la respuesta.");
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -103,8 +129,12 @@ const CustomComponentForm = ({ title }) => {
     useEffect(() => {
         extraerDepartamento()
             .then((res) => {
-                setDepartamento(res.data);
-                console.log(res.data);
+                if (res.data && res.data.departamento) {
+                    setDepartamento(res.data.departamento);
+                    console.log(res.data.departamento);
+                } else {
+                    console.log("Datos de departamento no encontrados en la respuesta.");
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -121,13 +151,6 @@ const CustomComponentForm = ({ title }) => {
                 console.log(err);
             });
     }, []);
-
-
-
-
-
-
-
 
     // Función para abrir la ventana emergente
     const handleOpenPopup = () => {
@@ -158,82 +181,117 @@ const CustomComponentForm = ({ title }) => {
         // ... (agregar más datos según sea necesario)
     ];
 
+    const [selectedIDs, setSelectedIDs] = useState({
+        contratos: "",
+        tipoContrato: "",
+        personalAcademico: "",
+        campoAmplio: "",
+        campoEspecifico: "",
+        sede: "",
+        departamento: "",
+    });
+
+    // Función para manejar el cambio en las selecciones y actualizar los IDs
+    const handleSelectChange = (key, selectedValue) => {
+        setSelectedIDs(prevSelectedIDs => ({
+            ...prevSelectedIDs,
+            [key]: selectedValue,
+        }));
+    };
+
+    useEffect(() => {
+        console.log("IDs seleccionados:", selectedIDs);
+    }, [selectedIDs]); // Este efecto se ejecutará cuando selectedIDs cambie
+
+
     return (
         <div className="custom-component-postulante">
 
-        
+
             <h1 className="custom-title">{title}</h1>
             <hr className="custom-divider" />
 
 
             <div className='form-line-container'>
 
-            <div className="form-line">
-                <div>
-                    <h1>Proceso:</h1>
-                    <select>
-                        <option value="2023-01">2023-01</option>
-                        <option value="2023-02">2023-02</option>
-                        <option value="2023-03">2023-03</option>
-                    </select>
+                <div className="form-line">
+                    <div>
+                        <h1>Proceso:</h1>
+                        <select onChange={(e) => handleSelectChange("contratos", e.target.value)}>
+                            {contratos.map((item) => (
+                                <option key={item[0]} value={item[1]}>
+                                    {item[1]}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <h1>Tipo de Contrato:</h1>
+                        <select onChange={(e) => handleSelectChange("tipoContrato", e.target.value)}>
+                            {tipoContrato.map((item) => (
+                                    <option key={item[0]} value={item[1]}>
+                                        {item[1]}
+                                    </option>
+                                ))}
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <h1>Tipo de Contrato:</h1>
-                    <select>
-                        <option value="Contrato Temporal">Contrato Temporal</option>
-                        <option value="Contrato Indefinido">Contrato Indefinido</option>
-                        <option value="Beca">Beca</option>
-                    </select>
-                </div>
-            </div>
 
-            <div className="form-line">
-                <div>
-                    <h1>Tipo de personal académico:</h1>
-                    <select>
-                        <option value="Docente">Docente</option>
-                        <option value="Investigador">Investigador</option>
-                        <option value="Administrativo">Administrativo</option>
-                    </select>
+                <div className="form-line">
+                    <div>
+                        <h1>Tipo de personal académico:</h1>
+                        <select onChange={(e) => handleSelectChange("personalAcademico", e.target.value)}>
+                            {personalAcademico.map((item) => (
+                                <option key={item[0]} value={item[1]}>
+                                    {item[2]}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <h1>Campo Amplio:</h1>
+                        <select onChange={(e) => handleSelectChange("campoAmplio", e.target.value)}>
+                            {campoAmplio.map((item) => (
+                                <option key={item[0]} value={item[1]}>
+                                    {item[2]}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <h1>Campo Amplio:</h1>
-                    <select>
-                        <option value="Ciencias Sociales">Ciencias Sociales</option>
-                        <option value="Ciencias Naturales">Ciencias Naturales</option>
-                        <option value="Artes">Artes</option>
-                        <option value="Tecnología">Tecnología</option>
-                    </select>
-                </div>
-            </div>
 
-            <div className="form-line">
-                <div>
-                    <h1>Campo específico:</h1>
-                    <select>
-                        <option value="Economía">Economía</option>
-                        <option value="Biología">Biología</option>
-                        <option value="Música">Música</option>
-                        <option value="Ingeniería">Ingeniería</option>
-                    </select>
+                <div className="form-line">
+                    <div>
+                        <h1>Campo específico:</h1>
+                        <select onChange={(e) => handleSelectChange("campoEspecifico", e.target.value)}>
+                            {campoEspecifico.map((item) => (
+                                <option key={item[0]} value={item[1]}>
+                                    {item[2]}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <h1>Sede:</h1>
+                        <select onChange={(e) => handleSelectChange("sede", e.target.value)}>
+                            {sede.map((item) => (
+                                <option key={item[0]} value={item[1]}>
+                                    {item[2]}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <h1>Departamento:</h1>
+                        <select onChange={(e) => handleSelectChange("departamento", e.target.value)}>
+                            {departamento.map((item) => (
+                                <option key={item[0]} value={item[1]}>
+                                    {item[2]}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <h1>Sede:</h1>
-                    <select>
-                        <option value="Sede A">Sede A</option>
-                        <option value="Sede B">Sede B</option>
-                        <option value="Sede C">Sede C</option>
-                    </select>
-                </div>
-                <div>
-                    <h1>Departamento:</h1>
-                    <select>
-                        <option value="Departamento X">Departamento X</option>
-                        <option value="Departamento Y">Departamento Y</option>
-                        <option value="Departamento Z">Departamento Z</option>
-                    </select>
-                </div>
-            </div>
             </div>
 
             <div className='documents-container'>
@@ -250,7 +308,7 @@ const CustomComponentForm = ({ title }) => {
                         </tbody>
                     </table>
                 </div>
-            </div>   
+            </div>
 
 
             <div className='buttons-container'>
