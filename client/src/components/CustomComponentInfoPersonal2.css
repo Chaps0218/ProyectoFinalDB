@@ -36,16 +36,17 @@
   }
   
   .password-button {
-    background-color: #007bff;
+    background-color: #086411;
     color: #fff;
     border: none;
     border-radius: 5px;
-    padding: 10px 20px;
+    padding: 8px 5px;
     cursor: pointer;
-  }
+    margin-top: 1rem;
+  } 
   
   .password-button:hover {
-    background-color: #0056b3;
+    background-color: #0e3d13;
   }
   
   /* Change Password Popup styles */
