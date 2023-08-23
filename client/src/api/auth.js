@@ -20,3 +20,7 @@ export const verifyTokenRequest = () => axios.get(`${API}/verify`, {
 export const getUsuariosRequest = () => axios.get(`${API}/usuarios`, {
   withCredentials: true,
 });
+
+export const editarCandidato = (id, user) => {axios.put(`${API}/usuarios/${id}`, user, {
+  withCredentials: true,
+})};

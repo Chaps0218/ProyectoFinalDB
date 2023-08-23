@@ -2,6 +2,15 @@ import axios from "axios";
 import jwt from "jsonwebtoken";
 import { api } from "../apiroute.js";
 
+export const extraerSolicitud = async (req, res) => {
+    try {
+        const response = await axios.get(`${api}/solicitud/`);
+        return res.json(response.data);
+    } catch (error) {
+        console.error('Error al obtener solicitud:', error);
+        return res.status(500).json({ message: 'Error al obtener la solicitud' });
+    }
+}
 
 export const extraerOferta = async (req, res) => {
     try {
@@ -398,49 +407,5 @@ export const eliminarActividad = async (req, res) => {
     } catch (error) {
         console.error('Error al eliminar actividad:', error);
         return res.status(500).json({ message: 'Error al eliminar actividad' });
-    }
-}
-
-export const extraerSolicitud = async (req, res) => {
-    try {
-        const response = await axios.get(`${api}/solicitud/`);
-        const solicitud = response.data;
-        return res.json({ solicitud });
-    } catch (error) {
-        console.error('Error al obtener solicitud:', error);
-        return res.status(500).json({ message: 'Error al obtener solicitud' });
-    }
-}
-
-export const agregarSolicitud = async (req, res) => {
-    try {
-        const response = await axios.post(`${api}/solicitud/`, req.body);
-        const solicitud = response.data;
-        return res.json({ solicitud });
-    } catch (error) {
-        console.error('Error al agregar solicitud:', error);
-        return res.status(500).json({ message: 'Error al agregar solicitud' });
-    }
-}
-
-export const editarSolicitud = async (req, res) => {
-    try {
-        const response = await axios.put(`${api}/solicitud/${req.params.id}`, req.body);
-        const solicitud = response.data;
-        return res.json({ solicitud });
-    } catch (error) {
-        console.error('Error al editar solicitud:', error);
-        return res.status(500).json({ message: 'Error al editar solicitud' });
-    }
-}
-
-export const eliminarSolicitud = async (req, res) => {
-    try {
-        const response = await axios.delete(`${api}/solicitud/${req.params.id}`);
-        const solicitud = response.data;
-        return res.json({ solicitud });
-    } catch (error) {
-        console.error('Error al eliminar solicitud:', error);
-        return res.status(500).json({ message: 'Error al eliminar solicitud' });
     }
 }

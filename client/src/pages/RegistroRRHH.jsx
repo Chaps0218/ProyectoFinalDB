@@ -18,9 +18,8 @@ const RegistroRRHH = () => {
     const [showPopup, setShowPopup] = useState(false);
 
     const validateEmailFormat = (email) => {
-        return (
-            email.endsWith('@espe.edu.ec')
-        );
+        console.log('Validating Email:', email);
+        return email.endsWith('@espe.edu.ec');
     };
 
     const EmailValidationPopup = ({ onClose }) => {
@@ -36,12 +35,8 @@ const RegistroRRHH = () => {
 
     EmailValidationPopup.propTypes = {
         onClose: PropTypes.func.isRequired,
-      };
+    };
 
-      const handleChangeEmail = (event) => {
-        const email = event.target.value;
-      };
-    
     const handleChange2 = (event) => {
         setCargo(event.target.value);
     };
@@ -54,23 +49,27 @@ const RegistroRRHH = () => {
 
     const navigate = useNavigate();
     const { signuprrhh, isAutheticated, errors: registerErrors } = useAuth();
-    const onSubmit = async (values) => {
+    const onSubmit = handleSubmit(async (values) => {
+        console.log(values);
+        console.log(validateEmailFormat(values.email));
         if (!validateEmailFormat(values.email)) {
-          setShowEmailValidationPopup(true);
-          return;
+            setShowEmailValidationPopup(true); // Show the popup for invalid emails
+            console.log('Invalid Email Format');
+            console.log('Email Validation Popup:', showEmailValidationPopup);
+            return;
         }
-    
+
         try {
             const res = await signuprrhh(values);
             console.log('Received Response:', res);
-        
+
             if (res && res.status === 200) {
-              setShowPopup(true);
+                setShowPopup(true);
             }
-          } catch (error) {
-            console.log('Error:', error)
-          }
-      };
+        } catch (error) {
+            console.log('Error:', error);
+        }
+    });
 
     useEffect(() => {
         if (isAutheticated) { navigate("/"); }
@@ -144,6 +143,17 @@ const RegistroRRHH = () => {
                     )}
                     <button type="submit" onClick={() => { onSubmit(); }}>ENVIAR</button>
                 </div>
+                {showEmailValidationPopup && (
+                    <EmailValidationPopup onClose={() => setShowEmailValidationPopup(false)} />
+                )}
+                {showPopup && (
+                    <Popup
+                        titulo="¡Cuenta creada exitosamente!"
+                        mensaje="Tu cuenta ha sido registrada con éxito."
+                        ruta="/login" // Update the route as needed
+                        onClose={() => setShowPopup(false)} // Function to close the Popup
+                    />
+                )}
             </div>
         </div>
     );

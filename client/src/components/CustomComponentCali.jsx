@@ -3,14 +3,7 @@ import { Input } from "@nextui-org/react";
 import "./CustomComponentCali.css";
 import PopupCalificacion from './PopupCalificacion';
 
-const CustomComponentCalificacion = ({ title, parametros }) => {
-    const candidato = {
-        nombre: 'Juan Pérez',
-        correo: 'juan.perez@example.com'
-    };
-
-
-
+const CustomComponentCalificacion = ({ title, parametros, candidato }) => {
         // Estado para controlar si se muestra la ventana emergente
         // const [ setShowPopup2] = useState(false);
     

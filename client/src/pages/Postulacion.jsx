@@ -25,7 +25,7 @@ const Postulacion = () => {
             subtitle3='Formatos de Archivos'
             ></Menu>
         </div>
-        <div className="right-item">
+        <div className="right-item postulacionS">
           <CustomComponentForm
           title="Seleccionar Postulación"
           ></CustomComponentForm>

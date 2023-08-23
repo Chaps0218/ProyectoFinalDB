@@ -4,12 +4,41 @@ import './styles.css';
 import MenuRRHH from '../components/MenuRRHH';
 import TopBar from '../components/TopBar';
 import CustomComponentCali from '../components/CustomComponentCali'
-// import { useAuth } from "../context/AuthContext";
+//import { useAuth } from "../context/AuthContext";
 
-const Calificacion = () => {
+
+const Calificacion = ({}) => {
+
+  const candidatoCedula ="1752950863"
   const [data, setData] = useState([]);
 
+  const [candidato, setCandidato] = useState(null);
 
+  useEffect(() => {
+          fetch(`http://127.0.0.1:8000/api/v1/procesocontratacion/candidato?cedula=${candidatoCedula}`)
+              .then(response => response.json())
+              .then(data => {
+                  // asumo que la respuesta es un array y tomamos el primer objeto
+                  const candidatoData = data[0];
+                  setCandidato({
+                      cedula: candidatoData[1],
+                      genero: candidatoData[2],
+                      titulo: candidatoData[3],
+                      fechaNacimiento: candidatoData[4],
+                      edad: candidatoData[5],
+                      email: candidatoData[6],
+                      passwordHash: candidatoData[7],
+                      name1: candidatoData[8],
+                      name2: candidatoData[9],
+                      lastname1: candidatoData[10],
+                      lastname2: candidatoData[11]
+                  });
+              })
+              .catch(error => {
+                  console.error("Error obteniendo datos del candidato:", error);
+              });
+  }, []);
+  
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/v1/procesocontratacion/titulo_exp")
         .then(response => response.json())
@@ -31,49 +60,6 @@ const Calificacion = () => {
         });
 }, []);
 
-  // const parametros = [
-  //   {
-  //     nombre: 'Calidad',
-  //     descripcion: 'La calidad se refiere a la excelencia inherente de un producto o servicio.',
-  //     puntajeMaximo: 5
-  //   },
-  //   {
-  //     nombre: 'Eficiencia',
-  //     descripcion: 'La eficiencia se refiere a la relación entre los recursos utilizados y los resultados obtenidos.',
-  //     puntajeMaximo: 10
-  //   },
-  //   {
-  //     nombre: 'Innovación',
-  //     descripcion: 'La innovación se refiere a la introducción de nuevos métodos, ideas o productos.',
-  //     puntajeMaximo: 7
-  //   },
-  //   {
-  //     nombre: 'Responsabilidad Social',
-  //     descripcion: 'La responsabilidad social se refiere a las obligaciones éticas y sociales de una organización.',
-  //     puntajeMaximo: 4
-  //   },
-  //   {
-  //     nombre: 'Calidad',
-  //     descripcion: 'La calidad se refiere a la excelencia inherente de un producto o servicio.',
-  //     puntajeMaximo: 5
-  //   },
-  //   {
-  //     nombre: 'Eficiencia',
-  //     descripcion: 'La eficiencia se refiere a la relación entre los recursos utilizados y los resultados obtenidos.',
-  //     puntajeMaximo: 10
-  //   },
-  //   {
-  //     nombre: 'Innovación',
-  //     descripcion: 'La innovación se refiere a la introducción de nuevos métodos, ideas o productos.',
-  //     puntajeMaximo: 7
-  //   },
-  //   {
-  //     nombre: 'Responsabilidad Social',
-  //     descripcion: 'La responsabilidad social se refiere a las obligaciones éticas y sociales de una organización.',
-  //     puntajeMaximo: 4
-  //   }
-  // ];
-  
   // const { isAuthenticated } = useAuth();
   return (
     <div className="parent-container">
@@ -95,6 +81,7 @@ const Calificacion = () => {
           <CustomComponentCali
           title="Calificación"
           parametros={data}
+          candidato={candidato}
           ></CustomComponentCali>
 
         </div>

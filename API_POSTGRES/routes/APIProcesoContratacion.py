@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from fastapi import Response
 import config.db as db
 from fastapi import HTTPException
 from schemas.SistemaPostulacion import actividad
@@ -16,6 +17,7 @@ from schemas.SistemaPostulacion import requisito
 from schemas.SistemaPostulacion import sede
 from schemas.SistemaPostulacion import solicitud 
 from schemas.SistemaPostulacion import titulo_exp
+import json
 
 
 import methods.OwnerMethods as OwnerMethods
@@ -191,10 +193,11 @@ def update_candidato(cand_id: int, cand: candidato):
         "cand_nombre1": cand.cand_nombre1,
         "cand_nombre2": cand.cand_nombre2,
         "cand_apellido1": cand.cand_apellido1,
-        "cand_apellido2": cand.cand_apellido2
+        "cand_apellido2": cand.cand_apellido2,
+        "cand_id": cand.cand_id
     }
     cur = db.connection.cursor()
-    cur.execute('UPDATE candidato SET cand_tipo_identificaccion=%(cand_tipo_identificaccion)s, cand_num_identificacion=%(cand_num_identificacion)s, cand_sexo=%(cand_sexo)s, cand_titulo=%(cand_titulo)s, cand_fecha_nacimiento=%(cand_fecha_nacimiento)s, cand_correo=%(cand_correo)s, cand_password=%(cand_password)s, cand_nombre1=%(cand_nombre1)s, cand_nombre2=%(cand_nombre2)s, cand_apellido1=%(cand_apellido1)s, cand_apellido2=%(cand_apellido2)s WHERE cand_id=%(cand_id)s', updated_candidato)
+    cur.execute('UPDATE candidato SET cand_tipo_identificacion=%(cand_tipo_identificaccion)s, cand_num_identificacion=%(cand_num_identificacion)s, cand_sexo=%(cand_sexo)s, cand_titulo=%(cand_titulo)s, cand_fecha_nacimiento=%(cand_fecha_nacimiento)s, cand_correo=%(cand_correo)s, cand_password=%(cand_password)s, cand_nombre1=%(cand_nombre1)s, cand_nombre2=%(cand_nombre2)s, cand_apellido1=%(cand_apellido1)s, cand_apellido2=%(cand_apellido2)s WHERE cand_id=%(cand_id)s', updated_candidato)
     db.connection.commit()
     return "Candidato updated successfully"
 
@@ -605,10 +608,25 @@ def delete_requisito(rq_id: int):
 @APIProcesoContratacion.get('/solicitud')
 def get_solicitudes():
     cur = db.connection.cursor()
-    cur.execute('SELECT * FROM solicitud')
-    result = cur.fetchall()
-    print(result)
-    return result
+    cur.execute('''
+        SELECT s.*, c.*, ce.*, ca.*, ac.*, te.*
+        FROM solicitud as s
+        LEFT JOIN candidato as c ON s.cand_id = c.cand_id
+        LEFT JOIN oferta as o ON s.ofe_id = o.ofe_id
+        LEFT JOIN campo_especifico as ce ON o.ce_id = ce.ce_id
+        LEFT JOIN campo_amplio as ca ON ce.ca_id = ca.ca_id
+        LEFT JOIN actividad as ac ON o.act_id = ac.act_id
+        LEFT JOIN personal_academico as pa ON o.pa_id = pa.pa_id
+        LEFT JOIN item as i ON pa.pa_id = i.pa_id
+        LEFT JOIN requisito as rq ON i.it_id = rq.it_id
+        LEFT JOIN titulo_exp as te ON rq.rq_id = te.rq_id
+    ''')
+
+    fields = [field_md[0] for field_md in cur.description]
+    result = [dict(zip(fields,row)) for row in cur.fetchall()]
+    json_str = json.dumps(result, indent=4, default=str)
+    print(json_str)
+    return Response(content=json_str, media_type='application/json')
 
 @APIProcesoContratacion.post('/solicitud')
 def create_solicitud(solicitud: solicitud):
