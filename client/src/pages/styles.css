@@ -342,6 +342,7 @@ html, body {
 
 .right-item {
   grid-area: right-item;
+  overflow: auto;
 }
 
 .background-video {
