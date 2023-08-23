@@ -15,7 +15,7 @@ const CustomComponentInicio= ({ title,numeroDeSolicitudes}) => {
             <div className="solicitudes-info">
                 <h1>Tienes <span className='numero-solicitudes'>{numeroDeSolicitudes}</span> solicitudes por revisar</h1>
             </div>
-            <button className="boton-ir" onClick={() => navigate('/infoP')}>
+            <button className="boton-ir" onClick={() => navigate('/solicitudesPostulantes')}>
                 IR
             </button>
             </div>
