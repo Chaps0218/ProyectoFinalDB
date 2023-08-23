@@ -62,6 +62,8 @@ const App = () => {
             <Route path="/calificacion" element={<Calificacion />} />
             <Route path="/infoPostRRHH" element={<InfoPostRRHH />} />
 
+            <Route path="/informacionPersonalCandidato" element={<InfoCuentaCandidato />} />
+
             <Route path="/" element={<Inicio />} />
             <Route element={<ProtectedRoute />}>
               <Route element={<ProtectedRouteRRHH />}>

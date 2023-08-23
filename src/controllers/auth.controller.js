@@ -220,6 +220,10 @@ export const verifyToken = async (req, res) => {
           name2: existingUsers[0][9],
           lastname1: existingUsers[0][10],
           lastname2: existingUsers[0][11],
+          tipoI: existingUsers[0][0],
+          identificacion: existingUsers[0][1],
+          titulo: existingUsers[0][3],
+          fecha: existingUsers[0][4],
           tipo: "candidato",
         });
       }else if (existingRechums.length > 0 && user.tipo === "rrhh"){
