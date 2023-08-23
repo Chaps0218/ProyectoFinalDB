@@ -4,7 +4,7 @@ try:
     connection = psycopg2.connect(
         host="localhost",
         user="postgres",
-        password="ewpassword",
+        password="newpassword",
         database="SistemaPostulacion"
     )
     print("Database connected successfully")

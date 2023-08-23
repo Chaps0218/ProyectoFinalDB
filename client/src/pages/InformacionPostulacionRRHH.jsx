@@ -4,6 +4,7 @@ import MenuRRHH from '../components/MenuRRHH';
 import TopBar from '../components/TopBar';
 import CustomComponentInfo from '../components/CustomComponentInfo'
 import { useAuth } from "../context/AuthContext";
+import CRUD from "./PRUEBA";
 
 const InfoPostRRHH = () => {
   const { isAuthenticated } = useAuth();
@@ -24,9 +25,7 @@ const InfoPostRRHH = () => {
             ></MenuRRHH>
         </div>
         <div className="right-item">
-          <CustomComponentInfo
-            title='Información Postulantes'
-          ></CustomComponentInfo>
+          <CRUD></CRUD>
         </div>
         <video className="background-video" autoPlay loop muted>
           <source src={require('../assets/inicio.mp4')} type="video/mp4" />

@@ -136,13 +136,15 @@ export const registerRRHH = async (req, res) => {
 };
 export const login = async (req, res) => {
   const { email, password } = req.body;
-
+  console.log(req.body);
   // Verificación de usuario existente
   try {
     const existingUsers = await fetchCandidatosAndFilterByEmail(email);
     const existingRechums= await fetchRRHHAndFilterByEmail(email);
+    console.log("Usuarios: ", existingUsers.length);
+    console.log("Rechums: ", existingRechums.length);
     if (existingUsers.length < 0 && existingRechums.length < 0) {
-      return res.status(409).json(["Usuario no existe!"]);
+      return res.status(409).json(["¡Usuario no existe!"]);
     } else {
       if(existingUsers.length > 0){
         const isPasswordCorrect = bcrypt.compareSync(
@@ -150,7 +152,7 @@ export const login = async (req, res) => {
           existingUsers[0][7]
         );
         if (!isPasswordCorrect) {
-          return res.status(400).json(["Usuario o Contraseña incorrecta!"]);
+          return res.status(400).json(["¡Usuario o Contraseña incorrecta!"]);
         }
         // Generación de Token
         const token = jwt.sign({ id: existingUsers[0][5], tipo: "candidato"}, TOKEN_SECRET);
@@ -160,12 +162,13 @@ export const login = async (req, res) => {
           .status(200)
           .json(existingUsers[0]);
       }else if(existingRechums.length > 0){
+        console.log(existingRechums[0][3])
         const isPasswordCorrect = bcrypt.compareSync(
           password,
           existingRechums[0][3]
         );
         if (!isPasswordCorrect) {
-          return res.status(400).json(["Usuario o Contraseña incorrecta!"]);
+          return res.status(400).json(["¡Usuario o Contraseña incorrecta!"]);
         }
         // Generación de Token
         const token = jwt.sign({ id: existingRechums[0][1], tipo: "rrhh" }, TOKEN_SECRET);
@@ -174,6 +177,8 @@ export const login = async (req, res) => {
           .cookie("token", token)
           .status(200)
           .json(existingUsers[0]);
+      }else{
+        return res.status(400).json(["¡Usuario o Contraseña incorrecta!"]);
       }
       
     }

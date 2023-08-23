@@ -23,7 +23,6 @@ import methods.OwnerMethods as OwnerMethods
 APIProcesoContratacion = APIRouter()
 
 
-
 # CRUD Completo
 @APIProcesoContratacion.get('/actividad')
 def get_actividades():
@@ -230,6 +229,7 @@ def create_contratacion(contrat: contratacion):
 @APIProcesoContratacion.put('/contratacion/{con_id}')
 def update_contratacion(con_id: int, contrat: contratacion):
     updated_contratacion = {
+        "con_id": contrat.con_id,
         "con_nombre": contrat.con_nombre
     }
     cur = db.connection.cursor()
@@ -269,13 +269,18 @@ def create_departamento(dept: departamento):
 @APIProcesoContratacion.put('/departamento/{dept_id}')
 def update_departamento(dept_id: int, dept: departamento):
     updated_departamento = {
+        "dept_id": dept.dept_id,
         "dept_nombre": dept.dept_nombre,
         "dept_descripcion": dept.dept_descripcion
     }
+    
+    print("updated_departamento:", updated_departamento)  # Add this print statement
+    
     cur = db.connection.cursor()
     cur.execute('UPDATE departamento SET dept_nombre=%(dept_nombre)s, dept_descripcion=%(dept_descripcion)s WHERE dept_id=%(dept_id)s', updated_departamento)
     db.connection.commit()
     return "Departamento updated successfully"
+
 
 @APIProcesoContratacion.delete('/departamento/{dept_id}')
 def delete_departamento(dept_id: int):
@@ -375,17 +380,6 @@ def get_ofertas():
     result = cur.fetchall()
     print(result)
     return result
-@APIProcesoContratacion.get('/oferta/{ofe_id}')
-def get_id_oferta(ofe_id: int):
-    cur = db.connection.cursor()
-    cur.execute('SELECT * FROM oferta WHERE ofe_id=%s', (ofe_id,))
-    result = cur.fetchall()
-    print(result)
-    return result
-
-
-
-
 
 @APIProcesoContratacion.post('/oferta')
 def create_oferta(oferta: oferta):
@@ -488,12 +482,10 @@ def get_postulaciones():
 @APIProcesoContratacion.post('/postulacion')
 def create_postulacion(postulacion: postulacion):
     new_postulacion = {
-        "cand_id": postulacion.cand_id,
-        "ofe_id": postulacion.ofe_id,
-        "post_fecha": postulacion.post_fecha
+        "post_periodo": postulacion.post_periodo,
     }
     cur = db.connection.cursor()
-    cur.execute('INSERT INTO postulacion (cand_id, ofe_id, post_fecha) VALUES (%(cand_id)s, %(ofe_id)s, %(post_fecha)s)', new_postulacion)
+    cur.execute('INSERT INTO postulacion (post_periodo) VALUES (%(post_periodo)s)', new_postulacion)
     db.connection.commit()
     return "Postulacion created successfully"
 
@@ -501,10 +493,10 @@ def create_postulacion(postulacion: postulacion):
 def update_postulacion(post_id: int, postulacion: postulacion):
     updated_postulacion = {
         "post_id": postulacion.post_id,
-        "post_fecha": postulacion.post_fecha,
+        "post_periodo": postulacion.post_periodo,
     }
     cur = db.connection.cursor()
-    cur.execute('UPDATE postulacion SET post_fecha=%(post_fecha)s WHERE post_id=%(post_id)s', updated_postulacion)
+    cur.execute('UPDATE postulacion SET post_periodo=%(post_periodo)s WHERE post_id=%(post_id)s', updated_postulacion)
     db.connection.commit()
     return "Postulacion updated successfully"
 
@@ -625,7 +617,6 @@ def create_solicitud(solicitud: solicitud):
         "sol_id": solicitud.sol_id,
         "rh_id": solicitud.rh_id,
         "sol_aprobacion": solicitud.sol_aprobacion,   
-        
     }
     cur = db.connection.cursor()
     cur.execute('INSERT INTO solicitud (cand_id, sol_id, rh_id, sol_aprobacion) VALUES (%(cand_id)s, %(sol_id)s, %(rh_id)s, %(sol_aprobacion)s)', new_solicitud)
@@ -635,6 +626,7 @@ def create_solicitud(solicitud: solicitud):
 @APIProcesoContratacion.put('/solicitud/{sol_id}')
 def update_solicitud(sol_id: int, solicitud: solicitud):
     updated_solicitud = {
+        "sol_id": solicitud.sol_id,
         "cand_id": solicitud.cand_id,
         "sol_id": solicitud.sol_id,
         "rh_id": solicitud.rh_id,
@@ -716,12 +708,11 @@ def get_personal_academicos():
 @APIProcesoContratacion.post('/personal_academico')
 def create_personal_academico(personal: personal_academico):
     new_personal = {
-        "pa_id": personal.pa_id,
         "pa_nombre": personal.pa_nombre,
         "pa_descripcion": personal.pa_descripcion
     }
     cur = db.connection.cursor()
-    cur.execute('INSERT INTO personal_academico (pa_id, pa_nombre, pa_descripcion) VALUES (%(pa_id)s, %(pa_nombre)s, %(pa_descripcion)s)', new_personal)
+    cur.execute('INSERT INTO personal_academico (pa_nombre, pa_descripcion) VALUES (%(pa_nombre)s, %(pa_descripcion)s)', new_personal)
     db.connection.commit()
     return "Personal academico created successfully"
 
@@ -733,7 +724,7 @@ def update_personal_academico(pa_id: int, personal: personal_academico):
         "pa_descripcion": personal.pa_descripcion
     }
     cur = db.connection.cursor()
-    cur.execute('UPDATE personal_academico SET pa_id=%(pa_id)s, pa_nombre=%(pa_nombre)s, pa_descripcion=%(pa_descripcion)s WHERE pa_id=%(pa_id)s', updated_personal)
+    cur.execute('UPDATE personal_academico SET pa_nombre=%(pa_nombre)s, pa_descripcion=%(pa_descripcion)s WHERE pa_id=%(pa_id)s', updated_personal)
     db.connection.commit()
     return "Personal academico updated successfully"
 

@@ -1,17 +1,5 @@
 /* CustomComponentSolicitudes.css */
 
-.custom-component {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 800px;
-    height: 500px;
-    border-radius: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-    background: var(--background-color);
-    padding: 20px;
-}
-
 .custom-title {
     text-align: center;
     font-size: 1.5em;
@@ -29,11 +17,6 @@
     margin: 10px 0;
 }
 
-.custom-content {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
 
 .custom-section {
     display: flex;
@@ -93,15 +76,16 @@
 /* ... (otros estilos) ... */
 
 .scrollable-table-container {
-    max-height: 280px; /* Ajusta la altura máxima deseada */
+    height: auto; /* Ajusta la altura máxima deseada */
     overflow: auto;
+    width: 100%;
     margin-top: 10px; /* Agrega un margen superior para separar del contenido superior */
 }
-
 .custom-table {
-    width: 750px; /* Cambiado a 100% para ocupar todo el espacio disponible */
+    width: 100%; /* Cambiado a 100% para ocupar todo el espacio disponible */
     border-collapse: collapse;
 }
+
 
 .custom-table button {
     background-color: #ff69b4; /* Color rosa */
@@ -147,8 +131,8 @@
 }
 
 .candidate-details {
-    width: 750px;
-    height: 350px;
+    height: 60vh; 
+    width: 68vw;
     padding: 20px;
     background-color: #f8f8f8;
     border-radius: 10px;

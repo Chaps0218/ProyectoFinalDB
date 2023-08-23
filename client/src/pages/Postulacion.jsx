@@ -13,8 +13,9 @@ const Postulacion = () => {
     <div className="parent-container">
       <div className="plataforma-container">
         <div className="top-item">
-          <TopBar>
-          </TopBar>
+        <TopBar
+          title="Seleccionar Postulación"
+          ></TopBar>
         </div>
         <div className="left-item">
           <Menu

@@ -8,9 +8,9 @@ const CustomComponentInicio= ({ title,numeroDeSolicitudes}) => {
     const navigate = useNavigate();
 
     return (
-        <div className="documents-list">
-            <h1 className="documents-title">{title}</h1>
-            <hr className="documents-divider" />
+        <div className="custom-component-postulante">
+            <h1 className="custom-title">{title}</h1>
+            <hr className="custom-divider" />
             <div className="solicitudes-container">
             <div className="solicitudes-info">
                 <h1>Tienes <span className='numero-solicitudes'>{numeroDeSolicitudes}</span> solicitudes por revisar</h1>

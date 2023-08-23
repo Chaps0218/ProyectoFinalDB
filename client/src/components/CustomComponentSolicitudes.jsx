@@ -28,6 +28,7 @@ const CustomComponentSolicitudes = ({ title }) => {
 
     const handleCancelAccept = () => {
         setShowConfirmationPopup(false);
+        setSelectedCandidate(null);
     };
 
     const handleDeclineCandidate = () => {
@@ -44,12 +45,13 @@ const CustomComponentSolicitudes = ({ title }) => {
         setShowDeclinePopup(false);
     };
 
+    const [candidateRating, setCandidateRating] = useState(0);
+
     return (
-        <div className="custom-component">
+        <div className="custom-component-postulante">
             <h1 className="custom-title">{title}</h1>
             <hr className="custom-divider" />
             <div className="custom-content">
-                <div className="custom-section">
                     {selectedCandidate ? (
                         <div className="candidate-details">
                         <div className="candidate-header">
@@ -69,6 +71,16 @@ const CustomComponentSolicitudes = ({ title }) => {
                                 <span>Campo Específico:</span>
                                 <span>{selectedCandidate.campoEspecifico}</span>
                             </div>
+
+                            <div className="info-item">
+        <span>Calificación:</span>
+        <input
+            type="number"
+            value={candidateRating}
+            onChange={(e) => setCandidateRating(Number(e.target.value))}
+        />
+    </div>
+
                         </div>
                         <div className="buttons">
                             <button onClick={handleAcceptCandidate}>Aceptar</button>
@@ -77,7 +89,7 @@ const CustomComponentSolicitudes = ({ title }) => {
                         </div>
                     </div>
                     ) : (
-                        <div>
+                        <div className='form-line-container'>
                         <div className='form-line'>
                         <div className='pendiente'>
                             <button>
@@ -150,7 +162,6 @@ const CustomComponentSolicitudes = ({ title }) => {
                             </div>
                         </div>
                     )}
-                </div>
             </div>
             {showConfirmationPopup && (
                 <div className="confirmation-overlay">

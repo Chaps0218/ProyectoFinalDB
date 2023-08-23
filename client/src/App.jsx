@@ -3,7 +3,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { ProtectedRouteRRHH } from "./ProtectedRouteRRHH";
 import { ProtectedRouteCandidato } from "./ProtectedRouteCandidato";
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeContext } from './context/ThemeContext';
 import Informacionrh from "./pages/Informacionrh";
 
@@ -12,8 +12,8 @@ import Inicio from './pages/Inicio';
 import Registro from './pages/Registro';
 import RegistroRRHH from "./pages/RegistroRRHH";
 import Login from './pages/Login';
-import Plataforma from "./pages/Plataforma";
-import Postulante from "./pages/Postulante";
+// import Plataforma from "./pages/Plataforma";
+// import Postulante from "./pages/Postulante";
 import Proceso from "./pages/Proceso";
 import Recursoshumanos from './pages/Recursoshumanos';
 import Solicitud from "./pages/Solicitud";
@@ -27,10 +27,14 @@ import SolicitudesPostulantes from "./pages/SolicitudesPostulantes";
 import InfoPostRRHH from "./pages/InformacionPostulacionRRHH";
 import InicioRRHH from "./pages/InicioRRHH";
 import InformacionPersonal from "./pages/InformacionPersonal";
+import PRUEBA from "./pages/PRUEBA.jsx";
+import InfoCuentaCandidato from "./pages/infoCuentaCandidato";
 
 import ListaPostulantes from "./pages/ListaPostulantes";
+import Calificacion from "./pages/Calificacion";
 
-import Actividad from "./components/CRUD/Postulacion";
+
+import Actividad from "./components/CRUD/Oferta";
 
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -54,6 +58,10 @@ const App = () => {
             <Route path="/proceso" element={<Proceso />} />
             <Route path="/academica" element={<Solicitud />} />
             <Route path="/actividad" element={<Actividad />} />
+            <Route path="/prueba" element={<PRUEBA />} />
+            <Route path="/calificacion" element={<Calificacion />} />
+            <Route path="/infoPostRRHH" element={<InfoPostRRHH />} />
+
             <Route path="/" element={<Inicio />} />
             <Route element={<ProtectedRoute />}>
               <Route element={<ProtectedRouteRRHH />}>
@@ -74,6 +82,7 @@ const App = () => {
                 <Route path="/proceso" element={<Proceso />} />
                 <Route path="/postulacion" element={<Usuarios />} />
                 <Route path="/informacion" element={<Informacion />} />
+                <Route path="/informacionPersonalCandidato" element={<InfoCuentaCandidato />} />
               </Route>
             </Route>
           </Routes>

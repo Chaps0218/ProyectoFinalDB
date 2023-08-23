@@ -1,10 +1,4 @@
 /* CustomComponentForm.css */
-.documents-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-}
 
 .documents-title {
   font-size: 24px;

@@ -27,7 +27,7 @@ const columns = [
   {name: "NÚMERO DE IDENTIFICACIÓN", uid: "noIdentificacion", sortable: true},
   {name: "EDAD", uid: "fechaNacimiento", sortable: true},
   {name: "SEXO", uid: "sexo", sortable: true},
-  {name: "TITULO", uid: "titulo", sortable: true},
+  {name: "TÍTULO", uid: "titulo", sortable: true},
 ];
 
 const INITIAL_VISIBLE_COLUMNS = ["nombre", "noIdentificacion", "fechaNacimiento", "sexo", "titulo"];
@@ -80,7 +80,7 @@ export default function App() {
       .catch((error) => {
         console.error("Error al obtener contrato:", error);
       });
-  }, []);
+  }, [getUsuarios]);
 
   const renderCell = React.useCallback((user, columnKey) => {
 
@@ -268,8 +268,9 @@ export default function App() {
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
             >
+              <option value="1">1</option>
+              <option value="5">5</option>
               <option value="10">10</option>
-              <option value="15">15</option>
               <option value="20">20</option>
             </select>
           </label>
@@ -299,10 +300,10 @@ export default function App() {
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
           <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage}>
-            Previous
+            Anterior
           </Button>
           <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage}>
-            Next
+            Siguiente
           </Button>
         </div>
       </div>
@@ -310,7 +311,7 @@ export default function App() {
   }, [page, pages, onNextPage, onPreviousPage]);
 
   return (
-    <div>
+    <div >
     <Table
     aria-label="Example table with custom cells, pagination and sorting"
     isHeaderSticky

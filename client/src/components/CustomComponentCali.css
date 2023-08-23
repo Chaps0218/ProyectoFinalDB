@@ -1,0 +1,89 @@
+.parametros {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .calificacion-item {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px 0;
+  }
+  
+  .informacion-calificacion {
+    display: flex;
+    align-items: center;
+    position: relative; /* Añadir esta línea */
+  }
+  
+  .icon {
+    position: relative;
+    cursor: pointer;
+    margin-right: 10px;
+    color: var(--text-color);
+  }
+  
+  .tooltip {
+    position: absolute;
+    background-color: #333;
+    color: white;
+    padding: 8px;
+    border-radius: 4px;
+    top: -20px; /* Ajusta según tus necesidades */
+    left: 10px; /* Ajusta según tus necesidades */
+    z-index: 1000;
+    width: 550px; /* Ajusta para controlar el ancho máximo */
+    max-height: 120px;
+    overflow: auto; /* Permite el desplazamiento si el contenido es demasiado grande */
+  }
+  
+  
+  .label-calificacion {
+    width: 200px; /* Ajusta este valor según tus necesidades */
+    color: var(--text-color);
+  }
+  
+  .calificaciones {
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-calificacion {
+    width: 50px;
+    margin: 0 10px;
+  }
+  
+  .span-calificacion {
+    width: 40px; /* Ajusta este valor según tus necesidades */
+    text-align: left;
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+  }
+  
+  .buttons-calificacion {
+    display: flex;
+    width: 100%;
+    
+  }
+  .wide-input {
+    color: var(--text-color);
+  }
+  
+  .button-calificacion {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #007135;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  
+
+  
