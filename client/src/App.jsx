@@ -33,7 +33,7 @@ import ListaPostulantes from "./pages/ListaPostulantes";
 import Calificacion from "./pages/Calificacion";
 
 
-import Actividad from "./components/CRUD/Tituloexp";
+import Actividad from "./components/CRUD/Oferta";
 
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);

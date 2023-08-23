@@ -27,7 +27,7 @@ import { PlusIcon } from "../../assets/PlusIcon";
 
 const columns = [
   {name: "VACANTES", uid: "ofe_vacantes", sortable: true},
-  {name: "HORAS", uid: "post_id", sortable: true},
+  {name: "HORAS", uid: "ofe_horas", sortable: true},
   {name: "POSTULACION", uid: "post_id", sortable: true},
   {name: "CONTRATACION", uid: "con_id", sortable: true},
   {name: "CAMPO ESPECIFICO", uid: "ce_id", sortable: true},
@@ -39,13 +39,13 @@ const columns = [
   {name: "ACCIONES", uid: "actions"},
 ];
 
-const INITIAL_VISIBLE_COLUMNS = ["ofe_vacantes", "post_id","actions", "post_id", "con_id", "ce_id", "ca_id", "sede_id", "dept_id", "pa_id", "act_id"];
+const INITIAL_VISIBLE_COLUMNS = ["ofe_vacantes", "ofe_horas", "post_id","actions", "post_id", "con_id", "ce_id", "ca_id", "sede_id", "dept_id", "pa_id", "act_id"];
 
 const ofertas = [
   {
     ofe_id: 1,
     ofe_vacantes: 2,
-    post_id: 1,
+    ofe_horas: 30,
     post_id: 1,
     con_id: 1,
     ce_id: 1,
@@ -58,7 +58,7 @@ const ofertas = [
  {
     ofe_id: 2,
     ofe_vacantes: 1,
-    post_id: 2,
+    ofe_horas: 20,
     post_id: 2,
     con_id: 2,
     ce_id: 2,
@@ -159,87 +159,66 @@ const actividades = [
     }
 ]
 
+const statusOptions = []; //postulacion
+const statusOptionsR = []; //contrataciones
+const statusOptionsA = []; //campo especifico
+const statusOptionsB = []; //campo amplio
+const statusOptionsC = []; //sede
+const statusOptionsD = []; //departamento
+const statusOptionsE = []; //personal academico
+const statusOptionsF = [];  //actividad
 
-const statusOptions = [];
-const statusOptionsR = [];
-const statusOptionsA = [];
-const statusOptionsB = [];
-const statusOptionsC = [];
-const statusOptionsD = [];
-const statusOptionsE = [];
-const statusOptionsF = [];
+postulaciones.forEach(campo => {
 
-ofertas.forEach(campo => {
-  const matchingNomCampA = postulaciones.find(item => item.post_id === campo.post_id);
-  if (matchingNomCampA && !statusOptions.some(option => option.name === matchingNomCampA.nombreCA)) {
-    statusOptions.push({ name: matchingNomCampA.nombreCA, uid: matchingNomCampA.nombreCA });
-  }
-
+  statusOptions.push({ name: campo.nombreCA, uid: campo.nombreCA });  
   console.log(statusOptions);
+
 });
 
-ofertas.forEach(campo => {
-    const matchingNomCampAR = contrataciones.find(item => item.con_id === campo.con_id);
-    if (matchingNomCampAR && !statusOptionsR.some(option => option.name === matchingNomCampAR.nombreCA)) {
-      statusOptionsR.push({ name: matchingNomCampAR.nombreCA, uid: matchingNomCampAR.nombreCA });
-    }
+contrataciones.forEach(campo => {
+
+  statusOptionsR.push({ name: campo.nombreCA, uid: campo.nombreCA });
+  console.log(statusOptionsR);
+});
+
+camposEspecificos.forEach(campo => {
+
+  statusOptionsA.push({ name: campo.nombreCA, uid: campo.nombreCA });
+  console.log(statusOptionsA);
+});
+
+camposAmplios.forEach(campo => {
   
-    console.log(statusOptionsR);
-  });
-
-ofertas.forEach(campo => {
-    const matchingNomCampAE = camposEspecificos.find(item => item.ce_id === campo.ce_id);
-    if (matchingNomCampAE && !statusOptionsA.some(option => option.name === matchingNomCampAE.nombreCA)) {
-        statusOptionsA.push({ name: matchingNomCampAE.nombreCA, uid: matchingNomCampAE.nombreCA });
-    }
-
-    console.log(statusOptionsA);
+  statusOptionsB.push({ name: campo.nombreCA, uid: campo.nombreCA });
+  console.log(statusOptionsB);
 });
 
-ofertas.forEach(campo => {
-    const matchingNomCampAA = camposAmplios.find(item => item.ca_id === campo.ca_id);
-    if (matchingNomCampAA && !statusOptionsB.some(option => option.name === matchingNomCampAA.nombreCA)) {
-        statusOptionsB.push({ name: matchingNomCampAA.nombreCA, uid: matchingNomCampAA.nombreCA });
-    }
+sedes.forEach(campo => {
 
-    console.log(statusOptionsB);
+  statusOptionsC.push({ name: campo.nombreCA, uid: campo.nombreCA });
+  console.log(statusOptionsC);
 });
 
-ofertas.forEach(campo => {
-    const matchingNomCampAS = sedes.find(item => item.sede_id === campo.sede_id);
-    if (matchingNomCampAS && !statusOptionsC.some(option => option.name === matchingNomCampAS.nombreCA)) {
-        statusOptionsC.push({ name: matchingNomCampAS.nombreCA, uid: matchingNomCampAS.nombreCA });
-    }
+departamentos.forEach(campo => {
 
-    console.log(statusOptionsC);
+  statusOptionsD.push({ name: campo.nombreCA, uid: campo.nombreCA });
+  console.log(statusOptionsD);
 });
 
-ofertas.forEach(campo => {
-    const matchingNomCampAD = departamentos.find(item => item.dept_id === campo.dept_id);
-    if (matchingNomCampAD && !statusOptionsD.some(option => option.name === matchingNomCampAD.nombreCA)) {
-        statusOptionsD.push({ name: matchingNomCampAD.nombreCA, uid: matchingNomCampAD.nombreCA });
-    }
+personalAcademico.forEach(campo => {
 
-    console.log(statusOptionsD);
+
+  statusOptionsE.push({ name: campo.nombreCA, uid: campo.nombreCA });
+  console.log(statusOptionsE);
 });
 
-ofertas.forEach(campo => {
-    const matchingNomCampAPA = personalAcademico.find(item => item.pa_id === campo.pa_id);
-    if (matchingNomCampAPA && !statusOptionsE.some(option => option.name === matchingNomCampAPA.nombreCA)) {
-        statusOptionsE.push({ name: matchingNomCampAPA.nombreCA, uid: matchingNomCampAPA.nombreCA });
-    }
+actividades.forEach(campo => {
 
-    console.log(statusOptionsE);
+  statusOptionsF.push({ name: campo.nombreCA, uid: campo.nombreCA });
+  console.log(statusOptionsF);
+
 });
 
-ofertas.forEach(campo => {
-    const matchingNomCampAA = actividades.find(item => item.act_id === campo.act_id);
-    if (matchingNomCampAA && !statusOptionsF.some(option => option.name === matchingNomCampAA.nombreCA)) {
-        statusOptionsF.push({ name: matchingNomCampAA.nombreCA, uid: matchingNomCampAA.nombreCA });
-    }
-
-    console.log(statusOptionsF);
-});
 
 const getPostIdFromNombreCA = (nameCA) => {
     const foundItem = postulaciones.find((item) => item.nombreCA === nameCA);
@@ -281,10 +260,8 @@ const getActIdFromNombreAct = (nameCA) => {
     return foundItem ? foundItem.act_id : null;
 };
 
-
-
-const findNombreById = (post_id) => {
-  const candidato = postulaciones.find((c) => c.sede_id === post_id);
+const findNombreSedeById = (post_id) => {
+  const candidato = sedes.find((c) => c.sede_id === post_id);
 
   if (candidato) {
     return candidato.nombreCA;
@@ -293,24 +270,101 @@ const findNombreById = (post_id) => {
   }
 }
 
+const findNombrePostulacionById = (post_id) => {
+  const candidato = postulaciones.find((c) => c.post_id === post_id);
+
+  if (candidato) {
+    return candidato.nombreCA;
+  } else {
+    return "Postulacion not found";
+  }
+}
+
+const findNombreContratacionById = (con_id) => {
+  const candidato = contrataciones.find((c) => c.con_id === con_id);
+
+  if (candidato) {
+    return candidato.nombreCA;
+  } else {
+    return "Contratacion not found";
+  }
+}
+
+const findNombreCEById = (ce_id) => {
+  const candidato = camposEspecificos.find((c) => c.ce_id === ce_id);
+
+  if (candidato) {
+    return candidato.nombreCA;
+  } else {
+    return "Campo especifico not found";
+  }
+
+}
+
+const findNombreCAById = (ca_id) => {
+  const candidato = camposAmplios.find((c) => c.ca_id === ca_id);
+
+  if (candidato) {
+    return candidato.nombreCA;
+  } else {
+    return "Campo amplio not found";
+  }
+
+}
+
+const findNombreDeptById = (dept_id) => {
+  const candidato = departamentos.find((c) => c.dept_id === dept_id);
+  
+  if (candidato) {
+    return candidato.nombreCA;
+  } else {
+    return "Departamento not found";
+  }
+
+}
+
+const findNombrePAById = (pa_id) => {
+
+  const candidato = personalAcademico.find((c) => c.pa_id === pa_id);
+
+  if (candidato) {
+    return candidato.nombreCA;
+  } else {
+    return "Personal academico not found";
+  }
+
+}
+
+const findNombreActById = (act_id) => {
+
+  const candidato = actividades.find((c) => c.act_id === act_id);
+
+  if (candidato) {
+    return candidato.nombreCA;
+  } else {
+    return "Actividad not found";
+  }
+
+}
+
 export default function App() {
 
   //!Variables para rellenar a todas las ofertas
   const [actividad, setActividad] = React.useState(ofertas);
 
   //!Variables de agregacion y actualizacion
-  const [sol_id, setId] = React.useState(0); //Para actualizar
-  const [ofe_vacantes, setSol_aprobacion] = React.useState(0);
+  const [ofe_id, setId] = React.useState(0); //Para actualizar
+  const [ofe_vacantes, setOfe_vacantes] = React.useState(0);
   const [ofe_horas, setOfe_horas] = React.useState(0);
 
     const [selectedKeys, setSelectedKeys] = React.useState(new Set(["Selecciona"])); //postulacion
     const [selectedKeysR, setSelectedKeysR] = React.useState(new Set(["Selecciona"])); //contratacion
-    const [selectedKeysB, setSelectedKeysB] = React.useState(new Set(["Selecciona"])); //campo especifico
-    const [selectedKeysC, setSelectedKeysC] = React.useState(new Set(["Selecciona"])); //campo amplio
-    const [selectedKeysD, setSelectedKeysD] = React.useState(new Set(["Selecciona"])); //sede
-    const [selectedKeysE, setSelectedKeysE] = React.useState(new Set(["Selecciona"])); //departamento
-    const [selectedKeysF, setSelectedKeysF] = React.useState(new Set(["Selecciona"])); //personal academico
-    const [selectedKeysG, setSelectedKeysG] = React.useState(new Set(["Selecciona"])); //actividad
+    const [selectedKeysA, setSelectedKeysA] = React.useState(new Set(["Selecciona"])); //campo especifico
+    const [selectedKeysB, setSelectedKeysB] = React.useState(new Set(["Selecciona"])); //campo amplio
+    const [selectedKeysC, setSelectedKeysC] = React.useState(new Set(["Selecciona"])); //sede
+    const [selectedKeysD, setSelectedKeysD] = React.useState(new Set(["Selecciona"])); //departamento
+    const [selectedKeysE, setSelectedKeysE] = React.useState(new Set(["Selecciona"])); //personal academico
+    const [selectedKeysF, setSelectedKeysF] = React.useState(new Set(["Selecciona"])); //actividad
 
   const selectedValue = React.useMemo(
     () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
@@ -322,10 +376,15 @@ export default function App() {
     [selectedKeysR]
   );
 
-  const selectedValueB = React.useMemo(
-    () => Array.from(selectedKeysB).join(", ").replaceAll("_", " "),
-    [selectedKeysB]
+  const selectedValueA = React.useMemo(
+    () => Array.from(selectedKeysA).join(", ").replaceAll("_", " "),
+    [selectedKeysA]
   );
+
+    const selectedValueB = React.useMemo(
+        () => Array.from(selectedKeysB).join(", ").replaceAll("_", " "),
+        [selectedKeysB]
+    );
 
     const selectedValueC = React.useMemo(
         () => Array.from(selectedKeysC).join(", ").replaceAll("_", " "),
@@ -347,11 +406,6 @@ export default function App() {
         [selectedKeysF]
     );
 
-    const selectedValueG = React.useMemo(
-        () => Array.from(selectedKeysG).join(", ").replaceAll("_", " "),
-        [selectedKeysG]
-    );
-
 
   //!Variables para abrir y cerrar los modales de agregar y actualizar
   const { isOpen: isOpenModal1, onOpen: onOpenModal1, onOpenChange: onOpenChangeModal1 } = useDisclosure();
@@ -359,87 +413,149 @@ export default function App() {
 
   //Limpio los valores
   const clearInputFields = () => {
-    setSol_aprobacion("");
+    setOfe_vacantes(0);
+    setOfe_horas(0);
     setSelectedKeys(new Set(["Selecciona"]));
     setSelectedKeysR(new Set(["Selecciona"]));
+    setSelectedKeysA(new Set(["Selecciona"]));
     setSelectedKeysB(new Set(["Selecciona"]));
+    setSelectedKeysC(new Set(["Selecciona"]));
+    setSelectedKeysD(new Set(["Selecciona"]));
+    setSelectedKeysE(new Set(["Selecciona"]));
+    setSelectedKeysF(new Set(["Selecciona"]));
   };
-
-  // const validacionN = React.useMemo(() => {
-  //   if (ofe_vacantes === "") return undefined;
-
-  //   return ofe_vacantes === "" ? "invalido" : "valido";
-  // }, [ofe_vacantes]);
 
   //!Funcion para agregar una nueva actividad
   const handleAgregar = React.useCallback(() => {
-    console.log(selectedKeysB.currentKey);
+    console.log(selectedKeysA.currentKey);
+
     const newUser = {
-        sol_id: ofertas.length + 1,  
-        ofe_vacantes: selectedKeysB.currentKey === "si" ? true : false,
+        ofe_id: ofertas.length + 1,  
+        ofe_vacantes: ofe_vacantes,
+        ofe_horas: ofe_horas,
         con_id: getRHIdFromNombreRH(selectedValueR),
         post_id: getPostIdFromNombreCA(selectedValue),
+        ce_id: getCEIdFromNombreCE(selectedValueA),
+        ca_id: getCAIdFromNombreCA(selectedValueB),
+        sede_id: getSedeIdFromNombreSede(selectedValueC),
+        dept_id: getDeptIdFromNombreDept(selectedValueD),
+        pa_id: getPAIdFromNombrePA(selectedValueE),
+        act_id: getActIdFromNombreAct(selectedValueF),
     };
+
     setActividad((prevUsers) => [...prevUsers, newUser]);
     clearInputFields(); // Call the function to clear input fields
-  }, [selectedValue, selectedValueR, selectedKeysB]);
+  }, [selectedValue, selectedValueA ,selectedValueR, ofe_horas, selectedKeysA, ofe_vacantes, selectedValueB, selectedValueC, selectedValueD, selectedValueE, selectedValueF]);
 
   //!Funcion de eliminado
-  const handleDelete = React.useCallback((sol_id) => {
-    console.log("Deleting user with sol_id: ", sol_id);
+  const handleDelete = React.useCallback((ofe_id) => {
+    console.log("Deleting user with ofe_id: ", ofe_id);
     console.log(actividad);
-    setActividad((prevUsers) => prevUsers.filter((user) => user.sol_id !== sol_id));
+    setActividad((prevUsers) => prevUsers.filter((user) => user.ofe_id !== ofe_id));
     console.log(actividad);
   }, [actividad]);
 
   //!Funcion de actualizar
   const handleActualizar = React.useCallback(() => {
     const editedUser = {
-        sol_id: sol_id,
-        ofe_vacantes: ofe_vacantes === "true" ? true : false,
+        ofe_id: ofe_id,
+        ofe_vacantes: ofe_vacantes,
+        ofe_horas: ofe_horas,
         con_id: getRHIdFromNombreRH(selectedValueR),
         post_id: getPostIdFromNombreCA(selectedValue),
+        ce_id: getCEIdFromNombreCE(selectedValueA),
+        ca_id: getCAIdFromNombreCA(selectedValueB),
+        sede_id: getSedeIdFromNombreSede(selectedValueC),
+        dept_id: getDeptIdFromNombreDept(selectedValueD),
+        pa_id: getPAIdFromNombrePA(selectedValueE),
+        act_id: getActIdFromNombreAct(selectedValueF),
     };
-    setActividad((prevUsers) => prevUsers.map((user) => (user.sol_id === sol_id ? editedUser : user)));
+    setActividad((prevUsers) => prevUsers.map((user) => (user.ofe_id === ofe_id ? editedUser : user)));
     clearInputFields(); // Call the function to clear input fields
-  }, [sol_id, ofe_vacantes, selectedValue, selectedValueR]);
+  }, [ofe_id, ofe_vacantes, selectedValue, selectedValueR, ofe_horas, selectedValueA, selectedValueB, selectedValueC, selectedValueD, selectedValueE, selectedValueF]);
 
 
   const renderCell = React.useCallback((user, columnKey) => {
 
     const cellValue = user[columnKey];
 
-    const handleButtonPress = (sol_id, ofe_vacantes) => {
+    const handleButtonPress = (ofe_id, ofe_vacantes, ofe_horas) => {
         onOpenModal1(); // Open the modal
-        setId(sol_id); // Clear the sol_id
-        setSol_aprobacion(ofe_vacantes);
+        setId(ofe_id); // Clear the ofe_id
+        setOfe_vacantes(ofe_vacantes);
+        setOfe_horas(ofe_horas);
     }
 
     switch (columnKey) {
       case "ofe_vacantes":
         return (
-          <Chip className="capitalize" color={cellValue === true ? "success" : "danger"} size="sm" variant="flat">
-            {cellValue === true ? "Si" : "No"}
-          </Chip>
+          <Chip className="capitalize" color={user.ofe_vacantes <= 10 ? "danger" : "warning"} size="sm" variant="flat">
+          {cellValue}
+        </Chip>
+        );
+ 
+      case "ofe_horas":
+        return (
+          <Chip className="capitalize" color={user.ofe_horas <= 10 ? "danger" : "warning"} size="sm" variant="flat">
+          {cellValue}
+        </Chip>
         );
       case "post_id":
-        const foundCampoA = ofertas.find(item => item.post_id === user.post_id);
-        const matchingNomCampA = foundCampoA ? postulaciones.find(item => item.post_id === foundCampoA.post_id) : null;
-
         return (
-            <Chip className="capitalize" color="warning" size="sm" variant="flat">
-            {matchingNomCampA ? matchingNomCampA.nombreCA : 'No matching value'}
-            </Chip>
+          <Chip className="capitalize" color="primary" size="sm" variant="flat">
+          {findNombrePostulacionById(cellValue)}
+        </Chip>
         );
-        case "con_id":
-          const foundCampoAR = ofertas.find(item => item.con_id === user.con_id);
-          const matchingNomCampAR = foundCampoAR ? contrataciones.find(item => item.con_id === foundCampoAR.con_id) : null;
-  
-          return (
-              <Chip className="capitalize" color="primary" size="sm" variant="flat">
-              {matchingNomCampAR ? matchingNomCampAR.nombreCA : 'No matching value'}
-              </Chip>
-          );
+      
+      case "con_id":
+        return (
+          <Chip className="capitalize" color="secondary" size="sm" variant="flat">
+          {findNombreContratacionById(cellValue)}
+        </Chip>
+        );
+
+      case "ce_id":
+        return (
+          <Chip className="capitalize" color="warning" size="sm" variant="flat">
+          {findNombreCEById(cellValue)}
+        </Chip>
+        );
+
+      case "ca_id":
+        return (
+          <Chip className="capitalize" color="success" size="sm" variant="flat">
+          {findNombreCAById(cellValue)}
+        </Chip>
+        );
+
+      case "sede_id":
+        return (
+          <Chip className="capitalize" color="danger" size="sm" variant="flat">
+          {findNombreSedeById(cellValue)}
+        </Chip>
+        );
+
+      case "dept_id":
+        return (
+          <Chip className="capitalize" color="secondary" size="sm" variant="flat">
+          {findNombreDeptById(cellValue)}
+        </Chip>
+        );
+
+      case "pa_id":
+        return (
+          <Chip className="capitalize" color="warning" size="sm" variant="flat">
+          {findNombrePAById(cellValue)}
+        </Chip>
+        );
+
+      case "act_id":
+        return (
+          <Chip className="capitalize" color="secondary" size="sm" variant="flat">
+          {findNombreActById(cellValue)}
+        </Chip>
+        );
+
       case "actions":
         return (
           <div className="relative flex items-center gap-2">
@@ -447,12 +563,12 @@ export default function App() {
           <Button color="success" 
             isIconOnly 
             variant="faded" 
-            onPress={ () => handleButtonPress(user.sol_id, user.ofe_vacantes, user.con_id)}
+            onPress={ () => handleButtonPress(user.ofe_id, user.ofe_vacantes, user.con_id)}
             >
               <EditIcon />
             </Button>
 
-            <Button isIconOnly color="danger" variant="faded" aria-label="Like" onClick={() => handleDelete(user.sol_id)}>
+            <Button isIconOnly color="danger" variant="faded" aria-label="Like" onClick={() => handleDelete(user.ofe_id)}>
               <DeleteIcon />
             </Button>  
           </div>
@@ -486,7 +602,7 @@ export default function App() {
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter((user) =>
-        findNombreById(user.post_id).toLowerCase().includes(filterValue.toLowerCase()),
+        findNombreSedeById(user.post_id).toLowerCase().includes(filterValue.toLowerCase()),
       );
     }
 
@@ -599,75 +715,183 @@ export default function App() {
               <ModalContent>
                 {(onClose) => (
                   <>
-                    <ModalHeader className="flex flex-col gap-1">Agregar solicitud</ModalHeader>
+                    <ModalHeader className="flex flex-col gap-1">Agregar oferta</ModalHeader>
                     <ModalBody>
+
+                    
                       <div className="flex justify-between items-center">
-                        <div className="m-2">
-                
-                            <Chip color="success" variant="bordered">Aprobación: </Chip> 
-                                    
+                        <div>
+                                <Input
+                                    type="number"
+                                    label="Vacantes"
+                                    placeholder="0"
+                                    value={ofe_vacantes}
+                                    onValueChange={setOfe_vacantes}
+                                /> 
+                        </div>  
+
+                        <div>
+                                <Input
+                                    type="number"
+                                    label="Horas"
+                                    placeholder="0"
+                                    value={ofe_horas}
+                                    onValueChange={setOfe_horas}
+                                />     
                         </div>
-                              <Dropdown>
-                                <DropdownTrigger>
-                                    <Button 
-                                      variant="flat"
-                                      className="capitalize"
-                                    >
-                                      {selectedValueB}
-                                    </Button>
-                                  </DropdownTrigger>
-                                  <DropdownMenu 
-                                    aria-label="Single selection actions"
-                                    variant="flat"
-                                    disallowEmptySelection
-                                    selectionMode="single"
-                                    selectedKeys={selectedKeysB}
-                                    onSelectionChange={setSelectedKeysB}
-                                  >
-
-                                  <DropdownItem key="si">Si</DropdownItem>
-                                  <DropdownItem key="no">No</DropdownItem>
-                                      
-                                  </DropdownMenu>
-                              </Dropdown>   
-                 
-                        <div className=" m-2">
-                            <Chip color="warning" variant="bordered">Candidato: </Chip> 
-                                
-                            </div>
-                              <Dropdown>
-                                <DropdownTrigger>
-                                    <Button 
-                                      variant="flat"
-                                      className="capitalize"
-                                    >
-                                      {selectedValue}
-                                    </Button>
-                                  </DropdownTrigger>
-                                  <DropdownMenu 
-                                    aria-label="Single selection actions"
-                                    variant="flat"
-                                    disallowEmptySelection
-                                    selectionMode="single"
-                                    selectedKeys={selectedKeys}
-                                    onSelectionChange={setSelectedKeys}
-                                  >
-
-                                  {statusOptions.map((column) => (
-                                    <DropdownItem key={column.name} className="capitalize">
-                                        {capitalize(column.name)}
-                                    </DropdownItem>
-                                    ))}
-                                      
-                                  </DropdownMenu>
-                              </Dropdown>   
-                      
                       </div>
 
-                      <div className="flex justify-center items-center">
+                      <div className="flex justify-between items-center">
+
+                            <div>
+                              <div className="flex-grow-0">
+                              <Chip color="primary" variant="bordered">Postulacion: </Chip> 
+                              </div>
+
+                              <div className="m-2 flex-grow-2">
+                                <Dropdown>
+                                  <DropdownTrigger>
+                                      <Button 
+                                        variant="flat"
+                                        className="capitalize"
+                                      >
+                                        {selectedValue}
+                                      </Button>
+                                    </DropdownTrigger>
+                                    <DropdownMenu 
+                                      aria-label="Single selection actions"
+                                      variant="flat"
+                                      disallowEmptySelection
+                                      selectionMode="single"
+                                      selectedKeys={selectedKeys}
+                                      onSelectionChange={setSelectedKeys}
+                                    >
+
+                                    {statusOptions.map((column) => (
+                                      <DropdownItem key={column.name} className="capitalize">
+                                          {capitalize(column.name)}
+                                      </DropdownItem>
+                                      ))}
+                                        
+                                    </DropdownMenu>
+                                </Dropdown>  
+                              </div>
+                            </div>
                             
-                            <div className="flex-grow-0">
-                            <Chip color="primary" variant="bordered">Recursos humanos: </Chip> 
+                            <div>
+                              <div className="flex-grow-0">
+                              <Chip color="primary" variant="bordered">Contratacion: </Chip> 
+                              </div>
+
+                              <div className="m-2 flex-grow-2">
+                                <Dropdown>
+                                  <DropdownTrigger>
+                                      <Button 
+                                        variant="flat"
+                                        className="capitalize"
+                                      >
+                                        {selectedValueR}
+                                      </Button>
+                                    </DropdownTrigger>
+                                    <DropdownMenu 
+                                      aria-label="Single selection actions"
+                                      variant="flat"
+                                      disallowEmptySelection
+                                      selectionMode="single"
+                                      selectedKeys={selectedKeysR}
+                                      onSelectionChange={setSelectedKeysR}
+                                    >
+
+                                    {statusOptionsR.map((column) => (
+                                      <DropdownItem key={column.name} className="capitalize">
+                                          {capitalize(column.name)}
+                                      </DropdownItem>
+                                      ))}
+                                        
+                                    </DropdownMenu>
+                                </Dropdown>  
+                              </div>
+                            </div>
+
+                            <div>
+                                <div className="flex-grow-0">
+                                <Chip color="primary" variant="bordered">Campo Específico: </Chip> 
+                                </div>
+
+                                <div className="m-2 flex-grow-2">
+                                  <Dropdown>
+                                    <DropdownTrigger>
+                                        <Button 
+                                          variant="flat"
+                                          className="capitalize"
+                                        >
+                                          {selectedValueA}
+                                        </Button>
+                                      </DropdownTrigger>
+                                      <DropdownMenu 
+                                        aria-label="Single selection actions"
+                                        variant="flat"
+                                        disallowEmptySelection
+                                        selectionMode="single"
+                                        selectedKeys={selectedKeysA}
+                                        onSelectionChange={setSelectedKeysA}
+                                      >
+
+                                      {statusOptionsA.map((column) => (
+                                        <DropdownItem key={column.name} className="capitalize">
+                                            {capitalize(column.name)}
+                                        </DropdownItem>
+                                        ))}
+                                          
+                                      </DropdownMenu>
+                                  </Dropdown>  
+                                </div>
+                            </div>
+
+                      </div>
+                      
+                      <div className="flex justify-between items-center">
+
+ 
+                        <div>
+                          <div className="flex-grow-0">
+                          <Chip color="primary" variant="bordered">Campo Amplio: </Chip> 
+                          </div>
+
+                          <div className="m-2 flex-grow-2">
+                            <Dropdown>
+                              <DropdownTrigger>
+                                  <Button 
+                                    variant="flat"
+                                    className="capitalize"
+                                  >
+                                    {selectedValueB}
+                                  </Button>
+                                </DropdownTrigger>
+                                <DropdownMenu 
+                                  aria-label="Single selection actions"
+                                  variant="flat"
+                                  disallowEmptySelection
+                                  selectionMode="single"
+                                  selectedKeys={selectedKeysB}
+                                  onSelectionChange={setSelectedKeysB}
+                                >
+
+                                {statusOptionsB.map((column) => (
+                                  <DropdownItem key={column.name} className="capitalize">
+                                      {capitalize(column.name)}
+                                  </DropdownItem>
+                                  ))}
+                                    
+                                </DropdownMenu>
+                            </Dropdown>  
+                          </div>
+
+                        </div>                           
+                       
+                        <div>
+                          <div className="flex-grow-0">
+                            <Chip color="primary" variant="bordered">Sede: </Chip> 
                             </div>
 
                             <div className="m-2 flex-grow-2">
@@ -677,7 +901,7 @@ export default function App() {
                                       variant="flat"
                                       className="capitalize"
                                     >
-                                      {selectedValueR}
+                                      {selectedValueC}
                                     </Button>
                                   </DropdownTrigger>
                                   <DropdownMenu 
@@ -685,11 +909,11 @@ export default function App() {
                                     variant="flat"
                                     disallowEmptySelection
                                     selectionMode="single"
-                                    selectedKeys={selectedKeysR}
-                                    onSelectionChange={setSelectedKeysR}
+                                    selectedKeys={selectedKeysC}
+                                    onSelectionChange={setSelectedKeysC}
                                   >
 
-                                  {statusOptionsR.map((column) => (
+                                  {statusOptionsC.map((column) => (
                                     <DropdownItem key={column.name} className="capitalize">
                                         {capitalize(column.name)}
                                     </DropdownItem>
@@ -700,6 +924,123 @@ export default function App() {
                             </div>
 
                         </div>
+
+                        <div>
+                          <div className="flex-grow-0">
+                              <Chip color="primary" variant="bordered">Departamento: </Chip> 
+                              </div>
+
+                              <div className="m-2 flex-grow-2">
+                                <Dropdown>
+                                  <DropdownTrigger>
+                                      <Button 
+                                        variant="flat"
+                                        className="capitalize"
+                                      >
+                                        {selectedValueD}
+                                      </Button>
+                                    </DropdownTrigger>
+                                    <DropdownMenu 
+                                      aria-label="Single selection actions"
+                                      variant="flat"
+                                      disallowEmptySelection
+                                      selectionMode="single"
+                                      selectedKeys={selectedKeysD}
+                                      onSelectionChange={setSelectedKeysD}
+                                    >
+
+                                    {statusOptionsD.map((column) => (
+                                      <DropdownItem key={column.name} className="capitalize">
+                                          {capitalize(column.name)}
+                                      </DropdownItem>
+                                      ))}
+                                        
+                                    </DropdownMenu>
+                                </Dropdown>  
+                              </div>
+                        </div>
+
+                      </div>
+
+                      <div className="flex justify-center items-center">
+                        
+                      <div className="m-2">
+                            
+                            <div>
+                            <Chip color="primary" variant="bordered">Personal Academico: </Chip> 
+                            </div>
+
+                            <div className="m-2 flex-grow-2">
+                              <Dropdown>
+                                <DropdownTrigger>
+                                    <Button 
+                                      variant="flat"
+                                      className="capitalize"
+                                    >
+                                      {selectedValueE}
+                                    </Button>
+                                  </DropdownTrigger>
+                                  <DropdownMenu 
+                                    aria-label="Single selection actions"
+                                    variant="flat"
+                                    disallowEmptySelection
+                                    selectionMode="single"
+                                    selectedKeys={selectedKeysE}
+                                    onSelectionChange={setSelectedKeysE}
+                                  >
+
+                                  {statusOptionsE.map((column) => (
+                                    <DropdownItem key={column.name} className="capitalize">
+                                        {capitalize(column.name)}
+                                    </DropdownItem>
+                                    ))}
+                                      
+                                  </DropdownMenu>
+                              </Dropdown>  
+                            </div>
+
+                      </div>
+
+                                              
+                      <div className="m-2">
+                            
+                            <div className="flex-grow-0">
+                            <Chip color="primary" variant="bordered">Actividad: </Chip> 
+                            </div>
+
+                            <div className="m-2 flex-grow-2">
+                              <Dropdown>
+                                <DropdownTrigger>
+                                    <Button 
+                                      variant="flat"
+                                      className="capitalize"
+                                    >
+                                      {selectedValueF}
+                                    </Button>
+                                  </DropdownTrigger>
+                                  <DropdownMenu 
+                                    aria-label="Single selection actions"
+                                    variant="flat"
+                                    disallowEmptySelection
+                                    selectionMode="single"
+                                    selectedKeys={selectedKeysF}
+                                    onSelectionChange={setSelectedKeysF}
+                                  >
+
+                                  {statusOptionsF.map((column) => (
+                                    <DropdownItem key={column.name} className="capitalize">
+                                        {capitalize(column.name)}
+                                    </DropdownItem>
+                                    ))}
+                                      
+                                  </DropdownMenu>
+                              </Dropdown>  
+                            </div>
+
+                      </div>
+
+                      </div>
+
 
                     </ModalBody>
                     <ModalFooter>
@@ -743,11 +1084,23 @@ export default function App() {
     isOpenModal2,
     onOpenChangeModal2,
     selectedKeys,
-    selectedValue,
-    selectedKeysB,
+    selectedKeysA,
     selectedKeysR,
-    selectedValueB, 
-    selectedValueR
+    ofe_horas,
+    ofe_vacantes,
+    selectedKeysB,
+    selectedKeysC,
+    selectedKeysD,
+    selectedKeysE,
+    selectedValueR,
+    selectedKeysF,
+    selectedValue,
+    selectedValueA,
+    selectedValueB,
+    selectedValueC,
+    selectedValueD,
+    selectedValueE,
+    selectedValueF,
   ]);
 
   const bottomContent = React.useMemo(() => {
@@ -802,7 +1155,7 @@ export default function App() {
     </TableHeader>
     <TableBody emptyContent={"No se encontraron titulos"} items={sortedItems}>
       {(item) => (
-        <TableRow key={item.sol_id}>
+        <TableRow key={item.ofe_id}>
           {(columnKey) => <TableCell>{renderCell(item, columnKey, onOpenModal1)}</TableCell>}
         </TableRow>
       )}
@@ -815,40 +1168,38 @@ export default function App() {
         <>
           <ModalHeader className="flex flex-col gap-1">Actualizar Titulo</ModalHeader>
           <ModalBody>
-              <div className="flex justify-between items-center">
-                <div className="m-2">
-        
-                    <Chip color="success" variant="bordered">Aprobación: </Chip> 
-                            
-                </div>
-                      <Dropdown>
-                        <DropdownTrigger>
-                            <Button 
-                              variant="flat"
-                              className="capitalize"
-                            >
-                              {selectedValueB}
-                            </Button>
-                          </DropdownTrigger>
-                          <DropdownMenu 
-                            aria-label="Single selection actions"
-                            variant="flat"
-                            disallowEmptySelection
-                            selectionMode="single"
-                            selectedKeys={selectedKeysB}
-                            onSelectionChange={setSelectedKeysB}
-                          >
 
-                          <DropdownItem key="si">Si</DropdownItem>
-                          <DropdownItem key="no">No</DropdownItem>
-                              
-                          </DropdownMenu>
-                      </Dropdown>   
-          
-                <div className=" m-2">
-                    <Chip color="warning" variant="bordered">Candidato: </Chip> 
-                        
+                    
+            <div className="flex justify-between items-center">
+              <div>
+                      <Input
+                          type="number"
+                          label="Vacantes"
+                          placeholder="0"
+                          value={ofe_vacantes}
+                          onValueChange={setOfe_vacantes}
+                      /> 
+              </div>  
+
+              <div>
+                      <Input
+                          type="number"
+                          label="Horas"
+                          placeholder="0"
+                          value={ofe_horas}
+                          onValueChange={setOfe_horas}
+                      />     
+              </div>
+            </div>
+
+            <div className="flex justify-between items-center">
+
+                  <div>
+                    <div className="flex-grow-0">
+                    <Chip color="primary" variant="bordered">Postulacion: </Chip> 
                     </div>
+
+                    <div className="m-2 flex-grow-2">
                       <Dropdown>
                         <DropdownTrigger>
                             <Button 
@@ -874,14 +1225,13 @@ export default function App() {
                             ))}
                               
                           </DropdownMenu>
-                      </Dropdown>   
-              
-              </div>
-
-              <div className="flex justify-center items-center">
-                    
+                      </Dropdown>  
+                    </div>
+                  </div>
+                  
+                  <div>
                     <div className="flex-grow-0">
-                    <Chip color="primary" variant="bordered">Recursos humanos: </Chip> 
+                    <Chip color="primary" variant="bordered">Contratacion: </Chip> 
                     </div>
 
                     <div className="m-2 flex-grow-2">
@@ -912,10 +1262,238 @@ export default function App() {
                           </DropdownMenu>
                       </Dropdown>  
                     </div>
+                  </div>
 
+                  <div>
+                      <div className="flex-grow-0">
+                      <Chip color="primary" variant="bordered">Campo Específico: </Chip> 
+                      </div>
+
+                      <div className="m-2 flex-grow-2">
+                        <Dropdown>
+                          <DropdownTrigger>
+                              <Button 
+                                variant="flat"
+                                className="capitalize"
+                              >
+                                {selectedValueA}
+                              </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu 
+                              aria-label="Single selection actions"
+                              variant="flat"
+                              disallowEmptySelection
+                              selectionMode="single"
+                              selectedKeys={selectedKeysA}
+                              onSelectionChange={setSelectedKeysA}
+                            >
+
+                            {statusOptionsA.map((column) => (
+                              <DropdownItem key={column.name} className="capitalize">
+                                  {capitalize(column.name)}
+                              </DropdownItem>
+                              ))}
+                                
+                            </DropdownMenu>
+                        </Dropdown>  
+                      </div>
+                  </div>
+
+            </div>
+
+            <div className="flex justify-between items-center">
+
+
+              <div>
+                <div className="flex-grow-0">
+                <Chip color="primary" variant="bordered">Campo Amplio: </Chip> 
                 </div>
 
-            </ModalBody>
+                <div className="m-2 flex-grow-2">
+                  <Dropdown>
+                    <DropdownTrigger>
+                        <Button 
+                          variant="flat"
+                          className="capitalize"
+                        >
+                          {selectedValueB}
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu 
+                        aria-label="Single selection actions"
+                        variant="flat"
+                        disallowEmptySelection
+                        selectionMode="single"
+                        selectedKeys={selectedKeysB}
+                        onSelectionChange={setSelectedKeysB}
+                      >
+
+                      {statusOptionsB.map((column) => (
+                        <DropdownItem key={column.name} className="capitalize">
+                            {capitalize(column.name)}
+                        </DropdownItem>
+                        ))}
+                          
+                      </DropdownMenu>
+                  </Dropdown>  
+                </div>
+
+              </div>                           
+            
+              <div>
+                <div className="flex-grow-0">
+                  <Chip color="primary" variant="bordered">Sede: </Chip> 
+                  </div>
+
+                  <div className="m-2 flex-grow-2">
+                    <Dropdown>
+                      <DropdownTrigger>
+                          <Button 
+                            variant="flat"
+                            className="capitalize"
+                          >
+                            {selectedValueC}
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu 
+                          aria-label="Single selection actions"
+                          variant="flat"
+                          disallowEmptySelection
+                          selectionMode="single"
+                          selectedKeys={selectedKeysC}
+                          onSelectionChange={setSelectedKeysC}
+                        >
+
+                        {statusOptionsC.map((column) => (
+                          <DropdownItem key={column.name} className="capitalize">
+                              {capitalize(column.name)}
+                          </DropdownItem>
+                          ))}
+                            
+                        </DropdownMenu>
+                    </Dropdown>  
+                  </div>
+
+              </div>
+
+              <div>
+                <div className="flex-grow-0">
+                    <Chip color="primary" variant="bordered">Departamento: </Chip> 
+                    </div>
+
+                    <div className="m-2 flex-grow-2">
+                      <Dropdown>
+                        <DropdownTrigger>
+                            <Button 
+                              variant="flat"
+                              className="capitalize"
+                            >
+                              {selectedValueD}
+                            </Button>
+                          </DropdownTrigger>
+                          <DropdownMenu 
+                            aria-label="Single selection actions"
+                            variant="flat"
+                            disallowEmptySelection
+                            selectionMode="single"
+                            selectedKeys={selectedKeysD}
+                            onSelectionChange={setSelectedKeysD}
+                          >
+
+                          {statusOptionsD.map((column) => (
+                            <DropdownItem key={column.name} className="capitalize">
+                                {capitalize(column.name)}
+                            </DropdownItem>
+                            ))}
+                              
+                          </DropdownMenu>
+                      </Dropdown>  
+                    </div>
+              </div>
+
+            </div>
+
+            <div className="flex justify-center items-center">
+              
+            <div className="m-2">
+                  
+                  <div>
+                  <Chip color="primary" variant="bordered">Personal Academico: </Chip> 
+                  </div>
+
+                  <div className="m-2 flex-grow-2">
+                    <Dropdown>
+                      <DropdownTrigger>
+                          <Button 
+                            variant="flat"
+                            className="capitalize"
+                          >
+                            {selectedValueE}
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu 
+                          aria-label="Single selection actions"
+                          variant="flat"
+                          disallowEmptySelection
+                          selectionMode="single"
+                          selectedKeys={selectedKeysE}
+                          onSelectionChange={setSelectedKeysE}
+                        >
+
+                        {statusOptionsE.map((column) => (
+                          <DropdownItem key={column.name} className="capitalize">
+                              {capitalize(column.name)}
+                          </DropdownItem>
+                          ))}
+                            
+                        </DropdownMenu>
+                    </Dropdown>  
+                  </div>
+
+            </div>
+                    
+            <div className="m-2">
+                  
+                  <div className="flex-grow-0">
+                  <Chip color="primary" variant="bordered">Actividad: </Chip> 
+                  </div>
+
+                  <div className="m-2 flex-grow-2">
+                    <Dropdown>
+                      <DropdownTrigger>
+                          <Button 
+                            variant="flat"
+                            className="capitalize"
+                          >
+                            {selectedValueF}
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu 
+                          aria-label="Single selection actions"
+                          variant="flat"
+                          disallowEmptySelection
+                          selectionMode="single"
+                          selectedKeys={selectedKeysF}
+                          onSelectionChange={setSelectedKeysF}
+                        >
+
+                        {statusOptionsF.map((column) => (
+                          <DropdownItem key={column.name} className="capitalize">
+                              {capitalize(column.name)}
+                          </DropdownItem>
+                          ))}
+                            
+                        </DropdownMenu>
+                    </Dropdown>  
+                  </div>
+
+            </div>
+
+            </div>
+
+
+         </ModalBody>
+
           <ModalFooter>
             <Button variant="outline" onClick={onClose}>
               Cancelar
