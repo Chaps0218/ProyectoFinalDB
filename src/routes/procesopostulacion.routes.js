@@ -36,6 +36,10 @@ import {
     agregarActividad,
     editarActividad,
     eliminarActividad,
+    extraerSolicitud,
+    agregarSolicitud,
+    editarSolicitud,
+    eliminarSolicitud,
 }
     from "../controllers/procesopostulacion.controller.js";
 
@@ -77,5 +81,9 @@ router.get("/actividad", extraerActividad);
 router.post("/actividad", agregarActividad);
 router.put("/actividad/:id", editarActividad);
 router.delete("/actividad/:id", eliminarActividad);
+router.get("/solicitud", extraerSolicitud);
+router.post("/solicitud", agregarSolicitud);
+router.put("/solicitud/:id", editarSolicitud);
+router.delete("/solicitud/:id", eliminarSolicitud);
 
 export default router;

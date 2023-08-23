@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { extraerOferta, extraerContrato, extraerTipoContrato, extraerPersonalAcademico, extraercampoAmplio, extraercampoEspecifico, extraerSede, extraerDepartamento, extraerActividad, agregarOferta} from "../api/contratacion";
+import { extraerOferta, extraerContrato, extraerTipoContrato, extraerPersonalAcademico, extraercampoAmplio, extraercampoEspecifico, extraerSede, extraerDepartamento, extraerActividad, agregarSolicitud} from "../api/contratacion";
 import PopupDocument from './PopupDocument';
 import Popup from './Popup';
 import './CustomComponentForm.css'
