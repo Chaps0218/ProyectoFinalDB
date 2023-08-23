@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './CustomComponentInfoPersonal2.css'
 import ChangePasswordPopup from './ChangePasswordPopup';
 import {Card, CardHeader, CardBody, Image, Chip} from "@nextui-org/react";
+import { useAuth } from "../context/AuthContext";
+
 
 const CustomComponentPersonalInfo = ({ title }) => {
     const [cargo, setCargo] = useState('');
@@ -13,9 +15,21 @@ const CustomComponentPersonalInfo = ({ title }) => {
     const [identificacion, setIdentificacion] = useState('');
     const [mostrarCambioContraseña, setMostrarCambioContraseña] = useState(false);
 
+    const { isAuthenticated, user } = useAuth();
+
+
     const handlePopupToggle = () => {
         setMostrarCambioContraseña(!mostrarCambioContraseña);
     };
+
+    function capitalizeFirstLetter(inputString) {
+        if (typeof inputString !== 'string') {
+          return ''; // Return an empty string for non-string inputs
+        }
+        
+        return inputString.charAt(0).toUpperCase() + inputString.slice(1);
+      }
+
     return (
         <div className="custom-component-postulante">
             <h1 className="custom-title">{title}</h1>
@@ -37,8 +51,28 @@ const CustomComponentPersonalInfo = ({ title }) => {
 
                 <Card className="py-4">
                     <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-                        <p className="text-tiny uppercase font-bold">Nombre</p>
-                        <small className="text-default-500">Correo electronico</small>
+                        <p className="text-tiny uppercase font-bold">{isAuthenticated ? (
+                        <>
+                            {user && user.name1 ? (
+                                <div>{user.name1} {user.name2} {user.lastname1} {user.lastname2}</div>
+                            ) : (
+                                <li>Loading...</li>
+                            )}
+                        </>
+                    ) : (
+                        null
+                    )}</p>
+                        <small className="text-default-500">{isAuthenticated ? (
+                        <>
+                            {user && user.email ? (
+                                <div>{user.email}</div>
+                            ) : (
+                                <li>Loading...</li>
+                            )}
+                        </>
+                    ) : (
+                        null
+                    )}</small>
                     </CardHeader>
                     <CardBody className="overflow-visible py-2">
                         <Image
@@ -55,28 +89,64 @@ const CustomComponentPersonalInfo = ({ title }) => {
 
                     <div className="flex w-full gap-3">
                         <Chip color="success" variant="dot">Tipo de identificacion: </Chip>
-                        <p>Cedula</p>
+                        <p>{isAuthenticated ? (
+                        <>
+                            {user && user.tipoI ? (
+                                <div>{capitalizeFirstLetter(user.tipoI)}</div>
+                            ) : (
+                                <li>Loading...</li>
+                            )}
+                        </>
+                    ) : (
+                        null
+                    )}</p>
                     </div>
 
                     <div className="flex w-full gap-3">
                         <Chip color="success" variant="dot">Numero de identificacion: </Chip>
-                        <p>1783628172</p>
+                        <p>{isAuthenticated ? (
+                        <>
+                            {user && user.identificacion ? (
+                                <div>{user.identificacion}</div>
+                            ) : (
+                                <li>Loading...</li>
+                            )}
+                        </>
+                    ) : (
+                        null
+                    )}</p>
                     </div>
                     
                     
                     <div className="flex w-full gap-3">
                         <Chip color="success" variant="dot">Titulo con el que postula </Chip>
-                        <p>Ingenieria en Software</p>
+                        <p>{isAuthenticated ? (
+                        <>
+                            {user && user.titulo ? (
+                                <div>{user.titulo}</div>
+                            ) : (
+                                <li>Loading...</li>
+                            )}
+                        </>
+                    ) : (
+                        null
+                    )}</p>
                     </div>
-                    
-                    <div className="flex w-full gap-3">
-                        <Chip color="success" variant="dot">Cargo </Chip>
-                        <p>Profesor</p>
-                    </div>
+
 
                     <div className="flex w-full gap-3">
                         <Chip color="success" variant="dot">Fecha de nacimiento </Chip>
-                        <p>05-08-1990</p>
+                        <p>{isAuthenticated ? (
+                        <>
+                            {user && user.fecha ? (
+                                <div>{user.fecha}</div>
+                            ) : (
+                                <li>Loading...</li>
+                            )}
+                        </>
+                    ) : (
+                        null
+                    )}</p>
                     </div>
 
 
