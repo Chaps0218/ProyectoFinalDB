@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
   const getUsuarios = async () => {
     try {
       const res = await getUsuariosRequest();
-      return res.data;
+      return res;
     } catch (error) {
       console.log(error);
       setErrors(error.response.data);

@@ -269,3 +269,15 @@ export const profile = (req, res) => {
   //   });
   // });
 };
+
+export const editarCandidato = async (req, res) => {
+  try {
+      console.log(req.body);
+      const response = await axios.put(`${api}/candidato/${req.params.id}`, req.body);
+      const candidato = response.data;
+      return res.json({ candidato });
+  } catch (error) {
+      console.error('Error al editar candidato:', error);
+      return res.status(500).json({ message: 'Error al editar candidato' });
+  }
+}

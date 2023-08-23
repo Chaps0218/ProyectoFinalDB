@@ -193,10 +193,11 @@ def update_candidato(cand_id: int, cand: candidato):
         "cand_nombre1": cand.cand_nombre1,
         "cand_nombre2": cand.cand_nombre2,
         "cand_apellido1": cand.cand_apellido1,
-        "cand_apellido2": cand.cand_apellido2
+        "cand_apellido2": cand.cand_apellido2,
+        "cand_id": cand.cand_id
     }
     cur = db.connection.cursor()
-    cur.execute('UPDATE candidato SET cand_tipo_identificaccion=%(cand_tipo_identificaccion)s, cand_num_identificacion=%(cand_num_identificacion)s, cand_sexo=%(cand_sexo)s, cand_titulo=%(cand_titulo)s, cand_fecha_nacimiento=%(cand_fecha_nacimiento)s, cand_correo=%(cand_correo)s, cand_password=%(cand_password)s, cand_nombre1=%(cand_nombre1)s, cand_nombre2=%(cand_nombre2)s, cand_apellido1=%(cand_apellido1)s, cand_apellido2=%(cand_apellido2)s WHERE cand_id=%(cand_id)s', updated_candidato)
+    cur.execute('UPDATE candidato SET cand_tipo_identificacion=%(cand_tipo_identificaccion)s, cand_num_identificacion=%(cand_num_identificacion)s, cand_sexo=%(cand_sexo)s, cand_titulo=%(cand_titulo)s, cand_fecha_nacimiento=%(cand_fecha_nacimiento)s, cand_correo=%(cand_correo)s, cand_password=%(cand_password)s, cand_nombre1=%(cand_nombre1)s, cand_nombre2=%(cand_nombre2)s, cand_apellido1=%(cand_apellido1)s, cand_apellido2=%(cand_apellido2)s WHERE cand_id=%(cand_id)s', updated_candidato)
     db.connection.commit()
     return "Candidato updated successfully"
 
