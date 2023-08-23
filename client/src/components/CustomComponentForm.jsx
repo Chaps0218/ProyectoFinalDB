@@ -133,7 +133,7 @@ const CustomComponentForm = ({ title }) => {
     };
 
     const handleAgregar = (info) => {
-        agregarOferta(info);
+        // agregarOferta(info);
     }
 
     const handleClosePopup = () => {
