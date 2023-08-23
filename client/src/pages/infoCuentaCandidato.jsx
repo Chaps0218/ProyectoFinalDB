@@ -8,7 +8,7 @@ import { FiUpload, FiFolder, FiUnlock, FiLock } from 'react-icons/fi';
 
 const InfoCuentaCandidato = () => {
     return (
-        <div className="parent-container">
+        <div className="parent-container md:w-1/2">
             <div className="plataforma-container">
                 <div className="top-item">
                     <TopBar

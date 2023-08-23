@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+    extraerSolicitud,
     extraerOferta,
     agregarOferta,
     editarOferta,
@@ -41,6 +42,7 @@ import {
 
 const router = Router();
 
+router.get("/solicitud", extraerSolicitud);
 router.get("/oferta", extraerOferta);
 router.post("/oferta", agregarOferta);
 router.put("/oferta/:id", editarOferta);

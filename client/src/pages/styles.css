@@ -342,6 +342,7 @@ html, body {
 
 .right-item {
   grid-area: right-item;
+  overflow: auto;
 }
 
 .background-video {
@@ -583,6 +584,11 @@ html, body {
   border: 1px solid #ccc;
   padding: 8px;
   text-align: center;
+}
+
+.postulacionS{
+  max-height: auto; /* Set the maximum height for the component */
+  overflow-y: auto; /* Enable vertical scrollbar when content overflows */
 }
 
 /*AGREGAR NUEVOS ESTILOS*/

@@ -2,6 +2,15 @@ import axios from "axios";
 import jwt from "jsonwebtoken";
 import { api } from "../apiroute.js";
 
+export const extraerSolicitud = async (req, res) => {
+    try {
+        const response = await axios.get(`${api}/solicitud/`);
+        return res.json(response.data);
+    } catch (error) {
+        console.error('Error al obtener solicitud:', error);
+        return res.status(500).json({ message: 'Error al obtener la solicitud' });
+    }
+}
 
 export const extraerOferta = async (req, res) => {
     try {
