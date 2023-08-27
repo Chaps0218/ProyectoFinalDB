@@ -289,15 +289,15 @@ html, body {
 
 .parent-container {
   min-height: 90%;
-  /* width: 100vw;
-  height: 100vh; */
-  display: flex; /* Habilita Flexbox */
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente */
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .plataforma-container {
-  width: 100%; /* O ajusta este valor al ancho deseado */
+  width: 100%;
   display: grid;
   gap: 10px;
   grid-template:
