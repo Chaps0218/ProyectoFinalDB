@@ -6,6 +6,8 @@ import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, Chip} fro
 import {AddNoteIcon} from "../assets/AddNoteIcon";  
 import {EditDocumentIcon} from "../assets/EditDocumentIcon";
 import {Card, CardHeader, CardBody, CardFooter, Divider, Link, Image} from "@nextui-org/react";
+import axios from 'axios';
+
 
 const CustomComponentCalificacion = ({ title, parametros, candidato }) => {
 

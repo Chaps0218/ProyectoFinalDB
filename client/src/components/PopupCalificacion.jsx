@@ -20,6 +20,9 @@ const handleClosePopup = () => {
     setShowPopup2(false);
 };
 
+console.log("candidato")
+console.log(candidato)
+
     return show ? (
       <div className="popupdoc-overlay">
         <div className="popupdoc-container">
@@ -32,8 +35,8 @@ const handleClosePopup = () => {
               <div className="candidato-info">
                 <img src={documento} alt="h" className="candidato-img" />
                 <div>
-                  <p>{candidato.name1 +" "+candidato.lastname1 }</p>
-                  <p>{candidato.email}</p>
+                  <p>{candidato[8] +" "+candidato[10] }</p>
+                  <p>{candidato[6]}</p>
                 </div>
               </div>
             </div>
@@ -42,13 +45,14 @@ const handleClosePopup = () => {
                     <div className="calificaciones-parametros">           
                         <h3>Parámetros</h3>
                         {calificaciones.map((calificacion, index) => (
-                            <p className='parametro-p' key={index}>{calificacion.parametro}</p>
+                            <p className='parametro-p' key={index}>{calificacion.documento_nombre}</p>
                         ))}
+                        
                     </div>
                     <div className="calificaciones-puntajes">
                         <h3>Calificaciones</h3>
                         {calificaciones.map((calificacion, index) => (
-                            <p className='puntaje-p' key={index}>{calificacion.puntaje}</p>
+                            <p className='puntaje-p' key={index}>{calificacion.calificacion}</p>
                         ))}
                     </div>
                 </div>

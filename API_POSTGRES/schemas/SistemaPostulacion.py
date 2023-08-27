@@ -92,6 +92,8 @@ class solicitud(BaseModel):
     sol_id: Optional[int] = None
     rh_id: int
     sol_aprobacion: bool
+    ofe_id: int
+    
 
 class titulo_exp(BaseModel):
     tx_id: Optional[int] = None

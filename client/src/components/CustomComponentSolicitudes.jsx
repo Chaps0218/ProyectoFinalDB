@@ -3,19 +3,36 @@ import './CustomComponentSolicitudes.css';
 import { FiInfo, FiUser} from 'react-icons/fi';
 import * as api from '../api/contratacion';
 import Calificacion from '../pages/Calificacion';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 const CustomComponentSolicitudes = ({ title }) => {
-    
+    const navigate = useNavigate();
 
     const [selectedSolicitud, setSelectedSolicitud] = useState(null);
+    const [infoProcesoCandidato, setInfoProcesoCandidato]= useState([]);
+    const [calificaciones, setCalificaciones]= useState([]);
+    
     const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
     const [showDeclinePopup, setShowDeclinePopup] = useState(false);
     const [solicitudes, setSolicitudes] = useState([]);
+    const [selectedIndex, setselecteIndex] = useState(null);
+    const [selectedPositionId, setSelectedPositionId] = useState(null);
+    const [candidatoId, setCandidatoId] = useState(null);
+    const [solicitudId, setSolicitudId] = useState(null);
 
-    const handleOpenCandidateDetails = (solicitud) => {
+
+    const handleOpenCandidateDetails = (solicitud, index , candidato,solicitudId) => {
+        console.log("Has seleccionado la solicitud en la posición:", index);
+        console.log("Has seleccionado la solicitud en la posición:", solicitudId);
+        setSelectedPositionId(1);
+        setselecteIndex(index)
+        setCandidatoId(candidato)
+        setSolicitudId(solicitudId)
         setSelectedSolicitud(solicitud);
     };
+    
 
     const handleCloseCandidateDetails = () => {
         setSelectedSolicitud(null);
@@ -26,19 +43,33 @@ const CustomComponentSolicitudes = ({ title }) => {
     };
 
     const handleAcceptCalificar = () => {
-        window.location.href = "/calificacion";
+        const id = candidatoId; // tu valor aquí
+        console.log('pasando el valor a la otra pagina')
+        console.log(id)
+        navigate('/calificacion', { state: { id } });
     };
     
-    
-
     const handleConfirmAccept = () => {
+        updateSolicitudAprobacion(true);
         setShowConfirmationPopup(false);
-        // Realizar acciones para aceptar el candidato en la base de datos
+         // Enviar correo
+        try {
+            const response =  axios.post('http://127.0.0.1:8000/api/v1/procesocontratacion/send-email/', {
+                email: "christho987@hotmail.com", // Reemplaza esto con el email del candidato
+                type: "accepted"
+            });
+
+            console.log(response.data);
+        } catch(error) {
+            console.error("Error al enviar el correo:", error);
+        }
+
         setSelectedSolicitud(null);
     };
 
     const handleCancelAccept = () => {
         setShowConfirmationPopup(false);
+        setSelectedSolicitud(null);
         setSelectedSolicitud(null);
     };
 
@@ -47,8 +78,19 @@ const CustomComponentSolicitudes = ({ title }) => {
     };
 
     const handleConfirmAcceptDec = () => {
+        updateSolicitudAprobacion(false);
         setShowDeclinePopup(false);
-        // Realizar acciones para aceptar el candidato en la base de datos
+        // Enviar correo
+        try {
+            const response =  axios.post('http://127.0.0.1:8000/api/v1/procesocontratacion/send-email/', {
+                email: "christho987@hotmail.com", // Reemplaza esto con el email del candidato
+                type: "rejected"
+            });
+
+            console.log(response.data);
+        } catch(error) {
+            console.error("Error al enviar el correo:", error);
+        }
         setSelectedSolicitud(null);
     };
 
@@ -56,45 +98,136 @@ const CustomComponentSolicitudes = ({ title }) => {
         setShowDeclinePopup(false);
     };
 
-    const [candidateRating, setCandidateRating] = useState(0);
 
-    // call api to get solicitudes
-    const getSolicitudes = async () => {
-        const response = await api.extraerSolicitud();
-        setSolicitudes(response.data);
-    };
 
     useEffect(() => {
-        getSolicitudes();
+        // Primera llamada API
+        axios.get('http://127.0.0.1:8000/api/v1/procesocontratacion/solicitud/')
+            .then(response => {
+                setSolicitudes(response.data);
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error("Error al obtener las solicitudes:", error);
+            });
+
+      
+
     }, []);
+
+    useEffect(() => {
+        if (selectedPositionId !== null) {
+            console.log(selectedPositionId)
+            axios.get(`http://127.0.0.1:8000/api/v1/procesocontratacion/info_candidato_por_pa_id/${selectedPositionId}`)
+                .then(response => {
+                    if (response.data && response.data.length > 0) {
+                        setInfoProcesoCandidato(response.data);
+                        console.log(infoProcesoCandidato)
+                    }
+                })
+                .catch(error => {
+                    console.error("Error al obtener la información del candidato:", error);
+                });
+        }
+    }, [selectedPositionId]);
+    
+    useEffect(() => {
+        if (candidatoId !== null) {
+                    // Tercera llamada API
+                console.log(candidatoId)
+                axios.get(`http://127.0.0.1:8001/calificaciones_documentos/${candidatoId}`)
+                .then(response => {
+                    if (response.data && response.data.calificaciones) {
+                        setCalificaciones(response.data.calificaciones);
+                        console.log(response.data);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error al obtener las calificaciones:", error);
+                });
+        }
+    }, [candidatoId]);
+
+    const updateSolicitudAprobacion = (aprobacionValue) => {
+        console.log(selectedIndex)
+        console.log(solicitudId)
+        console.log(selectedPositionId)
+        console.log(aprobacionValue)
+
+        if (selectedIndex !== null){
+            const updatedData = {
+                sol_id: solicitudId,
+                cand_id: candidatoId,
+                ofe_id: selectedPositionId,
+                rh_id: 2,
+                sol_aprobacion: aprobacionValue
+            };
+            console.log(updatedData)
+            axios.put(`http://127.0.0.1:8000/api/v1/procesocontratacion/solicitud/${selectedIndex}`, updatedData)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error("Error al actualizar sol_aprobacion:", error);
+            });
+        }
+    }
+    
+    
+    const calcularPromedio = (calificaciones) => {
+        const suma = calificaciones.reduce((acc, currentValue) => acc + currentValue, 0);
+        return suma / calificaciones.length;
+    };
+    const promedio = calcularPromedio(calificaciones);
+    console.log("El promedio de las calificaciones es:", promedio);
+
+    const candidatoSeleccionado = infoProcesoCandidato.find(candidato => candidato.cand_id === candidatoId);
+    var nombreCompleto=''
+    var actividad =''
+    var campoAmplio=''
+    var campoEspecifico=''
+    if (candidatoSeleccionado) {
+        const nombre1 = candidatoSeleccionado.cand_nombre1;
+        const nombre2 = candidatoSeleccionado.cand_nombre2;
+        const apellido1 = candidatoSeleccionado.cand_apellido1;
+        const apellido2 = candidatoSeleccionado.cand_apellido2;
+        nombreCompleto = nombre1 + ' ' + nombre2 + ' ' + apellido1 + ' ' + apellido2;
+        actividad = candidatoSeleccionado.actividad;
+        campoAmplio = candidatoSeleccionado.campo_amplio;
+        campoEspecifico = candidatoSeleccionado.campo_especifico;
+        
+        console.log(nombreCompleto); // Esto imprimirá el nombre completo del candidato seleccionado.
+    } else {
+        console.error("Candidato no encontrado con ID:", candidatoId);
+    }
 
     return (
         <div className="custom-component-postulante">
             <h1 className="custom-title">{title}</h1>
             <hr className="custom-divider" />
             <div className="custom-content">
-                    {selectedSolicitud ? (
+                    {selectedSolicitud  ? (
                         <div className="candidate-details">
                         <div className="candidate-header">
                             <FiUser size={50} />
-                            <h2>{selectedSolicitud.name}</h2>
+                            <h2>{nombreCompleto}</h2>
                         </div>
                         <div className="candidate-info">
                             <div className="info-item">
                                 <span>Actividad:</span>
-                                <span>{selectedSolicitud['act_nombre']}</span>
+                                <span>{actividad}</span>
                             </div>
                             <div className="info-item">
                                 <span>Campo Amplio:</span>
-                                <span>{selectedSolicitud['ca_nombre']}</span>
+                                <span>{campoAmplio}</span>
                             </div>
                             <div className="info-item">
                                 <span>Campo Específico:</span>
-                                <span>{selectedSolicitud['ce_nombre']}</span>
+                                <span>{campoEspecifico}</span>
                             </div>
                             <div className="info-item">
                                 <span>Calificación:</span>
-                                <span>{selectedSolicitud['tx_puntaje_max']}</span>
+                                <span>{promedio}</span>
                             </div>
                             <div className="info-item">
     </div>
@@ -111,13 +244,13 @@ const CustomComponentSolicitudes = ({ title }) => {
                         <div className='form-line-container'>
                         <div className='form-line'>
                         <div className='pendiente'>
-                            <button>
+                            <button className='btn-pendiente'>
                                 Pendiente
                             </button>
                             <FiInfo/>
                         </div>
                         <div className='procesado'>
-                            <button>
+                            <button className='btn-rechazado'>
                                 Procesado
                             </button>
                             <FiInfo/>
@@ -132,15 +265,25 @@ const CustomComponentSolicitudes = ({ title }) => {
                                             <td>Estado</td>
                                         </tr>
                                         {
-                                            solicitudes.map((solicitud, index) => (<tr key={index}>
+                                            solicitudes.map((solicitud, index) => (
+                                                <tr key={index}>
                                                     <td>{index + 1}</td>
-                                                    <td>{ new Date().toUTCString() }</td>
+                                                    <td>{solicitud[0]}</td>
                                                     <td>
-                                                        <button onClick={() => handleOpenCandidateDetails(solicitud)}>
-                                                            {solicitud['sol_aprobacion'] ? 'Aprobado' : 'Pendiente'}
+                                                        <button 
+                                                            className={
+                                                                solicitud[3] === null ? "button-pending" : 
+                                                                solicitud[3] ? "button-accepted" : "button-rejected"
+                                                            }
+                                                            onClick={() => solicitud[3] === null && handleOpenCandidateDetails(solicitud, index+1,solicitud[0],solicitud[1])}
+                                                            disabled={solicitud[3] !== null}
+                                                        >
+                                                            {solicitud[3] === null ? 'Pendiente' : 
+                                                            solicitud[3] ? 'Aprobado' : 'Rechazado'}
                                                         </button>
                                                     </td>
-                                                </tr>))
+                                                </tr>
+                                            ))
                                         }
                                     </tbody>
                                 </table>

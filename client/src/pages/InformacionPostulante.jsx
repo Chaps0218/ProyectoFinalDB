@@ -26,14 +26,6 @@ const Plataforma = () => {
         </div>
         <div className="right-item">
           <DocumentsList title='Información de postulación'>
-            <Document title='Hoja de vida formato ESPE' />
-            <Document title='Copia de cédula' />
-            <Document title='Certificado de votación' />
-            <Document title='Certificado de registro de título' />
-            <Document title='Experiencia De docente' />
-            <Document title='Certificado de no tener impedimento de ejercer cargo público ' />
-            <Document title='Certificado de no tener responsabilidades administrativas' />
-            <Document title='Experiencia profesional' />
           </DocumentsList>
         </div>
         <video className="background-video" autoPlay loop muted>

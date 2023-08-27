@@ -4,35 +4,24 @@ import './styles.css';
 import MenuRRHH from '../components/MenuRRHH';
 import TopBar from '../components/TopBar';
 import CustomComponentCali from '../components/CustomComponentCali'
+import { useLocation } from 'react-router-dom';
 //import { useAuth } from "../context/AuthContext";
 
 
 const Calificacion = ({}) => {
-
-  const candidatoCedula ="1752950863"
+  const location = useLocation();
+  const canId = location.state?.id;
+  console.log('hoplaaaaaaaaaaaa')
+  console.log(canId)
   const [data, setData] = useState([]);
-
   const [candidato, setCandidato] = useState(null);
 
   useEffect(() => {
-          fetch(`http://127.0.0.1:8000/api/v1/procesocontratacion/candidato?cedula=${candidatoCedula}`)
+          fetch(`http://127.0.0.1:8000/api/v1/procesocontratacion/candidato/${canId}`)
               .then(response => response.json())
               .then(data => {
                   // asumo que la respuesta es un array y tomamos el primer objeto
-                  const candidatoData = data[0];
-                  setCandidato({
-                      cedula: candidatoData[1],
-                      genero: candidatoData[2],
-                      titulo: candidatoData[3],
-                      fechaNacimiento: candidatoData[4],
-                      edad: candidatoData[5],
-                      email: candidatoData[6],
-                      passwordHash: candidatoData[7],
-                      name1: candidatoData[8],
-                      name2: candidatoData[9],
-                      lastname1: candidatoData[10],
-                      lastname2: candidatoData[11]
-                  });
+                  setCandidato(data);
               })
               .catch(error => {
                   console.error("Error obteniendo datos del candidato:", error);
