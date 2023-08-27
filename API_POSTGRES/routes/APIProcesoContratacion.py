@@ -611,16 +611,20 @@ def get_solicitudes():
     print(result)
     return result
 
+
 @APIProcesoContratacion.post('/solicitud')
 def create_solicitud(solicitud: solicitud):
     new_solicitud = {
         "cand_id": solicitud.cand_id,
         "ofe_id": solicitud.sol_id,
         "rh_id": solicitud.rh_id,
-        "sol_aprobacion": solicitud.sol_aprobacion,   
+        "sol_aprobacion": solicitud.sol_aprobacion,
+        "ofe_id": solicitud.ofe_id,
+        "sol_notafinal": solicitud.sol_notafinal
     }
     cur = db.connection.cursor()
-    cur.execute('INSERT INTO solicitud (cand_id, ofe_id, rh_id, sol_aprobacion) VALUES (%(cand_id)s, %(ofe_id)s, %(rh_id)s, %(sol_aprobacion)s)', new_solicitud)
+    cur.execute('UPDATE solicitud SET cand_id=%(cand_id)s, sol_id=%(sol_id)s, rh_id=%(rh_id)s, sol_aprobacion=%(sol_aprobacion)s, ofe_id=%(ofe_id)s,sol_notafinal=%(sol_notafinal)s WHERE sol_id=%(sol_id)s', new_solicitud)
+
     db.connection.commit()
     return "Solicitud created successfully"
 
@@ -1512,3 +1516,48 @@ def get_titulo_exp_por_pa_id(pa_id: int):
     json_str = json.dumps(result, indent=4, default=str)
     print(json_str)
     return Response(content=json_str, media_type='application/json')
+
+
+
+
+@APIProcesoContratacion.get('/info_candidato_por_pa_id/{pa_id}')
+def info_candidato_por_pa_id(pa_id: int):
+        cur = db.connection.cursor()
+        cur.execute('''
+            SELECT
+            	c.cand_id,
+                c.cand_nombre1,
+                c.cand_nombre2,
+                c.cand_apellido1,
+                c.cand_apellido2,
+                a.act_nombre AS actividad,
+                ca.ca_nombre AS campo_amplio,
+                ce.ce_nombre AS campo_especifico
+            FROM
+                public.solicitud s
+            JOIN
+                public.candidato c ON s.cand_id = c.cand_id
+            JOIN
+                public.oferta o ON s.ofe_id = o.ofe_id
+            LEFT JOIN
+                public.actividad a ON o.act_id = a.act_id
+            LEFT JOIN
+                public.campo_amplio ca ON o.ca_id = ca.ca_id
+            LEFT JOIN
+                public.campo_especifico ce ON o.ce_id = ce.ce_id
+        ''', (pa_id,))
+
+        fields = [field_md[0] for field_md in cur.description]
+        result = [dict(zip(fields, row)) for row in cur.fetchall()]
+        json_str = json.dumps(result, indent=4, default=str)
+        print(json_str)
+        return Response(content=json_str, media_type='application/json')
+    
+@APIProcesoContratacion.get('/solicitud/no_aprobadas')
+def get_solicitudes_no_aprobadas():
+    cur = db.connection.cursor()
+    cur.execute('SELECT * FROM solicitud WHERE sol_aprobacion IS NULL')
+    result = cur.fetchall()
+    print(result)
+    return result
+

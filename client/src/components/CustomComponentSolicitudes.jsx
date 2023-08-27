@@ -122,6 +122,7 @@ const CustomComponentSolicitudes = ({ title }) => {
                 .then(response => {
                     if (response.data && response.data.length > 0) {
                         setInfoProcesoCandidato(response.data);
+                        console.log("infoProcesoCandidato Use efecc")
                         console.log(infoProcesoCandidato)
                     }
                 })
@@ -182,6 +183,7 @@ const CustomComponentSolicitudes = ({ title }) => {
     console.log("El promedio de las calificaciones es:", promedio);
 
     const candidatoSeleccionado = infoProcesoCandidato.find(candidato => candidato.cand_id === candidatoId);
+    console.log(infoProcesoCandidato)
     var nombreCompleto=''
     var actividad =''
     var campoAmplio=''
@@ -268,18 +270,18 @@ const CustomComponentSolicitudes = ({ title }) => {
                                             solicitudes.map((solicitud, index) => (
                                                 <tr key={index}>
                                                     <td>{index + 1}</td>
-                                                    <td>{solicitud[0]}</td>
+                                                    <td>{solicitud.cand_id}</td>
                                                     <td>
                                                         <button 
                                                             className={
-                                                                solicitud[3] === null ? "button-pending" : 
-                                                                solicitud[3] ? "button-accepted" : "button-rejected"
+                                                                solicitud.sol_aprobacion === null ? "button-pending" : 
+                                                                solicitud.sol_aprobacion ? "button-accepted" : "button-rejected"
                                                             }
-                                                            onClick={() => solicitud[3] === null && handleOpenCandidateDetails(solicitud, index+1,solicitud[0],solicitud[1])}
-                                                            disabled={solicitud[3] !== null}
+                                                            onClick={() => solicitud.sol_aprobacion === null && handleOpenCandidateDetails(solicitud, index+1,solicitud.cand_id,solicitud.sol_id)}
+                                                            disabled={solicitud.sol_aprobacion !== null}
                                                         >
-                                                            {solicitud[3] === null ? 'Pendiente' : 
-                                                            solicitud[3] ? 'Aprobado' : 'Rechazado'}
+                                                            {solicitud.sol_aprobacion === null ? 'Pendiente' : 
+                                                            solicitud.sol_aprobacion ? 'Aprobado' : 'Rechazado'}
                                                         </button>
                                                     </td>
                                                 </tr>

@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API = "http://localhost:8800/api";
 
+
 export const extraerTituloExpPorPaId = (pa_id) => {axios.get(`${API}/titulo_exp_por_pa_id/${pa_id}`, {
     withCredentials: true,
 }); console.log(pa_id)};
