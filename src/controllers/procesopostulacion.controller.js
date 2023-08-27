@@ -2,6 +2,33 @@ import axios from "axios";
 import jwt from "jsonwebtoken";
 import { api } from "../apiroute.js";
 
+
+export const extraerInfoProcesoCandidato = async (req, res) => {
+    const pa_id = req.params.pa_id; // Suponiendo que el pa_id se pasa como parte de la URL
+
+    try {
+        const response = await axios.get(`${API}/extraerInfoProcesoCandidato/${pa_id}`);
+        return res.json(response.data);
+    } catch (error) {
+        console.error('Error al obtener titulo_exp:', error);
+        return res.status(500).json({ message: 'Error al obtener los datos de titulo_exp' });
+    }
+}
+
+
+
+export const extraerTituloExpPorPaId = async (req, res) => {
+    const pa_id = req.params.pa_id; // Suponiendo que el pa_id se pasa como parte de la URL
+
+    try {
+        const response = await axios.get(`${API}/titulo_exp_por_pa_id/${pa_id}`);
+        return res.json(response.data);
+    } catch (error) {
+        console.error('Error al obtener titulo_exp:', error);
+        return res.status(500).json({ message: 'Error al obtener los datos de titulo_exp' });
+    }
+}
+
 export const extraerSolicitud = async (req, res) => {
     try {
         const response = await axios.get(`${api}/solicitud/`);

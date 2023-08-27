@@ -2,6 +2,8 @@ import React, { useState} from "react";
 import { Input } from "@nextui-org/react";
 import "./CustomComponentCali.css";
 import PopupCalificacion from './PopupCalificacion';
+import axios from 'axios';
+
 
 const CustomComponentCalificacion = ({ title, parametros, candidato }) => {
         // Estado para controlar si se muestra la ventana emergente
@@ -68,23 +70,45 @@ const CustomComponentCalificacion = ({ title, parametros, candidato }) => {
 
 
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Validación antes de enviar
     if (calificaciones.some((cal) => cal === "" || cal < 0)) {
       alert("Por favor, complete todos los campos.");
       return;
     }
   
-    // Mapea las calificaciones y los parámetros en un nuevo objeto
-    const mapeadas = calificaciones.map((calificacion, index) => ({
-      parametro: parametros[index].tx_descripcion,
-      puntaje: calificacion,
-    }));
-  
+     // Mapea las calificaciones y los parámetros en un nuevo objeto
+     const mapeadas = calificaciones.map((calificacion, index) => ({
+      documento_nombre: parametros[index].tx_descripcion,
+      calificacion: parseInt(calificacion, 10),  // Asegurarte de que es un número
+
+  }));
+  // Realiza la petición al servidor
     setCalificacionesMapeadas(mapeadas); // Actualiza el estado con las calificaciones mapeadas
     setShowPopup(true); // Abrir el popup
+    try {
+      const response = await axios.put(`http://127.0.0.1:8001/actualizar_calificaciones/${28}`, {
+          calificaciones: mapeadas
+      });
+
+      if (response.status === 200) {
+          console.log("Calificaciones actualizadas correctamente");
+          setShowPopup(true);
+      } else {
+          console.error("Error actualizando las calificaciones");
+      }
+  } catch (error) {
+      console.error("Error al comunicarse con el servidor:", error);
+  }
+
   };
+
+  console.log("candi")
+  console.log(candidato)
+  console.log(parametros)
   
+  console.log("'esfsefse'");
+  console.log(calificacionesMapeadas);
   return (
     <div className="custom-component-postulante">
       <h1 className="custom-title">{title}</h1>

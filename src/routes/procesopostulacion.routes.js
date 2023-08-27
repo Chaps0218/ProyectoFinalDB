@@ -37,11 +37,16 @@ import {
     agregarActividad,
     editarActividad,
     eliminarActividad,
+    
+    extraerTituloExpPorPaId,
+    extraerInfoProcesoCandidato,
+
 }
     from "../controllers/procesopostulacion.controller.js";
 
 const router = Router();
-
+router.get("/info_candidato_por_pa_id/:pa_id", extraerInfoProcesoCandidato);
+router.get("/titulo_exp_por_pa_id/:pa_id", extraerTituloExpPorPaId);
 router.get("/solicitud", extraerSolicitud);
 router.get("/oferta", extraerOferta);
 router.post("/oferta", agregarOferta);
