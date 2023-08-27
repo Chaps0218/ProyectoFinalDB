@@ -60,7 +60,7 @@ const DocumentList = ({ title, children }) => {
                 //que dependa de que pues eliga se muestran los titulos 
                 const response = await axios.get('http://127.0.0.1:8000/api/v1/procesocontratacion/titulo_exp_por_pa_id/1'); // Ejemplo con pa_id=2
                 setDocumentTitles(response.data);
-                console.log(response.data);
+                console.log("doc title", response.data);
 
             } catch (error) {
                 console.error("Error al obtener los títulos de los documentos:", error);
