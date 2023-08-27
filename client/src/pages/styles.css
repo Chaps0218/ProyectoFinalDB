@@ -288,15 +288,15 @@ html, body {
 /*PÁGINA INICIO POSTULANTE */
 
 .parent-container {
-  min-height: 100%;
-  height: 100vh;
+  min-height: 90%;
+  /* width: 100vw;
+  height: 100vh; */
   display: flex; /* Habilita Flexbox */
   justify-content: center; /* Centra horizontalmente */
   align-items: center; /* Centra verticalmente */
 }
 
 .plataforma-container {
-  max-width: 1500px;
   width: 100%; /* O ajusta este valor al ancho deseado */
   display: grid;
   gap: 10px;
@@ -305,20 +305,6 @@ html, body {
     "left-item right-item" auto /
     20%    auto;
 }
-
-
-.plataforma-container {
-  max-width: 1500px;
-  display: grid;
-  gap: 10px;
-  grid-template:
-    "top-item top-item"  
-    "left-item right-item" auto /
-    20%    auto;
-    
-}
-
-
 
 .plataforma-container h1 {
   color: var(--text-color);
@@ -586,10 +572,7 @@ html, body {
   text-align: center;
 }
 
-.postulacionS{
-  max-height: auto; /* Set the maximum height for the component */
-  overflow-y: auto; /* Enable vertical scrollbar when content overflows */
-}
+
 
 /*AGREGAR NUEVOS ESTILOS*/
 

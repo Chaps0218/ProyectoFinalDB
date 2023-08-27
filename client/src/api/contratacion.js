@@ -2,10 +2,6 @@ import axios from "axios";
 
 const API = "http://localhost:8800/api";
 
-export const extraerSolicitud = () => axios.get(`${API}/solicitud`, {
-    withCredentials: true,
-});
-
 export const extraerTituloExpPorPaId = (pa_id) => {axios.get(`${API}/titulo_exp_por_pa_id/${pa_id}`, {
     withCredentials: true,
 }); console.log(pa_id)};
@@ -158,3 +154,22 @@ export const editarActividad = (id, actividad) => {axios.put(`${API}/actividad/$
 export const eliminarActividad = (id) => {axios.delete(`${API}/actividad/${id}`, {id: id}, {
     withCredentials: true,
 }); console.log(id)}
+
+export const extraerSolicitud = () => axios.get(`${API}/solicitud`, {
+    withCredentials: true,
+});
+
+export const agregarSolicitud = (solicitud) => axios.post(`${API}/solicitud`, solicitud, {
+    withCredentials: true,
+});
+
+export const editarSolicitud = (id, solicitud) => {axios.put(`${API}/solicitud/${id}`, solicitud, {
+    withCredentials: true,
+}); console.log(id, solicitud)}
+
+export const eliminarSolicitud = (id) => {axios.delete(`${API}/solicitud/${id}`, {id: id}, {
+    withCredentials: true,
+}); console.log(id)}
+
+
+

@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import './styles.css';
 import Menu from '../components/MenuCandidato';
 import TopBar from '../components/TopBar';
-import CustomComponentForm from '../components/CustomComponentForm'
+import CustomComponentForm from '../components/PostulacionCandidato'
 import CustomComponent from '../components/CustomComponent'
 import { FiUpload, FiFolder, FiUnlock, FiLock } from 'react-icons/fi';
 import { useAuth } from "../context/AuthContext";

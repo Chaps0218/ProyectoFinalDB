@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  api:
+    build: ./API_POSTGRES
+    container_name: APIPostgres
+    ports:
+      - '8001:8001'
+    networks:
+      - proyectoBaseDatos
+    environment:
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=123456
+      - DB_DATABASE=sistemapostulacion
+
+  front:
+    build: ./client
+    container_name: FRONT
+    ports:
+      - '3000:3000'
+    networks:
+      - proyectoBaseDatos
+
+  server:
+    build: ./server
+    container_name: SERVER
+    ports:
+      - '8800:8800'
+    networks:
+      - proyectoBaseDatos
+
+networks:
+  proyectoBaseDatos:
+    external: true

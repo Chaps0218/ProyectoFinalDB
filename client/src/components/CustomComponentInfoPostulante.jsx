@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PopupDocument from './PopupDocument'; 
 import Popup from './Popup'; 
-import './CustomComponentForm'
+import './PostulacionCandidato'
 import Tabla from '../components/Tabla'
 
 const CustomComponentForm = ({ title }) => {

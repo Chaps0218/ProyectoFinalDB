@@ -14,7 +14,7 @@ const Tips = () => {
       </div>
       <div className="tip-item">
         <p className="tip-question">¿Deseas actualizar tu información personal?</p>
-        <button className="tip-button" onClick={() => navigate('/infoP')}>Ir</button>
+        <button className="tip-button" onClick={() => navigate('/informacionPersonal')}>Ir</button>
       </div>
     </div>
   );
