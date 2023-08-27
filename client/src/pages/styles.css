@@ -288,9 +288,9 @@ html, body {
 /*PÁGINA INICIO POSTULANTE */
 
 .parent-container {
-  min-height: 100%;
-  width: 100vw;
-  height: 100vh;
+  min-height: 90%;
+  /* width: 100vw;
+  height: 100vh; */
   display: flex; /* Habilita Flexbox */
   justify-content: center; /* Centra horizontalmente */
   align-items: center; /* Centra verticalmente */

@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { extraerOferta, extraerContrato, extraerTipoContrato, extraerPersonalAcademico, extraercampoAmplio, extraercampoEspecifico, extraerSede, extraerDepartamento, extraerActividad, agregarSolicitud} from "../api/contratacion";
+import React, { useEffect, useState,  useCallback, useMemo } from 'react';
+import { extraerOferta, extraerContrato, extraerTipoContrato, extraerPersonalAcademico, extraercampoAmplio, extraercampoEspecifico, extraerSede, extraerDepartamento, extraerActividad, agregarSolicitud, agregarOferta} from "../api/contratacion";
 import PopupDocument from './PopupDocument';
 import Popup from './Popup';
 import './CustomComponentForm.css'
+import {Snippet} from "@nextui-org/react";
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@nextui-org/react";
+import { set } from 'react-hook-form';
 
 
-const CustomComponentForm = ({ title }) => {
+const PostulacionCandidato = ({ title }) => {
     // Estado para controlar si se muestra la ventana emergente
     const [contratos, setContratos] = useState([]);
     const [ofertas, setOfertas] = useState([]);
+    const [sofertas, setSOfertas] = useState([]);
     const [personalAcademico, setPersonalAcademico] = useState([]);
     const [campoAmplio, setCampoAmplio] = useState([]);
     const [campoEspecifico, setCampoEspecifico] = useState([]);
@@ -18,11 +22,13 @@ const CustomComponentForm = ({ title }) => {
     const [tipoContrato, setTipoContrato] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
     const [showPopup2, setShowPopup2] = useState(false);
+    const [vacantes, setVacantes] = useState(0);
+    const [horas, setHoras] = useState(0);
 
     const [selectedValuesArray, setSelectedValuesArray] = useState([]);
     const [showTable, setShowTable] = useState(false);
     const [selectedOffer, setSelectedOffer] = useState(null);
-
+    const [valores, setValores] = useState([]);
 
     useEffect(() => {
         Promise.all([
@@ -51,18 +57,23 @@ const CustomComponentForm = ({ title }) => {
 
                 if (contratoRes.data && contratoRes.data.contrato) {
                     setContratos(contratoRes.data.contrato);
+                    console.log("contratosss", contratoRes.data.contrato);
                 } else {
                     console.log("Datos de contratos no encontrados en la respuesta.");
                 }
 
                 if (ofertaRes.data && ofertaRes.data.oferta) {
+                    setSOfertas(ofertaRes.data);
                     setOfertas(ofertaRes.data.oferta);
+                    console.log("ofertasss", ofertaRes.data.oferta);
+                    console.log("ofertas seleccion", ofertaRes.data);
                 } else {
                     console.log("Datos de ofertas no encontrados en la respuesta.");
                 }
 
                 if (tipoContratoRes.data && tipoContratoRes.data.tipoContrato) {
                     setTipoContrato(tipoContratoRes.data.tipoContrato);
+                    console.log("tipoContrato", tipoContratoRes.data.tipoContrato);
                 } else {
                     console.log("Datos de tipo de contratos no encontrados en la respuesta.");
                 }
@@ -97,7 +108,12 @@ const CustomComponentForm = ({ title }) => {
                     console.log("Datos de departamento no encontrados en la respuesta.");
                 }
 
-                setActividad(actividadRes.data);
+                if(actividadRes.data && actividadRes.data.actividad){
+                    setActividad(actividadRes.data.actividad);
+                } else {
+                    console.log("Datos de actividad no encontrados en la respuesta.");
+                }
+
             })
             .catch((err) => {
                 console.log(err);
@@ -109,45 +125,123 @@ const CustomComponentForm = ({ title }) => {
         setShowPopup(true);
     };
 
-    const handleSeleccionar = () => {
-        for (let i = 0; i < ofertas.length - 1; i++) {
-            const oferta = ofertas[i];
-            console.log("oferta: ", oferta)
+    function findMatchingSubstrings(data, value, index) {
+        const matchingData = {};
+      
+        for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+            const subArray = data[key];
+            if (subArray[index] === value) {
+              matchingData[key] = subArray;
+            }
+          }
+        }
+      
+        return matchingData;
+    }
 
-            if (
-                selectedValuesArray.contratos[0] === oferta[1] &&
-                selectedValuesArray.tipoContrato[0] === oferta[2] &&
-                selectedValuesArray.campoEspecifico[0] === oferta[3] &&
-                selectedValuesArray.campoAmplio[0] === oferta[4] &&
-                selectedValuesArray.sede[0] === oferta[5] &&
-                selectedValuesArray.departamento[0] === oferta[6] &&
-                selectedValuesArray.personalAcademico[0] === oferta[7]
-            ) {
-                setSelectedOffer(oferta);
-                setShowTable(true);
-                break; // Exit the loop after finding the matching offer
+    //Mapeo la posicion con la BD
+    // public.oferta (
+    //     ofe_id integer NOT NULL, [0]
+    //     post_id integer, [1]
+    //     con_id integer, [2]
+    //     ce_id integer, [3]
+    //     ca_id integer, [4]
+    //     sede_id integer, [5]
+    //     dept_id integer, [6]
+    //     pa_id integer, [7]
+    //     act_id integer, [8]
+    //     ofe_vacantes integer, [9]
+    //     ofe_horas integer [10]
+    // );
+
+    const fieldIndexMapping = useMemo(() => ({
+        actividad: 8,
+        campoAmplio: 4,
+        campoEspecifico: 3,
+        contratos: 2,
+        departamento: 6,
+        personalAcademico: 7,
+        sede: 5
+      }), []);
+
+    //Funcion para encontrar las coincidencias una por una
+    const filterData = useCallback((data, filters) => {
+        let result = { ...data };
+
+        const propertyCount = Object.keys(filters).length;
+
+        if(propertyCount < 7) return {};
+
+        for (const field in filters) {
+          if (filters.hasOwnProperty(field)) {
+            const value = filters[field];
+            const index = fieldIndexMapping[field];
+    
+            result = findMatchingSubstrings(result, value, index);
+    
+            if (Object.keys(result).length === 0) {
+              console.log("No matching object found.");
+              return {};
+            }
+          }
+        }
+    
+        return result;
+      }, [fieldIndexMapping]);
+
+    const handleSeleccionar = useCallback(() => {
+
+        for (const key in selectedValuesArray) {
+            if (selectedValuesArray.hasOwnProperty(key)) {
+            valores[key] = selectedValuesArray[key][0];
             }
         }
+        
 
-        // setShowPopup2(true);
-    };
+        console.log("valores: ", valores);
+        console.log("ofertas: ", ofertas);
+        // Encontramos la oferta pertinente
+
+        const combinedArray =  filterData(ofertas, valores);
+        const coincidencia = Object.values(combinedArray).flat();
+        console.log("coincidencia", coincidencia);
+        const propertyCount = Object.keys(coincidencia).length;
+        console.log(propertyCount);
+  
+
+        if(propertyCount === 0) return;
+        
+        setSelectedOffer(coincidencia);
+        console.log("coincidencia", coincidencia);
+        setShowTable(true);
+
+
+        setVacantes(coincidencia[9]);
+        setHoras(coincidencia[10]);
+
+        console.log(vacantes, horas);
+
+        
+        
+    }, [selectedValuesArray, filterData, ofertas, setSelectedOffer, valores, vacantes, horas]);
+
+    useEffect(() => {
+        handleSeleccionar();
+    }, [handleSeleccionar]);
 
     const handleAgregar = (info) => {
-        // agregarOferta(info);
+        
+        setShowPopup2(true);
     }
 
     const handleClosePopup = () => {
         setShowPopup(false);
     };
 
-    const tableData = [
-        ['Vacantes', 'Tiempo'],
-        ['2', 'Tiempo completo'],
-    ];
-
     const [selectedIDs, setSelectedIDs] = useState({
         contratos: "",
-        tipoContrato: "",
+        actividad: "",
         personalAcademico: "",
         campoAmplio: "",
         campoEspecifico: "",
@@ -156,7 +250,7 @@ const CustomComponentForm = ({ title }) => {
     });
 
     const [dropdownDisabled, setDropdownDisabled] = useState({
-        tipoContrato: true,
+        actividad: true,
         personalAcademico: true,
         campoAmplio: true,
         campoEspecifico: true,
@@ -165,10 +259,15 @@ const CustomComponentForm = ({ title }) => {
     });
 
     const handleSelectChange = (key, selectedValue, selectedMapping) => {
+
+        console.log(selectedValue);
+        console.log(selectedMapping);
+
         setSelectedIDs(prevSelectedIDs => ({
             ...prevSelectedIDs,
             [key]: selectedValue,
         }));
+
         setSelectedValuesArray(prevSelectedValues => {
             const updatedValues = {
                 ...prevSelectedValues,
@@ -176,11 +275,14 @@ const CustomComponentForm = ({ title }) => {
             };
             return updatedValues;
         });
+
+        console.log(selectedIDs);
+        console.log(selectedValuesArray);
     };
 
     useEffect(() => {
         setDropdownDisabled({
-            tipoContrato: false,
+            actividad: false,
             personalAcademico: selectedIDs.tipoContrato === "",
             campoAmplio: selectedIDs.personalAcademico === "",
             campoEspecifico: selectedIDs.campoAmplio === "",
@@ -211,13 +313,13 @@ const CustomComponentForm = ({ title }) => {
                         </select>
                     </div>
                     <div>
-                        <h1>Tipo de Contrato:</h1>
+                        <h1>Actividad:</h1>
                         <select
-                            onChange={(e) => handleSelectChange("tipoContrato", e.target.value, tipoContrato.find(item => item[1] === e.target.value))}
-                            disabled={dropdownDisabled.tipoContrato}
+                            onChange={(e) => handleSelectChange("actividad", e.target.value, actividad.find(item => item[1] === e.target.value))}
+                            disabled={dropdownDisabled.actividad}
                         >
-                            <option value="">Seleccionar Tipo de Contrato</option>
-                            {tipoContrato.map((item) => (
+                            <option value="">Seleccionar Actividad</option>
+                            {actividad.map((item) => (
                                 <option key={item[0]} value={item[1]}>
                                     {item[1]}
                                 </option>
@@ -317,23 +419,26 @@ const CustomComponentForm = ({ title }) => {
             </div>
             {showTable && (
                 <>
-                    <div className="table-container">
-                        <h2>Información de la oferta seleccionada:</h2>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Vacantes Disponibles</th>
-                                    <th>Horas a trabajar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{selectedOffer[9]}</td>
-                                    <td>{selectedOffer[10]}</td>
-                                    {/* Agrega más celdas aquí según la estructura de datos */}
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div className="table-container m-8">
+                    <Snippet symbol="" hideCopyButton color="success" variant="bordered">
+                        Información de la oferta seleccionada   
+                    </Snippet>
+
+                    <div className='tablaN'>
+                    <Table aria-label="Example static collection table">
+                        <TableHeader>
+                            <TableColumn>VACANTES DISPONIBLES</TableColumn>
+                            <TableColumn>HORAS A TRABAJAR</TableColumn>
+                        </TableHeader>
+                        <TableBody>
+                            <TableRow key="1">
+                            <TableCell>{vacantes}</TableCell>
+                            <TableCell>{horas}</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                    </div>
+
                     </div>
                     <div className='buttons-container'>
                         <button className='button-enviar-info' onClick={()=> handleAgregar(selectedOffer)}>Enviar Información</button>
@@ -352,4 +457,4 @@ const CustomComponentForm = ({ title }) => {
     );
 };
 
-export default CustomComponentForm;
+export default PostulacionCandidato;
