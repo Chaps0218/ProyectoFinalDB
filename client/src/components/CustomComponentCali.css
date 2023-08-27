@@ -84,6 +84,34 @@
     cursor: pointer;
   }
 
+  .contenedorContratacion{
+    display: flex;
+    width: 100%;
+  }
+
+  .etiquetas{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    margin: 1rem;
+    margin-right: 3rem;
+  }
+
+  .requisitos{
+    display: flex;
+    width: 80%;
+    margin: 1rem;
+    justify-content: space-evenly;
+  }
+
+  .carta{
+    margin: 1rem;
+  }
+
+  .carta1{
+    margin: 1rem;
+    width: 350%;
+  }
   
 
   

@@ -123,3 +123,9 @@
   width: 60%;
   margin: 1rem;
 }
+
+.no-vacancies-message {
+  margin-top: 10px;
+  color: red;
+  font-weight: bold;
+}

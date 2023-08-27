@@ -2,187 +2,112 @@ import React, { useState} from "react";
 import { Input } from "@nextui-org/react";
 import "./CustomComponentCali.css";
 import PopupCalificacion from './PopupCalificacion';
+import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, Chip} from "@nextui-org/react";
+import {AddNoteIcon} from "../assets/AddNoteIcon";  
+import {EditDocumentIcon} from "../assets/EditDocumentIcon";
+import {Card, CardHeader, CardBody, CardFooter, Divider, Link, Image} from "@nextui-org/react";
 import axios from 'axios';
 
 
 const CustomComponentCalificacion = ({ title, parametros, candidato }) => {
-        // Estado para controlar si se muestra la ventana emergente
-        // const [ setShowPopup2] = useState(false);
+
+  const iconClasses = "text-xl text-default-500 pointer-events-none flex-shrink-0";
+
+  const [selectedKeys, setSelectedKeys] = React.useState(new Set(["Item"]));
+
+  const value = React.useMemo(
+    () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
+    [selectedKeys]
+  );
     
-        // Función para abrir la ventana emergente
-        // const handleOpenPopup = () => {
-        //     setShowPopup(true);
-    
-        // };
-        // const handleAccept = () =>{
-        //     setShowPopup2(true);
-        // };
-    
-        // Función para cerrar la ventana emergente
-        const handleClosePopup = () => {
-            setShowPopup(false);
-        };
-
-    const [showPopup, setShowPopup] = useState(false);
-    // const handleConfirm = () => {
-    //     console.log('Calificación confirmada');
-    //     setShowPopup(false); // Cerrar el popup
-    //   };
-    
-    //   const handleCancel = () => {
-    //     console.log('Operación cancelada');
-    //     setShowPopup(false); // Cerrar el popup
-    //   };
-
-
-    const [calificaciones, setCalificaciones] = useState(
-        Array(parametros.length).fill("")
-);
-      
-  const [tooltipIndex, setTooltipIndex] = useState(null);
-
-  const [calificacionesMapeadas, setCalificacionesMapeadas] = useState([]);
-
-
-  const handleCalificacionChange = (index, value) => {
-    const maxPuntaje = parametros[index].tx_puntaje_max;
-  
-    // Verificar si el valor es un número entero válido y que esté en el rango de 0 a puntaje máximo
-    if (value === "" || (/^(0|[1-9]\d*)$/.test(value) && value >= 0 && value <= maxPuntaje)) {
-      const newCalificaciones = [...calificaciones];
-      newCalificaciones[index] = value;
-      setCalificaciones(newCalificaciones);
-      setValidationStates(states => {
-        const newStates = [...states];
-        newStates[index] = "valid";
-        return newStates;
-      });
-    } else {
-      setValidationStates(states => {
-        const newStates = [...states];
-        newStates[index] = "invalid";
-        return newStates;
-      });
-    }
-  };
-
-  const [validationStates, setValidationStates] = useState(Array(parametros.length).fill(undefined));
-
-
-
-  const handleSubmit = async () => {
-    // Validación antes de enviar
-    if (calificaciones.some((cal) => cal === "" || cal < 0)) {
-      alert("Por favor, complete todos los campos.");
-      return;
-    }
-  
-     // Mapea las calificaciones y los parámetros en un nuevo objeto
-     const mapeadas = calificaciones.map((calificacion, index) => ({
-      documento_nombre: parametros[index].tx_descripcion,
-      calificacion: parseInt(calificacion, 10),  // Asegurarte de que es un número
-
-  }));
-  // Realiza la petición al servidor
-    setCalificacionesMapeadas(mapeadas); // Actualiza el estado con las calificaciones mapeadas
-    setShowPopup(true); // Abrir el popup
-    try {
-      const response = await axios.put(`http://127.0.0.1:8001/actualizar_calificaciones/${28}`, {
-          calificaciones: mapeadas
-      });
-
-      if (response.status === 200) {
-          console.log("Calificaciones actualizadas correctamente");
-          setShowPopup(true);
-      } else {
-          console.error("Error actualizando las calificaciones");
-      }
-  } catch (error) {
-      console.error("Error al comunicarse con el servidor:", error);
-  }
-
-  };
-
-  console.log("candi")
-  console.log(candidato)
-  console.log(parametros)
-  
-  console.log("'esfsefse'");
-  console.log(calificacionesMapeadas);
   return (
     <div className="custom-component-postulante">
       <h1 className="custom-title">{title}</h1>
       <hr className="custom-divider" />
-      <div className="documents-container">
-        <div className="parametros">
-          {parametros.map((parametro, index) => {
-            const value = calificaciones[index];
-            const validationState = validationStates[index];
+      
+      <div className="contenedorContratacion">
+        <div className="etiquetas">
+          <Chip color="success" className="mb-5" variant="bordered">Seleccionar item</Chip>
+
+          <Dropdown>
+            <DropdownTrigger>
+              <Button 
+                variant="bordered" 
+              >
+                {value}
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu variant="faded" 
+            aria-label="Dropdown menu with description"
+            disallowEmptySelection
+            selectionMode="single"
+            selectedKeys={selectedKeys}
+            onSelectionChange={setSelectedKeys}
+            >
+              <DropdownItem
+                key="Formacion"
+                shortcut="⌘I"
+                description="Formación del auxiliar 1"
+                startContent={<AddNoteIcon className={iconClasses} />}
+              >
+                Formación
+              </DropdownItem>
+
+            </DropdownMenu>
+          </Dropdown>
+
+        </div>
+
+        <div className="requisitos">
           
-              
-            return (
-              <div className="calificacion-item" key={index}>
-                <div className="informacion-calificacion">
-                  <span
-                    className="icon"
-                    onMouseEnter={() => setTooltipIndex(index)}
-                    onMouseLeave={() => setTooltipIndex(null)}
-                  >
-                    🛈
-                  </span>
-                  {tooltipIndex === index && (
-                        <div className="tooltip">{parametro.tx_observacion}</div>
-                  )}
-                  <label className="label-calificacion">{parametro.tx_descripcion}:</label>
+          <Card className="carta1">
+          <CardHeader className="flex gap-3">
+            <div className="flex flex-col">
+              <p className="text-md">Requisito 1</p>
+              <p className="text-small text-default-500">Formación</p>
+            </div>
+          </CardHeader>
+          <Divider/>
+          <CardBody>
+            <p>Tener al menos grado académico de maestría reconocido y registrado por el Órgano
+              Rector de la Política Pública de Educación Superior, en el campo amplio de reconocimiento
+              vinculado a sus actividades de dodencia o investiación, o vinculación con la sociedad.
+              La Universidad dará preferencia a los perfiles que tengan adicionalmente el título de
+              grado con afinidad al campo amplio del conocimiento de su formación de cuarto nivel.
+            </p>
+          </CardBody>
+          <Divider/>
+          <CardFooter>
+            <Button color="success" variant="bordered">
+              Ver Detalle
+            </Button> 
+          </CardFooter>
+          </Card>
 
-                </div>
-
-                <div className="calificaciones">
-                  <Input
-                  className="wide-input"
-                    value={value}
-                    label="Calificación"
-                    type="text" // Cambiar el tipo a "text" para permitir la validación personalizada
-                    onValueChange={(value) => handleCalificacionChange(index, value)}
-                    variant="bordered"
-                    color={validationState === "invalid" ? "danger" : "success"}
-                    errorMessage={
-                      validationState === "invalid" &&
-                      `Ingrese un valor entre 0 y ${parametro.tx_puntaje_max}`
-                    }
-                    validationState={validationState}
-                    
-                    max={parametro.tx_puntaje_max}
-                  />
-                  <span className="span-calificacion">
-                    / {parametro.tx_puntaje_max}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+          <Card className="carta">
+          <CardHeader className="flex gap-3">
+            <div className="flex flex-col">
+              <p className="text-md">Requisito 2</p>
+              <p className="text-small text-default-500">Formación</p>
+            </div>
+          </CardHeader>
+          <Divider/>
+          <CardBody>
+            <p>Acreditar compotencia con nivel B1 o equivalente en una lengua diferente al castellano;
+              en una lengua diferente al castellano; o haber obtenido su título académico de tercer o cuarto
+              nivel en un país con una lengua diferente al castellano. Los idiomas ancestrales serán considerados
+              como lengua diferente al castellano.
+            </p>
+          </CardBody>
+          <Divider/>
+          <CardFooter>
+            <Button color="success" variant="bordered">
+              Ver Detalle
+            </Button> 
+          </CardFooter>
+          </Card>
         </div>
       </div>
-      <div className="buttons-calificacion">
-            <button className="button-calificacion" onClick={handleSubmit}>
-              Enviar
-            </button>
-            <PopupCalificacion
-                show={showPopup}
-                onClose={handleClosePopup}
-                title="¿Está seguro?"
-                subtitle="Recuerda que esta acción es irreversible"
-                calificaciones={calificacionesMapeadas} // Pasa las calificaciones mapeadas como prop
-                candidato={candidato}
-                />
-
-            <button
-              className="button-calificacion"
-              onClick={() => setCalificaciones(Array(parametros.length).fill(""))}
-            >
-              Cancelar
-            </button>
-          </div>
 
     </div>
   );
