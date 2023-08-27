@@ -56,7 +56,7 @@ const PostulacionCandidato = ({ title }) => {
                 ] = responses;
 
                 if (contratoRes.data && contratoRes.data.contrato) {
-                    setContratos(contratoRes.data.contrato);
+                    setContratos(contratoRes.data.contrato); //POSTULACION
                     console.log("contratosss", contratoRes.data.contrato);
                 } else {
                     console.log("Datos de contratos no encontrados en la respuesta.");
@@ -72,7 +72,7 @@ const PostulacionCandidato = ({ title }) => {
                 }
 
                 if (tipoContratoRes.data && tipoContratoRes.data.tipoContrato) {
-                    setTipoContrato(tipoContratoRes.data.tipoContrato);
+                    setTipoContrato(tipoContratoRes.data.tipoContrato); //CONTRATO
                     console.log("tipoContrato", tipoContratoRes.data.tipoContrato);
                 } else {
                     console.log("Datos de tipo de contratos no encontrados en la respuesta.");
@@ -155,6 +155,7 @@ const PostulacionCandidato = ({ title }) => {
     //     ofe_horas integer [10]
     // );
 
+    //Post_id = contratos 
     const fieldIndexMapping = useMemo(() => ({
         actividad: 8,
         campoAmplio: 4,
