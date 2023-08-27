@@ -29,23 +29,12 @@ const CustomComponentPersonalInfo = ({ title }) => {
         
         return inputString.charAt(0).toUpperCase() + inputString.slice(1);
       }
+      console.log(user);
 
     return (
         <div className="custom-component-postulante">
             <h1 className="custom-title">{title}</h1>
             <hr className="custom-divider" />
-
-            {/* <div className="form-section">
-                <div className="form-fields">
-                    <p>Cargo: {cargo}</p>
-                    <p>Nombre: {nombre}</p> ----
-                    <p>Fecha de Nacimiento: {fechaNacimiento}</p>
-                    <p>Título con el que postula: {tituloPostula}</p>
-                    <p>Correo electrónico: {correoElectronico}</p> ---
-                    <p>Tipo de identificación: {tipoIdentificacion}</p>---
-                    <p>Identificación: {identificacion}</p> ---
-                </div>
-            </div> */}
             <div className="flex justify-between items-center p-2">
                 <div className="w-full md:w-1/2 ml-40">
 

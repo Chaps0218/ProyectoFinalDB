@@ -1,75 +1,95 @@
 import React, { useState } from 'react';
-import PopupDocument from './PopupDocument'; 
-import Popup from './Popup'; 
-import './CustomComponentInfoPersonal.css'
+import './CustomComponentInfoPersonal2.css'
 import ChangePasswordPopup from './ChangePasswordPopup';
+import {Card, CardHeader, CardBody, Image, Chip} from "@nextui-org/react";
+import { useAuth } from "../context/AuthContext";
 
-const CustomComponentForm2 = ({ title }) => {
-    const [showPopup, setShowPopup] = useState(false);
-    const [showPopup2, setShowPopup2] = useState(false);
 
-    const handleOpenPopup = () => {
-        setShowPopup(true);
+const CustomComponentInfoPersonal = ({ title }) => {
+    const [cargo, setCargo] = useState('');
+    const [nombre, setNombre] = useState('');
+    const [fechaNacimiento, setFechaNacimiento] = useState('');
+    const [tituloPostula, setTituloPostula] = useState('');
+    const [correoElectronico, setCorreoElectronico] = useState('');
+    const [tipoIdentificacion, setTipoIdentificacion] = useState('');
+    const [identificacion, setIdentificacion] = useState('');
+    const [mostrarCambioContraseña, setMostrarCambioContraseña] = useState(false);
+
+    const { isAuthenticated, user } = useAuth();
+
+
+    const handlePopupToggle = () => {
+        setMostrarCambioContraseña(!mostrarCambioContraseña);
     };
 
-    const handleAccept = () => {
-        setShowPopup2(true);
-    };
+    function capitalizeFirstLetter(inputString) {
+        if (typeof inputString !== 'string') {
+          return ''; // Return an empty string for non-string inputs
+        }
+        
+        return inputString.charAt(0).toUpperCase() + inputString.slice(1);
+      }
 
-    const handleClosePopup = () => {
-        setShowPopup(false);
-    };
+    return (
+        <div className="custom-component-postulante">
+            <h1 className="custom-title">{title}</h1>
+            <hr className="custom-divider" />
 
-  const [cargo, setCargo] = useState('');
-  const [nombre, setNombre] = useState('');
-  const [editandoCampos, setEditandoCampos] = useState(false);
-  const [mostrarCambioContraseña, setMostrarCambioContraseña] = useState(false);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-
-  const handlePopupToggle = () => {
-    setMostrarCambioContraseña(!mostrarCambioContraseña);
-};
-
-return (
-    <div className="custom-component-postulante">
-        <h1 className="custom-title">Datos</h1>
-        <hr className="custom-divider" />
-
-        <div className="form-section">
-           
-            {editandoCampos ? (
-                <form onSubmit={handleSubmit} className="form-fields">
-                    <label>Cargo:</label>
-                    <input type="text" value={cargo} onChange={(e) => setCargo(e.target.value)} />
-                    <label>Nombre:</label>
-                    <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} />
-                    <button type="submit">Guardar</button>
-                </form>
-            ) : (
+            {/* <div className="form-section">
                 <div className="form-fields">
                     <p>Cargo: {cargo}</p>
-                    <p>Nombre: {nombre}</p>
+                    <p>Nombre: {nombre}</p> ----
+                    <p>Fecha de Nacimiento: {fechaNacimiento}</p>
+                    <p>Título con el que postula: {tituloPostula}</p>
+                    <p>Correo electrónico: {correoElectronico}</p> ---
+                    <p>Tipo de identificación: {tipoIdentificacion}</p>---
+                    <p>Identificación: {identificacion}</p> ---
                 </div>
-            )}
-            <button className="edit-button" onClick={() => setEditandoCampos(!editandoCampos)}>
-                {editandoCampos ? 'Cancelar' : 'Editar campos'}
-            </button>
+            </div> */}
+            <div className="flex justify-between items-center p-2">
+                <div className="w-full md:w-1/2 ml-60">
+
+                <Card className="py-4">
+                    <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+                        <p className="text-tiny uppercase font-bold">{isAuthenticated ? (
+                        <>
+                            {user && user.name1 ? (
+                                <div>{user.name1} {user.name2} {user.lastname1} {user.lastname2}</div>
+                            ) : (
+                                <li>Loading...</li>
+                            )}
+                        </>
+                    ) : (
+                        null
+                    )}</p>
+                        <small className="text-default-500">{isAuthenticated ? (
+                        <>
+                            {user && user.email ? (
+                                <div>{user.email}</div>
+                            ) : (
+                                <li>Loading...</li>
+                            )}
+                        </>
+                    ) : (
+                        null
+                    )}</small>
+                    </CardHeader>
+                    <CardBody className="overflow-visible py-2">
+                        <Image
+                        alt="Card background"
+                        className="object-cover rounded-xl"
+                        src="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
+                        width={270}
+                        />
+                    </CardBody>
+                </Card>
+                </div>
+            </div>
+
+
+            {mostrarCambioContraseña && <ChangePasswordPopup onClose={handlePopupToggle} />}
         </div>
+    );
+}
 
-        <button className="password-button" onClick={handlePopupToggle}>
-            Cambiar contraseña
-        </button>
-
-        {mostrarCambioContraseña && <ChangePasswordPopup onClose={handlePopupToggle} />}
-    </div>
-);
-};
-
-
-        
- 
-
-export default CustomComponentForm2;
+export default CustomComponentInfoPersonal;

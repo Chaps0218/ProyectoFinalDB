@@ -25,7 +25,7 @@ const InfoPostRRHH = () => {
         </div>
         <div className="right-item">
           <CustomComponentInfo
-            title='Información Postulantes'
+            title='Información Personal'
           ></CustomComponentInfo>
         </div>
         <video className="background-video" autoPlay loop muted>
