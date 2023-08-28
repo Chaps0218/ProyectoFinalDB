@@ -82,6 +82,7 @@ const PostulacionCandidato = ({ title }) => {
 
                 if (personalAcademicoRes.data && personalAcademicoRes.data.personalAcademico) {
                     setPersonalAcademico(personalAcademicoRes.data.personalAcademico);
+                    console.log("personalAcademico", personalAcademicoRes.data.personalAcademico);
                 } else {
                     console.log("Datos de personal académico no encontrados en la respuesta.");
                 }
@@ -196,6 +197,8 @@ const PostulacionCandidato = ({ title }) => {
 
     const handleSeleccionar = useCallback(() => {
 
+        console.log("selectedValuesArray", selectedValuesArray)
+
         for (const key in selectedValuesArray) {
             if (selectedValuesArray.hasOwnProperty(key)) {
             valores[key] = selectedValuesArray[key][0];
@@ -267,8 +270,9 @@ const PostulacionCandidato = ({ title }) => {
 
     const handleSelectChange = (key, selectedValue, selectedMapping) => {
 
-        console.log(selectedValue);
-        console.log(selectedMapping);
+        console.log("key", key);
+        console.log("selectecValue",selectedValue);
+        console.log("selectedMapping", selectedMapping);
 
         setSelectedIDs(prevSelectedIDs => ({
             ...prevSelectedIDs,
@@ -338,7 +342,7 @@ const PostulacionCandidato = ({ title }) => {
                         <div>
                             <h1>Tipo de Contrato:</h1>
                             <select
-                                onChange={(e) => handleSelectChange("tipoContrato", e.target.value, tipoContrato.find(item => item[2] === e.target.value))}
+                                onChange={(e) => handleSelectChange("tipoContrato", e.target.value, tipoContrato.find(item => item[1] === e.target.value))}
                                 disabled={dropdownDisabled.tipoContrato}
                             >
                                 <option value="">Seleccionar Tipo de Contrato</option>
@@ -476,9 +480,13 @@ const PostulacionCandidato = ({ title }) => {
                     </div>
                 </>
             ) : (
-                <div className="no-vacancies-message">
-                    {noVacancies ? "No existen vacantes" : null}
+                
+                <div className='no-vacancies-message'>
+                    <Snippet symbol="" hideCopyButton color="danger" variant="bordered">
+                        {noVacancies ? "No existen vacantes disponibles" : null}
+                    </Snippet>
                 </div>
+
             )}
 
         </div>
