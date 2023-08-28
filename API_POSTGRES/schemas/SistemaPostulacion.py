@@ -91,8 +91,9 @@ class solicitud(BaseModel):
     cand_id: int
     sol_id: Optional[int] = None
     rh_id: int
-    sol_aprobacion: bool
+    sol_aprobacion: Optional[bool] = None
     ofe_id: int
+    sol_notafinal : Optional[float] = None
     sol_notafinal: int
     
 

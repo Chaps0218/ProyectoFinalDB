@@ -1,6 +1,9 @@
 import { Router } from "express";
 import {
     extraerSolicitud,
+    agregarSolicitud,
+    editarSolicitud,
+    eliminarSolicitud,
     extraerOferta,
     agregarOferta,
     editarOferta,
@@ -37,7 +40,6 @@ import {
     agregarActividad,
     editarActividad,
     eliminarActividad,
-    
     extraerTituloExpPorPaId,
     extraerInfoProcesoCandidato,
 
@@ -48,6 +50,9 @@ const router = Router();
 router.get("/info_candidato_por_pa_id/:pa_id", extraerInfoProcesoCandidato);
 router.get("/titulo_exp_por_pa_id/:pa_id", extraerTituloExpPorPaId);
 router.get("/solicitud", extraerSolicitud);
+router.post("/solicitud", agregarSolicitud);
+router.put("/solicitud/:id", editarSolicitud);
+router.delete("/solicitud/:id", eliminarSolicitud);
 router.get("/oferta", extraerOferta);
 router.post("/oferta", agregarOferta);
 router.put("/oferta/:id", editarOferta);

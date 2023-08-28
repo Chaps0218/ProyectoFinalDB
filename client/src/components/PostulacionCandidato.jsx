@@ -1,15 +1,15 @@
 import React, { useEffect, useState,  useCallback, useMemo } from 'react';
-import { extraerOferta, extraerContrato, extraerTipoContrato, extraerPersonalAcademico, extraercampoAmplio, extraercampoEspecifico, extraerSede, extraerDepartamento, extraerActividad, agregarSolicitud, agregarOferta} from "../api/contratacion";
+import { extraerOferta, extraerContrato, extraerTipoContrato, extraerPersonalAcademico, extraercampoAmplio, extraercampoEspecifico, extraerSede, extraerDepartamento, extraerActividad, agregarSolicitud} from "../api/contratacion";
 import PopupDocument from './PopupDocument';
 import Popup from './Popup';
 import './CustomComponentForm.css'
 import {Snippet} from "@nextui-org/react";
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@nextui-org/react";
 import { set } from 'react-hook-form';
-
+import { useAuth } from "../context/AuthContext";
 
 const PostulacionCandidato = ({ title }) => {
-    // Estado para controlar si se muestra la ventana emergente
+    const { user } = useAuth();
     const [contratos, setContratos] = useState([]);
     const [ofertas, setOfertas] = useState([]);
     const [sofertas, setSOfertas] = useState([]);
@@ -173,11 +173,8 @@ const PostulacionCandidato = ({ title }) => {
     //Funcion para encontrar las coincidencias una por una
     const filterData = useCallback((data, filters) => {
         let result = { ...data };
-
         const propertyCount = Object.keys(filters).length;
-
         if(propertyCount < 8) return {};
-
         for (const field in filters) {
           if (filters.hasOwnProperty(field)) {
             const value = filters[field];
@@ -191,25 +188,19 @@ const PostulacionCandidato = ({ title }) => {
             }
           }
         }
-    
         return result;
       }, [fieldIndexMapping]);
 
     const handleSeleccionar = useCallback(() => {
-
         console.log("selectedValuesArray", selectedValuesArray)
-
         for (const key in selectedValuesArray) {
             if (selectedValuesArray.hasOwnProperty(key)) {
             valores[key] = selectedValuesArray[key][0];
             }
         }
         
-
         console.log("valores: ", valores);
         console.log("ofertas: ", ofertas);
-        // Encontramos la oferta pertinente
-
         const combinedArray =  filterData(ofertas, valores);
         const coincidencia = Object.values(combinedArray).flat();
         console.log("coincidencia", coincidencia);
@@ -218,10 +209,10 @@ const PostulacionCandidato = ({ title }) => {
   
 
         if (propertyCount === 0) {
-            setNoVacancies(true); // No hay coincidencias de vacantes
-            setShowTable(false); // Ocultar la tabla
+            setNoVacancies(true);
+            setShowTable(false);
         } else {
-            setNoVacancies(false); // Restablecer el estado si hay coincidencias
+            setNoVacancies(false);
             setSelectedOffer(coincidencia);
             setShowTable(true);
         }
@@ -239,7 +230,16 @@ const PostulacionCandidato = ({ title }) => {
     }, [handleSeleccionar]);
 
     const handleAgregar = (info) => {
-        
+        let infoasubir = {
+            cand_id: user.id,
+            rh_id: 6,
+            sol_aprobacion: null,
+            ofe_id: info[0],
+            sol_notafinal: null,
+        }
+        console.log("infoasubir", infoasubir);
+        agregarSolicitud(infoasubir);
+            
         setShowPopup2(true);
     }
 
@@ -294,12 +294,6 @@ const PostulacionCandidato = ({ title }) => {
     useEffect(() => {
         setDropdownDisabled({
             actividad: false,
-            // personalAcademico: selectedIDs.tipoContrato === "",
-            // campoAmplio: selectedIDs.personalAcademico === "",
-            // campoEspecifico: selectedIDs.campoAmplio === "",
-            // sede: selectedIDs.campoEspecifico === "",
-            // departamento: selectedIDs.sede === "",
-            // tipoContrato: selectedIDs.contratos === "",
         });
     }, [selectedIDs]);
 
@@ -466,7 +460,6 @@ const PostulacionCandidato = ({ title }) => {
                                 </TableBody>
                             </Table>
                         </div>
-
                     </div>
                     <div className='buttons-container'>
                         <button className='button-enviar-info' onClick={() => handleAgregar(selectedOffer)}>Enviar Información</button>
