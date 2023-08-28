@@ -63,7 +63,7 @@ const CustomComponentSolicitudes = ({ title }) => {
         } catch(error) {
             console.error("Error al enviar el correo:", error);
         }
-
+        window.location.reload();
         setSelectedSolicitud(null);
     };
 
@@ -74,6 +74,7 @@ const CustomComponentSolicitudes = ({ title }) => {
     };
 
     const handleDeclineCandidate = () => {
+        window.location.reload();
         setShowDeclinePopup(true);
     };
 
@@ -91,6 +92,7 @@ const CustomComponentSolicitudes = ({ title }) => {
         } catch(error) {
             console.error("Error al enviar el correo:", error);
         }
+        window.location.reload();
         setSelectedSolicitud(null);
     };
 
