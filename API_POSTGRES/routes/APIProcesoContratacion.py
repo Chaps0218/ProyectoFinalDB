@@ -1377,9 +1377,10 @@ def create_solicitud(solicitud: solicitud):
         "rh_id": solicitud.rh_id,
         "sol_aprobacion": solicitud.sol_aprobacion,
         "ofe_id": solicitud.ofe_id,
+        "sol_notafinal": solicitud.sol_notafinal,
     }
     cur = db.connection.cursor()
-    cur.execute('INSERT INTO solicitud (cand_id, sol_id, rh_id, sol_aprobacion,ofe_id) VALUES (%(cand_id)s, %(sol_id)s, %(rh_id)s, %(sol_aprobacion)s), %(ofe_id)s', new_solicitud)
+    cur.execute('INSERT INTO solicitud (cand_id, sol_id, rh_id, sol_aprobacion,ofe_id,sol_notafinal) VALUES (%(cand_id)s, %(sol_id)s, %(rh_id)s, %(sol_aprobacion)s, %(sol_notafinal)s), %(ofe_id)s', new_solicitud)
     db.connection.commit()
     return "Solicitud created successfully"
 
@@ -1391,9 +1392,10 @@ def update_solicitud(sol_id: int, solicitud: solicitud):
         "ofe_id": solicitud.ofe_id,
         "rh_id": solicitud.rh_id,
         "sol_aprobacion": solicitud.sol_aprobacion,
+        "sol_notafinal": solicitud.sol_notafinal,
     }
     cur = db.connection.cursor()
-    cur.execute ('UPDATE solicitud SET cand_id=%(cand_id)s, sol_aprobacion=%(sol_aprobacion)s, ofe_id=%(ofe_id)s WHERE sol_id=%(sol_id)s', updated_solicitud)
+    cur.execute ('UPDATE solicitud SET cand_id=%(cand_id)s, sol_aprobacion=%(sol_aprobacion)s, ofe_id=%(ofe_id)s, sol_notafinal=%(sol_notafinal)s WHERE sol_id=%(sol_id)s', updated_solicitud)
     db.connection.commit()
     return "Solicitud updated successfully"
 
