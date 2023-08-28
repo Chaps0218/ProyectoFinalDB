@@ -1384,20 +1384,23 @@ def create_solicitud(solicitud: solicitud):
     db.connection.commit()
     return "Solicitud created successfully"
 
-@APIProcesoContratacion.put('/solicitud/{sol_id}')
-def update_solicitud(sol_id: int, solicitud: solicitud):
-    updated_solicitud = {
-        "sol_id": solicitud.sol_id,
+@APIProcesoContratacion.post('/solicitud')
+def create_solicitud(solicitud: solicitud):
+    new_solicitud = {
         "cand_id": solicitud.cand_id,
-        "ofe_id": solicitud.ofe_id,
         "rh_id": solicitud.rh_id,
         "sol_aprobacion": solicitud.sol_aprobacion,
+        "ofe_id": solicitud.ofe_id,
         "sol_notafinal": solicitud.sol_notafinal,
     }
     cur = db.connection.cursor()
-    cur.execute ('UPDATE solicitud SET cand_id=%(cand_id)s, sol_aprobacion=%(sol_aprobacion)s, ofe_id=%(ofe_id)s, sol_notafinal=%(sol_notafinal)s WHERE sol_id=%(sol_id)s', updated_solicitud)
+    cur.execute('INSERT INTO solicitud (sol_id, rh_id, sol_aprobacion, ofe_id, sol_notafinal, cand_id) VALUES (DEFAULT, %(rh_id)s, %(sol_aprobacion)s, %(ofe_id)s, %(sol_notafinal)s, %(cand_id)s)', new_solicitud)
     db.connection.commit()
-    return "Solicitud updated successfully"
+    return "Solicitud created successfully"
+
+
+
+
 
 @APIProcesoContratacion.delete('/solicitud/{sol_id}')
 def delete_solicitud(sol_id: int):

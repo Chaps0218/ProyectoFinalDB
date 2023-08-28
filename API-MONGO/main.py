@@ -234,7 +234,7 @@ async def obtener_calificaciones(id_usuario: str):
         raise HTTPException(status_code=404, detail="Calificaciones para el usuario no encontradas")
 
 
-@app.get("/descargar_documentos_zip/")
+@app.get("/descargar_documentos_zip/{id_usuario}")
 def descargar_documentos_zip(id_usuario: str):
     documentos_pdf_cursor = collection.find(
         {"id_usuario": id_usuario, "documentos.tipo_documento": "pdf"},

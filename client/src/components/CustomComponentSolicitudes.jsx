@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './CustomComponentSolicitudes.css';
-import { FiInfo, FiUser, FiDownload} from 'react-icons/fi';
+import { FiInfo, FiUser, FiDownload } from 'react-icons/fi';
 import * as api from '../api/contratacion';
 import Calificacion from '../pages/Calificacion';
 import axios from 'axios';
@@ -11,9 +11,9 @@ const CustomComponentSolicitudes = ({ title }) => {
     const navigate = useNavigate();
 
     const [selectedSolicitud, setSelectedSolicitud] = useState(null);
-    const [infoProcesoCandidato, setInfoProcesoCandidato]= useState([]);
-    const [calificaciones, setCalificaciones]= useState([]);
-    
+    const [infoProcesoCandidato, setInfoProcesoCandidato] = useState([]);
+    const [calificaciones, setCalificaciones] = useState([]);
+
     const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
     const [showDeclinePopup, setShowDeclinePopup] = useState(false);
     const [solicitudes, setSolicitudes] = useState([]);
@@ -21,9 +21,10 @@ const CustomComponentSolicitudes = ({ title }) => {
     const [selectedPositionId, setSelectedPositionId] = useState(null);
     const [candidatoId, setCandidatoId] = useState(null);
     const [solicitudId, setSolicitudId] = useState(null);
+    const [candidatos, setCandidatos] = useState([]);
 
 
-    const handleOpenCandidateDetails = (solicitud, index , candidato,solicitudId) => {
+    const handleOpenCandidateDetails = (solicitud, index, candidato, solicitudId) => {
         console.log("Has seleccionado la solicitud en la posición:", index);
         console.log("Has seleccionado la solicitud en la posición:", solicitudId);
         setSelectedPositionId(1);
@@ -32,7 +33,7 @@ const CustomComponentSolicitudes = ({ title }) => {
         setSolicitudId(solicitudId)
         setSelectedSolicitud(solicitud);
     };
-    
+
 
     const handleCloseCandidateDetails = () => {
         setSelectedSolicitud(null);
@@ -48,19 +49,19 @@ const CustomComponentSolicitudes = ({ title }) => {
         console.log(id)
         navigate('/calificacion', { state: { id } });
     };
-    
+
     const handleConfirmAccept = () => {
         updateSolicitudAprobacion(true);
         setShowConfirmationPopup(false);
-         // Enviar correo
+        // Enviar correo
         try {
-            const response =  axios.post('http://127.0.0.1:8000/api/v1/procesocontratacion/send-email/', {
+            const response = axios.post('http://127.0.0.1:8000/api/v1/procesocontratacion/send-email/', {
                 email: "christho987@hotmail.com", // Reemplaza esto con el email del candidato
                 type: "accepted"
             });
 
             console.log(response.data);
-        } catch(error) {
+        } catch (error) {
             console.error("Error al enviar el correo:", error);
         }
 
@@ -82,13 +83,13 @@ const CustomComponentSolicitudes = ({ title }) => {
         setShowDeclinePopup(false);
         // Enviar correo
         try {
-            const response =  axios.post('http://127.0.0.1:8000/api/v1/procesocontratacion/send-email/', {
+            const response = axios.post('http://127.0.0.1:8000/api/v1/procesocontratacion/send-email/', {
                 email: "christho987@hotmail.com", // Reemplaza esto con el email del candidato
                 type: "rejected"
             });
 
             console.log(response.data);
-        } catch(error) {
+        } catch (error) {
             console.error("Error al enviar el correo:", error);
         }
         setSelectedSolicitud(null);
@@ -111,7 +112,7 @@ const CustomComponentSolicitudes = ({ title }) => {
                 console.error("Error al obtener las solicitudes:", error);
             });
 
-      
+
 
     }, []);
 
@@ -131,12 +132,12 @@ const CustomComponentSolicitudes = ({ title }) => {
                 });
         }
     }, [selectedPositionId]);
-    
+
     useEffect(() => {
         if (candidatoId !== null) {
-                    // Tercera llamada API
-                console.log(candidatoId)
-                axios.get(`http://127.0.0.1:8001/calificaciones_documentos/${candidatoId}`)
+            // Tercera llamada API
+            console.log(candidatoId)
+            axios.get(`http://127.0.0.1:8001/calificaciones_documentos/${candidatoId}`)
                 .then(response => {
                     if (response.data && response.data.calificaciones) {
                         setCalificaciones(response.data.calificaciones);
@@ -155,7 +156,7 @@ const CustomComponentSolicitudes = ({ title }) => {
         console.log(selectedPositionId)
         console.log(aprobacionValue)
 
-        if (selectedIndex !== null){
+        if (selectedIndex !== null) {
             const updatedData = {
                 sol_id: solicitudId,
                 cand_id: candidatoId,
@@ -165,16 +166,38 @@ const CustomComponentSolicitudes = ({ title }) => {
             };
             console.log(updatedData)
             axios.put(`http://127.0.0.1:8000/api/v1/procesocontratacion/solicitud/${selectedIndex}`, updatedData)
-            .then(response => {
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.error("Error al actualizar sol_aprobacion:", error);
-            });
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error("Error al actualizar sol_aprobacion:", error);
+                });
         }
     }
-    
-    
+
+
+    const downloadFiles = async () => {
+        try {
+            const response = await axios.get(`http://127.0.0.1:8001/descargar_documentos_zip/${candidatoId}`, {
+                responseType: 'blob', // Indicamos que esperamos una respuesta de tipo blob (archivo binario)
+            });
+
+            // Crear un enlace temporal para descargar el archivo
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'documentos.zip');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+
+        } catch (error) {
+            console.error("Error al descargar los documentos:", error);
+        }
+    };
+
+   
+
     const calcularPromedio = (calificaciones) => {
         const suma = calificaciones.reduce((acc, currentValue) => acc + currentValue, 0);
         return suma / calificaciones.length;
@@ -184,10 +207,10 @@ const CustomComponentSolicitudes = ({ title }) => {
 
     const candidatoSeleccionado = infoProcesoCandidato.find(candidato => candidato.cand_id === candidatoId);
     console.log(infoProcesoCandidato)
-    var nombreCompleto=''
-    var actividad =''
-    var campoAmplio=''
-    var campoEspecifico=''
+    var nombreCompleto = ''
+    var actividad = ''
+    var campoAmplio = ''
+    var campoEspecifico = ''
     if (candidatoSeleccionado) {
         const nombre1 = candidatoSeleccionado.cand_nombre1;
         const nombre2 = candidatoSeleccionado.cand_nombre2;
@@ -197,7 +220,7 @@ const CustomComponentSolicitudes = ({ title }) => {
         actividad = candidatoSeleccionado.actividad;
         campoAmplio = candidatoSeleccionado.campo_amplio;
         campoEspecifico = candidatoSeleccionado.campo_especifico;
-        
+
         console.log(nombreCompleto); // Esto imprimirá el nombre completo del candidato seleccionado.
     } else {
         console.error("Candidato no encontrado con ID:", candidatoId);
@@ -208,8 +231,8 @@ const CustomComponentSolicitudes = ({ title }) => {
             <h1 className="custom-title">{title}</h1>
             <hr className="custom-divider" />
             <div className="custom-content">
-                    {selectedSolicitud  ? (
-                        <div className="candidate-details">
+                {selectedSolicitud ? (
+                    <div className="candidate-details">
                         <div className="candidate-header">
                             <FiUser size={50} />
                             <h2>{nombreCompleto}</h2>
@@ -233,10 +256,10 @@ const CustomComponentSolicitudes = ({ title }) => {
                             </div>
                             <div className="info-item">
                                 <span>Documentos</span>
-                                <button><FiDownload/></button>
+                                <button onClick={downloadFiles}><FiDownload /></button>
                             </div>
                             <div className="info-item">
-    </div>
+                            </div>
 
                         </div>
                         <div className="buttons">
@@ -246,57 +269,56 @@ const CustomComponentSolicitudes = ({ title }) => {
                             <button onClick={handleCloseCandidateDetails}>Cancelar</button>
                         </div>
                     </div>
-                    ) : (
-                        <div className='form-line-container'>
+                ) : (
+                    <div className='form-line-container'>
                         <div className='form-line'>
-                        <div className='pendiente'>
-                            <button className='btn-pendiente'>
-                                Pendiente
-                            </button>
-                            <FiInfo/>
-                        </div>
-                        <div className='procesado'>
-                            <button className='btn-rechazado'>
-                                Procesado
-                            </button>
-                            <FiInfo/>
-                        </div>
-                        </div>
-                            <div className="scrollable-table-container">
-                                <table className="custom-table">
-                                    <tbody>
-                                        <tr>
-                                            <td>No.</td>
-                                            <td>Fecha de Solicitud</td>
-                                            <td>Estado</td>
-                                            <td>documentos</td>
-                                        </tr>
-                                        {
-                                            solicitudes.map((solicitud, index) => (
-                                                <tr key={index}>
-                                                    <td>{index + 1}</td>
-                                                    <td>{solicitud.cand_id}</td>
-                                                    <td>
-                                                        <button 
-                                                            className={
-                                                                solicitud.sol_aprobacion === null ? "button-pending" : 
-                                                                solicitud.sol_aprobacion ? "button-accepted" : "button-rejected"
-                                                            }
-                                                            onClick={() => solicitud.sol_aprobacion === null && handleOpenCandidateDetails(solicitud, index+1,solicitud.cand_id,solicitud.sol_id)}
-                                                            disabled={solicitud.sol_aprobacion !== null}
-                                                        >
-                                                            {solicitud.sol_aprobacion === null ? 'Pendiente' : 
-                                                            solicitud.sol_aprobacion ? 'Aprobado' : 'Rechazado'}
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))
-                                        }
-                                    </tbody>
-                                </table>
+                            <div className='pendiente'>
+                                <button className='btn-pendiente'>
+                                    Pendiente
+                                </button>
+                                <FiInfo />
+                            </div>
+                            <div className='procesado'>
+                                <button className='btn-rechazado'>
+                                    Procesado
+                                </button>
+                                <FiInfo />
                             </div>
                         </div>
-                    )}
+                        <div className="scrollable-table-container">
+                            <table className="custom-table">
+                                <tbody>
+                                    <tr>
+                                        <td>No.</td>
+                                        <td>Postulante</td>
+                                        <td>Estado</td>
+                                    </tr>
+                                    {
+                                        solicitudes.map((solicitud, index) => (
+                                            <tr key={index}>
+                                                <td>{index + 1}</td>
+                                                <td>{solicitud.cand_nombre1} {solicitud.cand_nombre2} {solicitud.cand_apellido1} {solicitud.cand_apellido2}</td>
+                                                <td>
+                                                    <button
+                                                        className={
+                                                            solicitud.sol_aprobacion === null ? "button-pending" :
+                                                                solicitud.sol_aprobacion ? "button-accepted" : "button-rejected"
+                                                        }
+                                                        onClick={() => solicitud.sol_aprobacion === null && handleOpenCandidateDetails(solicitud, index + 1, solicitud.cand_id, solicitud.sol_id)}
+                                                        disabled={solicitud.sol_aprobacion !== null}
+                                                    >
+                                                        {solicitud.sol_aprobacion === null ? 'Pendiente' :
+                                                            solicitud.sol_aprobacion ? 'Aprobado' : 'Rechazado'}
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                )}
             </div>
             {showConfirmationPopup && (
                 <div className="confirmation-overlay">
