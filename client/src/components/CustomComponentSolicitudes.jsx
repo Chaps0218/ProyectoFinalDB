@@ -269,7 +269,6 @@ const CustomComponentSolicitudes = ({ title }) => {
                                             <td>No.</td>
                                             <td>Fecha de Solicitud</td>
                                             <td>Estado</td>
-                                            <td>documentos</td>
                                         </tr>
                                         {
                                             solicitudes.map((solicitud, index) => (
