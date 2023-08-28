@@ -650,10 +650,11 @@ def create_solicitud(solicitud: solicitud):
         "rh_id": solicitud.rh_id,
         "sol_aprobacion": solicitud.sol_aprobacion,
         "ofe_id": solicitud.ofe_id,
-        "sol_notafinal": solicitud.sol_notafinal
+        "sol_notafinal": solicitud.sol_notafinal,
+        "sol_id": solicitud.sol_id
     }
     cur = db.connection.cursor()
-    cur.execute ('UPDATE solicitud SET cand_id=%(cand_id)s, sol_aprobacion=%(sol_aprobacion)s, ofe_id=%(ofe_id)s, sol_notafilan=%(sol_notafinal)s WHERE sol_id=%(sol_id)s', new_solicitud)
+    cur.execute ('UPDATE solicitud SET cand_id=%(cand_id)s, sol_aprobacion=%(sol_aprobacion)s, ofe_id=%(ofe_id)s, sol_notafinal=%(sol_notafinal)s WHERE sol_id=%(sol_id)s', new_solicitud)
     db.connection.commit()
     return "Solicitud created successfully"
 
@@ -789,6 +790,7 @@ def info_candidato_por_pa_id(pa_id: int):
                 c.cand_nombre2,
                 c.cand_apellido1,
                 c.cand_apellido2,
+                c.cand_correo,
                 a.act_nombre AS actividad,
                 ca.ca_nombre AS campo_amplio,
                 ce.ce_nombre AS campo_especifico

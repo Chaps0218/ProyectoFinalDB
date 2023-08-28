@@ -1,12 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import './CustomComponentSolicitudes.css';
 import { FiInfo, FiUser, FiDownload } from 'react-icons/fi';
-import * as api from '../api/contratacion';
-import Calificacion from '../pages/Calificacion';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import emailjs from "../pages/emailjsInit";
+import { useNavigate } from 'react-router-dom';
 
+const API_URL = 'http://127.0.0.1:8000/api/v1/procesocontratacion';
+const CALIFICACIONES_API_URL = 'http://127.0.0.1:8001/calificaciones_documentos';
+
+
+const CandidateDetails = ({ candidato, promedio, downloadFiles, handleAcceptCalificar, handleAcceptCandidate, handleDeclineCandidate, handleCloseCandidateDetails }) => {
+    if (!candidato) {
+        return null;
+    }
+    console.log("Candidato:", candidato);
+    const { cand_nombre1, cand_nombre2, cand_apellido1, cand_apellido2, actividad, campo_amplio, campo_especifico, cand_correo } = candidato;
+
+    return (
+        <div className="candidate-details">
+            <div className="candidate-header">
+                <FiUser size={50} />
+                <h2>{cand_nombre1} {cand_nombre2} {cand_apellido1} {cand_apellido2}</h2>
+            </div>
+            <div className="candidate-info">
+                <div className="info-item">
+                    <span>Actividad:</span>
+                    <span>{actividad}</span>
+                </div>
+                <div className="info-item">
+                    <span>Campo Amplio:</span>
+                    <span>{campo_amplio}</span>
+                </div>
+                <div className="info-item">
+                    <span>Campo Específico:</span>
+                    <span>{campo_especifico}</span>
+                </div>
+                <div className="info-item">
+                    <span>Calificación:</span>
+                    <span>{promedio}</span>
+                </div>
+                <div className="info-item">
+                    <span>Documentos</span>
+                    <button onClick={downloadFiles}><FiDownload /></button>
+                </div>
+                <div className="info-item">
+                </div>
+                <div className="buttons">
+                    <button onClick={handleAcceptCalificar}>Calificar</button>
+                    <button onClick={handleAcceptCandidate}>Aceptar</button>
+                    <button onClick={handleDeclineCandidate}>Rechazar</button>
+                    <button onClick={handleCloseCandidateDetails}>Cancelar</button>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 const CustomComponentSolicitudes = ({ title }) => {
     const navigate = useNavigate();
@@ -23,7 +71,6 @@ const CustomComponentSolicitudes = ({ title }) => {
     const [candidatoId, setCandidatoId] = useState(null);
     const [solicitudId, setSolicitudId] = useState(null);
     const [candidatos, setCandidatos] = useState([]);
-
 
     const handleOpenCandidateDetails = (solicitud, index, candidato, solicitudId) => {
         console.log("Has seleccionado la solicitud en la posición:", index);
@@ -82,7 +129,7 @@ const CustomComponentSolicitudes = ({ title }) => {
     };
 
     const handleAcceptCalificar = () => {
-        const id = candidatoId; // tu valor aquí
+        const id = candidatoId;
         console.log('pasando el valor a la otra pagina')
         console.log(id)
         navigate('/calificacion', { state: { id } });
@@ -92,7 +139,16 @@ const CustomComponentSolicitudes = ({ title }) => {
         updateSolicitudAprobacion(true);
         setShowConfirmationPopup(false);
         setSelectedSolicitud(null);
-        //createEmailMessage(name, lastname, email, postulationAccepted)
+        const emailParams = createEmailMessage(candidatoSeleccionado.cand_nombre1, candidatoSeleccionado.cand_apellido1, candidatoSeleccionado.cand_correo, true);
+        window.location.reload();
+    };
+
+    const handleConfirmAcceptDec = () => {
+        updateSolicitudAprobacion(false);
+        setShowDeclinePopup(false);
+        setSelectedSolicitud(null);
+        const emailParams = createEmailMessage(candidatoSeleccionado.cand_nombre1, candidatoSeleccionado.cand_apellido1, candidatoSeleccionado.cand_correo, false);
+        window.location.reload();
     };
 
     const handleCancelAccept = () => {
@@ -105,13 +161,6 @@ const CustomComponentSolicitudes = ({ title }) => {
         setShowDeclinePopup(true);
     };
 
-    const handleConfirmAcceptDec = () => {
-        updateSolicitudAprobacion(false);
-        setShowDeclinePopup(false);
-        setSelectedSolicitud(null);
-        //createEmailMessage(name, lastname, email, postulationAccepted)
-    };
-
     const handleCancelAcceptDec = () => {
         setShowDeclinePopup(false);
     };
@@ -119,11 +168,9 @@ const CustomComponentSolicitudes = ({ title }) => {
 
 
     useEffect(() => {
-        // Primera llamada API
         axios.get('http://127.0.0.1:8000/api/v1/procesocontratacion/solicitud/')
             .then(response => {
                 setSolicitudes(response.data);
-                console.log(response.data);
             })
             .catch(error => {
                 console.error("Error al obtener las solicitudes:", error);
@@ -132,13 +179,10 @@ const CustomComponentSolicitudes = ({ title }) => {
 
     useEffect(() => {
         if (selectedPositionId !== null) {
-            console.log(selectedPositionId)
             axios.get(`http://127.0.0.1:8000/api/v1/procesocontratacion/info_candidato_por_pa_id/${selectedPositionId}`)
                 .then(response => {
                     if (response.data && response.data.length > 0) {
                         setInfoProcesoCandidato(response.data);
-                        console.log("infoProcesoCandidato Use efecc")
-                        console.log(infoProcesoCandidato)
                     }
                 })
                 .catch(error => {
@@ -149,13 +193,10 @@ const CustomComponentSolicitudes = ({ title }) => {
 
     useEffect(() => {
         if (candidatoId !== null) {
-            // Tercera llamada API
-            console.log(candidatoId)
             axios.get(`http://127.0.0.1:8001/calificaciones_documentos/${candidatoId}`)
                 .then(response => {
                     if (response.data && response.data.calificaciones) {
                         setCalificaciones(response.data.calificaciones);
-                        console.log(response.data);
                     }
                 })
                 .catch(error => {
@@ -165,11 +206,6 @@ const CustomComponentSolicitudes = ({ title }) => {
     }, [candidatoId]);
 
     const updateSolicitudAprobacion = (aprobacionValue) => {
-        console.log(selectedIndex)
-        console.log(solicitudId)
-        console.log(selectedPositionId)
-        console.log(aprobacionValue)
-
         if (selectedIndex !== null) {
             const updatedData = {
                 sol_id: solicitudId,
@@ -178,7 +214,6 @@ const CustomComponentSolicitudes = ({ title }) => {
                 rh_id: 2,
                 sol_aprobacion: aprobacionValue
             };
-            console.log(updatedData)
             axios.put(`http://127.0.0.1:8000/api/v1/procesocontratacion/solicitud/${selectedIndex}`, updatedData)
                 .then(response => {
                     console.log(response.data);
@@ -193,10 +228,8 @@ const CustomComponentSolicitudes = ({ title }) => {
     const downloadFiles = async () => {
         try {
             const response = await axios.get(`http://127.0.0.1:8001/descargar_documentos_zip/${candidatoId}`, {
-                responseType: 'blob', // Indicamos que esperamos una respuesta de tipo blob (archivo binario)
+                responseType: 'blob',
             });
-
-            // Crear un enlace temporal para descargar el archivo
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
@@ -217,9 +250,7 @@ const CustomComponentSolicitudes = ({ title }) => {
         return suma / calificaciones.length;
     };
     const promedio = calcularPromedio(calificaciones);
-    console.log("El promedio de las calificaciones es:", promedio);
     const candidatoSeleccionado = infoProcesoCandidato.find(candidato => candidato.cand_id === candidatoId);
-    console.log(infoProcesoCandidato)
     var nombreCompleto = ''
     var actividad = ''
     var campoAmplio = ''
@@ -233,12 +264,10 @@ const CustomComponentSolicitudes = ({ title }) => {
         actividad = candidatoSeleccionado.actividad;
         campoAmplio = candidatoSeleccionado.campo_amplio;
         campoEspecifico = candidatoSeleccionado.campo_especifico;
-
-        console.log(nombreCompleto);
     } else {
         console.error("Candidato no encontrado con ID:", candidatoId);
     }
-    
+
 
     return (
         <div className="custom-component-postulante">
@@ -246,43 +275,15 @@ const CustomComponentSolicitudes = ({ title }) => {
             <hr className="custom-divider" />
             <div className="custom-content">
                 {selectedSolicitud ? (
-                    <div className="candidate-details">
-                        <div className="candidate-header">
-                            <FiUser size={50} />
-                            <h2>{nombreCompleto}</h2>
-                        </div>
-                        <div className="candidate-info">
-                            <div className="info-item">
-                                <span>Actividad:</span>
-                                <span>{actividad}</span>
-                            </div>
-                            <div className="info-item">
-                                <span>Campo Amplio:</span>
-                                <span>{campoAmplio}</span>
-                            </div>
-                            <div className="info-item">
-                                <span>Campo Específico:</span>
-                                <span>{campoEspecifico}</span>
-                            </div>
-                            <div className="info-item">
-                                <span>Calificación:</span>
-                                <span>{promedio}</span>
-                            </div>
-                            <div className="info-item">
-                                <span>Documentos</span>
-                                <button onClick={downloadFiles}><FiDownload /></button>
-                            </div>
-                            <div className="info-item">
-                            </div>
-
-                        </div>
-                        <div className="buttons">
-                            <button onClick={handleAcceptCalificar}>Calificar</button>
-                            <button onClick={handleAcceptCandidate}>Aceptar</button>
-                            <button onClick={handleDeclineCandidate}>Rechazar</button>
-                            <button onClick={handleCloseCandidateDetails}>Cancelar</button>
-                        </div>
-                    </div>
+                    <CandidateDetails
+                        candidato={candidatoSeleccionado}
+                        promedio={promedio}
+                        downloadFiles={downloadFiles}
+                        handleAcceptCalificar={handleAcceptCalificar}
+                        handleAcceptCandidate={handleAcceptCandidate}
+                        handleDeclineCandidate={handleDeclineCandidate}
+                        handleCloseCandidateDetails={handleCloseCandidateDetails}
+                    />
                 ) : (
                     <div className='form-line-container'>
                         <div className='form-line'>
@@ -344,7 +345,7 @@ const CustomComponentSolicitudes = ({ title }) => {
                             <h2>Recuerde que el cambio es irreversible</h2>
                         </div>
                         <div className='botones-pop'>
-                            <button onClick={handleConfirmAccept(candidatoSeleccionado.cand_nombre1, candidatoSeleccionado.cand_apellido1, candidatoSeleccionado.cand_correo, true)}>Sí, aceptar candidato.</button>
+                            <button onClick={handleConfirmAccept}>Sí, aceptar candidato.</button>
                             <button onClick={handleCancelAccept}>Cancelar</button>
                         </div>
                     </div>
@@ -360,7 +361,7 @@ const CustomComponentSolicitudes = ({ title }) => {
                             <h2>Recuerde que el cambio es irreversible</h2>
                         </div>
                         <div className='botones-pop'>
-                            <button onClick={handleConfirmAcceptDec(candidatoSeleccionado.cand_nombre1, candidatoSeleccionado.cand_apellido1, candidatoSeleccionado.cand_correo, false)}>Sí, rechazar candidato.</button>
+                            <button onClick={handleConfirmAcceptDec}>Sí, rechazar candidato.</button>
                             <button onClick={handleCancelAcceptDec}>Cancelar</button>
                         </div>
                     </div>
