@@ -1,5 +1,6 @@
 import React from 'react';
 import './style.css';
+import { Button } from '@nextui-org/react';
 
 const Popup = ({titulo,  mensaje, ruta, onClose }) => {
   const handleAceptar = () => {
@@ -12,7 +13,7 @@ const Popup = ({titulo,  mensaje, ruta, onClose }) => {
       <div className="popup-content">
         <h1>{titulo}</h1>
         <p>{mensaje}</p>
-        <button onClick={handleAceptar}>Aceptar</button>
+        <Button onClick={handleAceptar}>Aceptar</Button>
       </div>
     </div>
   );
