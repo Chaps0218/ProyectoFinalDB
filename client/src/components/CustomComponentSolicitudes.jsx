@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './CustomComponentSolicitudes.css';
-import { FiInfo, FiUser} from 'react-icons/fi';
+import { FiInfo, FiUser, FiDownload} from 'react-icons/fi';
 import * as api from '../api/contratacion';
 import Calificacion from '../pages/Calificacion';
 import axios from 'axios';
@@ -230,6 +230,10 @@ const CustomComponentSolicitudes = ({ title }) => {
                             <div className="info-item">
                                 <span>Calificación:</span>
                                 <span>{promedio}</span>
+                            </div>
+                            <div className="info-item">
+                                <span>Documentos</span>
+                                <button><FiDownload/></button>
                             </div>
                             <div className="info-item">
     </div>
