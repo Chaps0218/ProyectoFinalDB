@@ -24,7 +24,7 @@ const Registro = () => {
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [showEmailValidationPopup, setShowEmailValidationPopup] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
-
+  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
 
   const validateEmailFormat = (email) => {
     return email.endsWith("@gmail.com") ||
@@ -52,8 +52,8 @@ const Registro = () => {
     const email = event.target.value;
   };
 
-  const onCaptchaVerify = (response) => {
-
+  const onCaptchaVerify = () => {
+    setIsCaptchaVerified(true);
   };
 
   const handleChange = (event) => {
@@ -76,6 +76,7 @@ const Registro = () => {
     formState: { errors },
   } = useForm();
 
+  
   const navigate = useNavigate();
   const { signup, isAutheticated, errors: registerErrors } = useAuth();
   const onSubmit = handleSubmit(async (values) => {
@@ -156,6 +157,12 @@ const Registro = () => {
 
   function handleClick(e) {
     e.preventDefault();
+
+    if (!isCaptchaVerified) {
+      // Mostrar mensaje de error o bloquear el envío del formulario
+      setAlertMessage("Por favor, completa el reCAPTCHA antes de enviar el formulario.");
+      return;
+    }
 
     if (tipoIden === 'cédula') {
       const var1 = parseInt(identificacion.slice(0, 2));
