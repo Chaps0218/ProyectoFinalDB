@@ -142,6 +142,7 @@ const DocumentList = ({ title, children }) => {
                 console.error("Detalles del servidor:", error.response.data);
             }
         }
+        setShowPopup2(true);
     };
     
 console.log(files)

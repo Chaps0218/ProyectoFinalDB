@@ -94,6 +94,7 @@ class solicitud(BaseModel):
     sol_aprobacion: Optional[bool] = None
     ofe_id: int
     sol_notafinal : Optional[float] = None
+    sol_notafinal: int
     
 
 class titulo_exp(BaseModel):
