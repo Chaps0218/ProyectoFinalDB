@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "@nextui-org/react";
 import "./CustomComponentCali.css";
 import PopupCalificacion from './PopupCalificacion';
@@ -7,6 +7,7 @@ import { AddNoteIcon } from "../assets/AddNoteIcon";
 import { EditDocumentIcon } from "../assets/EditDocumentIcon";
 import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Image } from "@nextui-org/react";
 import axios from 'axios';
+import { set } from "react-hook-form";
 
 const CustomComponentCalificacion = ({ title, parametros, candidato }) => {
 
@@ -14,6 +15,65 @@ const CustomComponentCalificacion = ({ title, parametros, candidato }) => {
 
   const [selectedKeys, setSelectedKeys] = React.useState(new Set(["Item"]));
   const [selectedButton, setSelectedButton] = useState("");
+
+  const [items, setItems] = useState([]);
+  const [requisitos, setRequisitos] = useState([]);
+  const [titulos, setTitulos] = useState([]);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/v1/procesocontratacion/titulo_exp")
+        .then(response => response.json())
+        .then(data => {
+            const transformedData = data.map(item => ({
+                tx_id: item[0],
+                rq_id: item[1],
+                tx_descripcion: item[2],
+                tx_datalle: item[3],
+                tx_puntaje_min: item[4],
+                tx_puntaje_max: item[5],
+                tx_puntaje_asignado: item[6],
+                tx_observacion: item[7]
+            }));
+            setTitulos(transformedData);
+        })
+        .catch(error => {
+            console.error("Hubo un error al recuperar los datos:", error);
+        });
+}, [setTitulos, titulos]);
+
+
+useEffect(() => {
+  fetch("http://127.0.0.1:8000/api/v1/procesocontratacion/requisito")
+      .then(response => response.json())
+      .then(data => {
+          const transformedData = data.map(item => ({
+              id: item[0],
+              rq_id: item[1],
+              descripcion: item[2],
+
+          }));
+          setRequisitos(transformedData);
+      })
+      .catch(error => {
+          console.error("Hubo un error al recuperar los datos:", error);
+      });
+}, [setRequisitos, requisitos]);
+
+useEffect(() => {
+  fetch("http://127.0.0.1:8000/api/v1/procesocontratacion/item")
+      .then(response => response.json())
+      .then(data => {
+          const transformedData = data.map(item => ({
+              id: item[0],
+              nombre: item[2],
+
+          }));
+          setItems(transformedData);
+      })
+      .catch(error => {
+          console.error("Hubo un error al recuperar los datos:", error);
+      });
+}, [setItems, items]);
 
   const handleButtonClick = (button) => {
     setSelectedButton(button);
