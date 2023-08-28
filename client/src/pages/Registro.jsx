@@ -76,7 +76,7 @@ const Registro = () => {
     formState: { errors },
   } = useForm();
 
-  
+
   const navigate = useNavigate();
   const { signup, isAutheticated, errors: registerErrors } = useAuth();
   const onSubmit = handleSubmit(async (values) => {
@@ -120,16 +120,16 @@ const Registro = () => {
             `El equipo de Recursos Humanos`,
         };
 
-        if(values.email.endsWith("@gmail.com")){
-        emailjs.send('SERVICEGMAIL_SBDA', 'template_l2kfb7n', templateParams).then(
-          (response) => {
-            console.log('Email sent:', response);
-          },
-          (error) => {
-            console.error('Error sending email:', error);
-          }
-        );
-        }else{
+        if (values.email.endsWith("@gmail.com")) {
+          emailjs.send('SERVICEGMAIL_SBDA', 'template_l2kfb7n', templateParams).then(
+            (response) => {
+              console.log('Email sent:', response);
+            },
+            (error) => {
+              console.error('Error sending email:', error);
+            }
+          );
+        } else {
           emailjs.send('SERVICEOUTLOOK_SBDA', 'template_l2kfb7n', templateParams).then(
             (response) => {
               console.log('Email sent:', response);
@@ -230,11 +230,11 @@ const Registro = () => {
             </div>
           ))}
           {alertMessage && (
-          <PopupCedula
-            titulo="Error"
-            mensaje={alertMessage}
-            onClose={() => setAlertMessage("")}
-          />
+            <PopupCedula
+              titulo="Error"
+              mensaje={alertMessage}
+              onClose={() => setAlertMessage("")}
+            />
           )}
           <h2>Tipo de Identificación</h2>
           <select

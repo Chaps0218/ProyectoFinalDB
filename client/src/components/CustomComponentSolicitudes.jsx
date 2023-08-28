@@ -13,7 +13,6 @@ const CandidateDetails = ({ candidato, promedio, downloadFiles, handleAcceptCali
     if (!candidato) {
         return null;
     }
-    console.log("Candidato:", candidato);
     const { cand_nombre1, cand_nombre2, cand_apellido1, cand_apellido2, actividad, campo_amplio, campo_especifico, cand_correo } = candidato;
 
     return (
@@ -73,8 +72,6 @@ const CustomComponentSolicitudes = ({ title }) => {
     const [candidatos, setCandidatos] = useState([]);
 
     const handleOpenCandidateDetails = (solicitud, index, candidato, solicitudId) => {
-        console.log("Has seleccionado la solicitud en la posición:", index);
-        console.log("Has seleccionado la solicitud en la posición:", solicitudId);
         setSelectedPositionId(1);
         setselecteIndex(index)
         setCandidatoId(candidato)
@@ -130,8 +127,6 @@ const CustomComponentSolicitudes = ({ title }) => {
 
     const handleAcceptCalificar = () => {
         const id = candidatoId;
-        console.log('pasando el valor a la otra pagina')
-        console.log(id)
         navigate('/calificacion', { state: { id } });
     };
 
