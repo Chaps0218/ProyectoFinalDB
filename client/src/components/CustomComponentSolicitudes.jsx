@@ -64,7 +64,7 @@ const CustomComponentSolicitudes = ({ title }) => {
         } catch (error) {
             console.error("Error al enviar el correo:", error);
         }
-
+        window.location.reload();
         setSelectedSolicitud(null);
     };
 
@@ -75,6 +75,7 @@ const CustomComponentSolicitudes = ({ title }) => {
     };
 
     const handleDeclineCandidate = () => {
+        window.location.reload();
         setShowDeclinePopup(true);
     };
 
@@ -92,6 +93,7 @@ const CustomComponentSolicitudes = ({ title }) => {
         } catch (error) {
             console.error("Error al enviar el correo:", error);
         }
+        window.location.reload();
         setSelectedSolicitud(null);
     };
 
@@ -283,6 +285,50 @@ const CustomComponentSolicitudes = ({ title }) => {
                                     Procesado
                                 </button>
                                 <FiInfo />
+                        <div className='pendiente'>
+                            <button className='btn-pendiente'>
+                                Pendiente
+                            </button>
+                            <FiInfo/>
+                        </div>
+                        <div className='procesado'>
+                            <button className='btn-rechazado'>
+                                Procesado
+                            </button>
+                            <FiInfo/>
+                        </div>
+                        </div>
+                            <div className="scrollable-table-container">
+                                <table className="custom-table">
+                                    <tbody>
+                                        <tr>
+                                            <td>No.</td>
+                                            <td>Fecha de Solicitud</td>
+                                            <td>Estado</td>
+                                        </tr>
+                                        {
+                                            solicitudes.map((solicitud, index) => (
+                                                <tr key={index}>
+                                                    <td>{index + 1}</td>
+                                                    <td>{solicitud.cand_id}</td>
+                                                    <td>
+                                                        <button 
+                                                            className={
+                                                                solicitud.sol_aprobacion === null ? "button-pending" : 
+                                                                solicitud.sol_aprobacion ? "button-accepted" : "button-rejected"
+                                                            }
+                                                            onClick={() => solicitud.sol_aprobacion === null && handleOpenCandidateDetails(solicitud, index+1,solicitud.cand_id,solicitud.sol_id)}
+                                                            disabled={solicitud.sol_aprobacion !== null}
+                                                        >
+                                                            {solicitud.sol_aprobacion === null ? 'Pendiente' : 
+                                                            solicitud.sol_aprobacion ? 'Aprobado' : 'Rechazado'}
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div className="scrollable-table-container">

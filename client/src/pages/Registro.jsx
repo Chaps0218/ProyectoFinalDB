@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import PopupCedula from "../components/PopUpCedula";
 import Popup from "../components/Popup";
 import PropTypes from "prop-types";
 import emailjs from "./emailjsInit";
@@ -22,6 +23,8 @@ const Registro = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [showEmailValidationPopup, setShowEmailValidationPopup] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+
 
   const validateEmailFormat = (email) => {
     return email.endsWith("@gmail.com") ||
@@ -159,11 +162,14 @@ const Registro = () => {
       const var2 = parseInt(identificacion.slice(2, 3));
 
       if (identificacion.length !== 10) {
-        return alert('Cédula incorrecta: La cédula debe tener exactamente 10 caracteres.');
+        setAlertMessage('Cédula incorrecta: La cédula debe tener exactamente 10 caracteres.');
+        return;
       } else if (isNaN(var1) || var1 < 1 || var1 > 24) {
-        return alert('Cédula incorrecta: Los dos primeros dígitos deben estar entre 1 y 24.');
+        setAlertMessage('Cédula incorrecta: Los dos primeros dígitos deben estar entre 1 y 24.');
+        return;
       } else if (isNaN(var2) || var2 > 6) {
-        return alert('Cédula incorrecta: El tercer dígito debe ser mayor o igual a 6.');
+        setAlertMessage('Cédula incorrecta: El tercer dígito debe ser mayor o igual a 6.');
+        return;
       }
 
       let sum_par = 0;
@@ -191,12 +197,14 @@ const Registro = () => {
 
       if (sum % 10 === 0) {
         if (verifier !== 0) {
-          return alert('Cédula incorrecta: El último dígito verificador debe ser 0.');
+          setAlertMessage('Cédula incorrecta: El último dígito verificador debe ser 0.');
+          return;
         }
       } else {
         const higher = 10 - (sum % 10) + sum;
         if (higher - sum !== verifier) {
-          return alert('La cédula ingresada es invalida');
+          setAlertMessage('La cédula ingresada es inválida');
+          return;
         }
       }
     }
@@ -214,6 +222,13 @@ const Registro = () => {
               {error}
             </div>
           ))}
+          {alertMessage && (
+          <PopupCedula
+            titulo="Error"
+            mensaje={alertMessage}
+            onClose={() => setAlertMessage("")}
+          />
+          )}
           <h2>Tipo de Identificación</h2>
           <select
             {...register("tipoIden", { required: true })}

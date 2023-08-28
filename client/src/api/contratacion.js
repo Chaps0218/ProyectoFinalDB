@@ -171,6 +171,3 @@ export const editarSolicitud = (id, solicitud) => {axios.put(`${API}/solicitud/$
 export const eliminarSolicitud = (id) => {axios.delete(`${API}/solicitud/${id}`, {id: id}, {
     withCredentials: true,
 }); console.log(id)}
-
-
-
