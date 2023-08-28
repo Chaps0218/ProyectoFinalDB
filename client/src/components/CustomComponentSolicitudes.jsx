@@ -188,7 +188,7 @@ const CustomComponentSolicitudes = ({ title }) => {
 
     useEffect(() => {
         if (candidatoId !== null) {
-            axios.get(`http://127.0.0.1:8001/calificaciones_documentos/${candidatoId}`)
+            axios.get(`http://127.0.0.1:8001/obtener_calificaciones/${candidatoId}`)
                 .then(response => {
                     if (response.data && response.data.calificaciones) {
                         setCalificaciones(response.data.calificaciones);

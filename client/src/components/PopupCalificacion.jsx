@@ -45,7 +45,7 @@ console.log(candidato)
                     <div className="calificaciones-parametros">           
                         <h3>Parámetros</h3>
                         {calificaciones.map((calificacion, index) => (
-                            <p className='parametro-p' key={index}>{calificacion.documento_nombre}</p>
+                            <p className='parametro-p' key={index}>{calificacion.nombres}</p>
                         ))}
                         
                     </div>

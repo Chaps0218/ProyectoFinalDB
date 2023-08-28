@@ -10,25 +10,45 @@ import { useLocation } from 'react-router-dom';
 
 
 const Calificacion = ({}) => {
+
+  const [candidatos, setCandidatos] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
   const canId = location.state?.id;
   console.log('hoplaaaaaaaaaaaa')
   console.log(canId)
   const [data, setData] = useState([]);
   const [candidato, setCandidato] = useState(null);
+  console.log('aaaaaaaaaaaaaaaaaaaaaa')
+  console.log(candidatos)
 
-  // useEffect(() => {
-  //         fetch(`http://127.0.0.1:8000/api/v1/procesocontratacion/candidato/${canId}`)
-  //             .then(response => response.json())
-  //             .then(data => {
-  //                 // asumo que la respuesta es un array y tomamos el primer objeto
-  //                 setCandidato(data);
-  //             })
-  //             .catch(error => {
-  //                 console.error("Error obteniendo datos del candidato:", error);
-  //             });
-  // }, []);
+
+
+      useEffect(() => {
+        fetch('http://127.0.0.1:8000/api/v1/procesocontratacion/candidato')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al obtener datos');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setCandidatos(data);
+                setLoading(false);
+            })
+            .catch(error => {
+                setError(error.message);
+                setLoading(false);
+            });
+    }, []);
+    
+
+    const candidatoSeleccionado = candidatos.find(candidato => candidato[5] === canId);
+
+
   
+   console.log(candidatoSeleccionado)
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/v1/procesocontratacion/titulo_exp")
         .then(response => response.json())
@@ -72,7 +92,7 @@ const Calificacion = ({}) => {
           <CustomComponentCali
           title="Calificación"
           parametros={data}
-          candidato={candidato}
+          candidato={candidatoSeleccionado}
           ></CustomComponentCali>
 
         </div>
