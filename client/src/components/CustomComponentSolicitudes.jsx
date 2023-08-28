@@ -14,7 +14,9 @@ const CandidateDetails = ({ candidato, promedio, downloadFiles, handleAcceptCali
         return null;
     }
     const { cand_nombre1, cand_nombre2, cand_apellido1, cand_apellido2, actividad, campo_amplio, campo_especifico, cand_correo } = candidato;
-
+    const isPromedioGreaterThanZero = promedio > 0;
+    console.log(isPromedioGreaterThanZero);
+    const calificarButtonClass = isPromedioGreaterThanZero ? "calificar-button-disabled" : "";
     return (
         <div className="candidate-details">
             <div className="candidate-header">
@@ -45,7 +47,8 @@ const CandidateDetails = ({ candidato, promedio, downloadFiles, handleAcceptCali
                 <div className="info-item">
                 </div>
                 <div className="buttons">
-                    <button onClick={handleAcceptCalificar}>Calificar</button>
+
+                    <button onClick={handleAcceptCalificar} disabled={isPromedioGreaterThanZero} className={calificarButtonClass}>Calificar</button>
                     <button onClick={handleAcceptCandidate}>Aceptar</button>
                     <button onClick={handleDeclineCandidate}>Rechazar</button>
                     <button onClick={handleCloseCandidateDetails}>Cancelar</button>
@@ -196,6 +199,7 @@ const CustomComponentSolicitudes = ({ title }) => {
                 })
                 .catch(error => {
                     console.error("Error al obtener las calificaciones:", error);
+                    setCalificaciones([]);
                 });
         }
     }, [candidatoId]);
