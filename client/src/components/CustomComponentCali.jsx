@@ -19,7 +19,9 @@ const CustomComponentCalificacion = ({ title, parametros, candidato }) => {
   const [items, setItems] = useState([]);
   const [requisitos, setRequisitos] = useState([]);
   const [titulos, setTitulos] = useState([]);
+  const [completo, setCompleto] = useState([]);
 
+  //Titulos
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/v1/procesocontratacion/titulo_exp")
         .then(response => response.json())
@@ -41,14 +43,14 @@ const CustomComponentCalificacion = ({ title, parametros, candidato }) => {
         });
 }, [setTitulos, titulos]);
 
-
+//Requisitos
 useEffect(() => {
   fetch("http://127.0.0.1:8000/api/v1/procesocontratacion/requisito")
       .then(response => response.json())
       .then(data => {
           const transformedData = data.map(item => ({
-              id: item[0],
-              rq_id: item[1],
+              rq_id: item[0],
+              it_id: item[1],
               descripcion: item[2],
 
           }));
@@ -59,12 +61,13 @@ useEffect(() => {
       });
 }, [setRequisitos, requisitos]);
 
+//Items
 useEffect(() => {
   fetch("http://127.0.0.1:8000/api/v1/procesocontratacion/item")
       .then(response => response.json())
       .then(data => {
           const transformedData = data.map(item => ({
-              id: item[0],
+              it_id: item[0],
               nombre: item[2],
 
           }));
@@ -74,6 +77,76 @@ useEffect(() => {
           console.error("Hubo un error al recuperar los datos:", error);
       });
 }, [setItems, items]);
+
+
+function transformarAObjetosItems(){
+  const itemsObject = {};
+
+  for (const item of items) {
+    itemsObject[item.it_id] = { nombre: item.nombre };
+  }
+
+  return itemsObject;
+}
+
+function transformarAObjetosRequisitos(){
+  const requisitosObject = {};
+
+  for (const requisito of requisitos) {
+    requisitosObject[requisito.rq_id] = requisito;
+  }
+
+  return requisitosObject;
+}
+
+function transformarObjetosTitulos(){
+
+  const titulosObject = {};
+  for (const titulo of titulos) {
+    titulosObject[titulo.tx_id] = titulo;
+  }
+
+  return titulosObject;
+}
+
+useEffect(() => {
+
+
+  if (completo.length > 0) return;
+
+  const itemsObject = transformarAObjetosItems();
+  const requisitosObject = transformarAObjetosRequisitos();
+  const titulosObject = transformarObjetosTitulos();
+
+  console.log("items", itemsObject);
+  console.log("requisitos", requisitosObject);
+  console.log("titulos", titulosObject);
+
+  for (const tx_id in titulosObject) {
+    const titulo = titulosObject[tx_id];
+    const rq_id = titulo.rq_id;
+    const requisito = requisitosObject[rq_id];
+    
+    if (requisito) { // Check if requisito exists
+      const it_id = requisito.it_id;
+      const item = itemsObject[it_id];
+  
+      if (item) { // Check if item exists
+        const mergedObject = {
+          ...item,
+          ...requisito,
+          ...titulo,
+        };
+  
+        completo.push(mergedObject);
+      }
+    }
+  }
+  
+  console.log("completo", completo);
+  setCompleto(completo);
+}, [completo, setCompleto, items, requisitos, titulos]);
+
 
   const handleButtonClick = (button) => {
     setSelectedButton(button);
@@ -118,6 +191,7 @@ useEffect(() => {
   };
 
   const renderRequisito2 = () => {
+
     if (selectedButton === "B1") {
       return (
         <Card className="carta">
@@ -159,10 +233,36 @@ useEffect(() => {
         <div className="etiquetas">
           <Chip color="success" className="mb-5" variant="bordered">Seleccionar item</Chip>
 
+          {/* <Dropdown>
+            <DropdownTrigger>
+              <Button
+                variant="flat"
+                className="capitalize"
+              >
+                {selectedValue}
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Single selection actions"
+              variant="flat"
+              disallowEmptySelection
+              selectionMode="single"
+              selectedKeys={selectedKeys}
+              onSelectionChange={setSelectedKeys}
+            >
+              {statusOptions.map((column) => (
+                <DropdownItem key={column.name} className="capitalize">
+                  {capitalize(column.name)}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown> */}
+
           <Dropdown>
             <DropdownTrigger>
               <Button
-                variant="bordered"
+                variant="flat"
+                className="capitalize"
               >
                 {value}
               </Button>
@@ -174,14 +274,12 @@ useEffect(() => {
               selectedKeys={selectedKeys}
               onSelectionChange={setSelectedKeys}
             >
-              <DropdownItem
-                key="Formacion"
-                shortcut="⌘I"
-                description="Formación del auxiliar 1"
-                startContent={<AddNoteIcon className={iconClasses} />}
-              >
-                Formación
-              </DropdownItem>
+              {items.map((column) => (
+                <DropdownItem key={column.nombre} className="capitalize" startContent={<AddNoteIcon className={iconClasses} />}>
+                  {column.nombre}
+                </DropdownItem>
+              ))}
+
             </DropdownMenu>
           </Dropdown>
         </div>
