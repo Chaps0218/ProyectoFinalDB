@@ -63,7 +63,7 @@ const CustomComponentSolicitudes = ({ title }) => {
         } catch(error) {
             console.error("Error al enviar el correo:", error);
         }
-
+        window.location.reload();
         setSelectedSolicitud(null);
     };
 
@@ -74,6 +74,7 @@ const CustomComponentSolicitudes = ({ title }) => {
     };
 
     const handleDeclineCandidate = () => {
+        window.location.reload();
         setShowDeclinePopup(true);
     };
 
@@ -91,6 +92,7 @@ const CustomComponentSolicitudes = ({ title }) => {
         } catch(error) {
             console.error("Error al enviar el correo:", error);
         }
+        window.location.reload();
         setSelectedSolicitud(null);
     };
 
@@ -269,7 +271,6 @@ const CustomComponentSolicitudes = ({ title }) => {
                                             <td>No.</td>
                                             <td>Fecha de Solicitud</td>
                                             <td>Estado</td>
-                                            <td>documentos</td>
                                         </tr>
                                         {
                                             solicitudes.map((solicitud, index) => (
