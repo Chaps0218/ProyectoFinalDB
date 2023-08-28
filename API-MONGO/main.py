@@ -139,6 +139,73 @@ def actualizar_calificaciones(id_usuario: str, lista_calificaciones: ListaCalifi
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/guardar_calificaciones/")
+async def guardar_calificaciones(
+    nombres: List[str] = Form(..., explode=True), 
+    id_usuario: str = Form(...),
+    calificaciones: List[int] = Form(..., explode=True)
+):
+
+    if len(calificaciones) != len(nombres):
+        raise HTTPException(status_code=422, detail="La cantidad de calificaciones y nombres no coincide")
+ 
+    print(f"Recibidos {len(nombres)} nombres.")  # Registro para depuración
+    for nombre in nombres:
+        print(f"Nombre recibido: {nombre}")
+
+    # Asegurarse de que la cantidad de nombres y calificaciones coincida
+    if len(nombres) != len(calificaciones):
+        raise HTTPException(status_code=422, detail="La cantidad de nombres y calificaciones no coincide")
+
+    # Resto del código...
+    fecha_actual = datetime.now()
+    calificaciones_a_insertar = []
+
+    for idx, nombre in enumerate(nombres):
+        calificacion_valor = calificaciones[idx]
+
+        calificacion = {
+            "nombre": nombre,
+            "calificacion": calificacion_valor
+        }
+
+        calificaciones_a_insertar.append(calificacion)
+
+    # Busca una calificación existente con el id_usuario y fecha actual
+    usuario_calificacion = collection.find_one({"id_usuario": id_usuario, "fecha": fecha_actual})
+
+    if usuario_calificacion:
+        collection.update_one(
+            {"id_usuario": id_usuario, "fecha": fecha_actual},
+            {"$push": {"calificaciones": {"$each": calificaciones_a_insertar}}}
+        )
+    else:
+        nueva_calificacion = {
+            "id_usuario": id_usuario,
+            "fecha": fecha_actual,
+            "calificaciones": calificaciones_a_insertar
+        }
+        collection.insert_one(nueva_calificacion)
+
+    return {"mensaje": "Calificaciones guardadas"}
+
+# ... Resto del código ...
+
+@app.get("/obtener_calificaciones/{id_usuario}")
+async def obtener_calificaciones(id_usuario: str):
+
+    # Consultar las calificaciones del usuario en la base de datos
+    usuario_calificacion = collection.find_one({"id_usuario": id_usuario})
+    
+    # Verificar si encontramos alguna calificación para el usuario
+    if usuario_calificacion and "calificaciones" in usuario_calificacion:
+        # Extraer solo los valores de las calificaciones
+        calificaciones_list = [item["calificacion"] for item in usuario_calificacion["calificaciones"]]
+        return {"calificaciones": calificaciones_list}
+    else:
+        raise HTTPException(status_code=404, detail="Calificaciones para el usuario no encontradas")
+
+
 
 
 @app.get("/descargar_documento/")
