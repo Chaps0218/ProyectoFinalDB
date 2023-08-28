@@ -7,6 +7,9 @@ from pydantic import BaseModel
 from typing import List
 import base64
 import io
+from io import BytesIO
+from datetime import datetime
+import base64
 
 app = FastAPI()
 
@@ -105,6 +108,20 @@ async def guardar_documentos(
 
 # ... Resto del código ...
 
+@app.get("/obtener_documento/")
+async def obtener_documento(id_usuario: str, doc_idx: int):
+    documento = collection.find_one({"id_usuario": id_usuario})
+
+    if not documento:
+        raise HTTPException(status_code=404, detail="Documento no encontrado")
+
+    if doc_idx < 0 or doc_idx >= len(documento["documentos"]):
+        raise HTTPException(status_code=404, detail="Índice de documento no válido")
+
+    contenido_base64 = documento["documentos"][doc_idx]["contenido"]
+    contenido_binario = base64.b64decode(contenido_base64)
+
+    return StreamingResponse(BytesIO(contenido_binario), media_type="application/pdf")
 
 
 @app.get("/calificaciones_documentos/{id_usuario}")
