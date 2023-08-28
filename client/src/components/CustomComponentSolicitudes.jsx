@@ -5,6 +5,7 @@ import * as api from '../api/contratacion';
 import Calificacion from '../pages/Calificacion';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import emailjs from "../pages/emailjsInit";
 
 
 const CustomComponentSolicitudes = ({ title }) => {
@@ -34,6 +35,43 @@ const CustomComponentSolicitudes = ({ title }) => {
         setSelectedSolicitud(solicitud);
     };
 
+    function createEmailMessage(name, lastname, email, postulationAccepted) {
+        const subject = 'Estado de Postulación';
+        const acceptanceMessage = `Le extendemos nuestro cordial saludo y le confirmamos su postulación al proceso de selección.\n\nNos complace informarle que su postulación ha sido aceptada.`;
+        const rejectionMessage = `Le extendemos nuestro cordial saludo y le informamos sobre el estado de su postulación.\n\nLamentablemente, su postulación no ha sido aceptada en esta ocasión.`;
+
+        const message = `Estimado(a) ${name} ${lastname},\n\n${postulationAccepted ? acceptanceMessage : rejectionMessage}\n\nLe deseamos mucho éxito en el proceso de selección y quedamos a su disposición para cualquier consulta.\n\nAtentamente,\n\nEl equipo de Recursos Humanos`;
+
+        const templateParams = {
+            to_email: email,
+            subject: subject,
+            message: message
+        };
+
+
+        if (email.endsWith("@gmail.com")) {
+            emailjs.send('SERVICEGMAIL_SBDA', 'template_bug1zo4', templateParams).then(
+                (response) => {
+                    console.log('Email sent:', response);
+                },
+                (error) => {
+                    console.error('Error sending email:', error);
+                }
+            );
+        } else {
+            emailjs.send('SERVICEOUTLOOK_SBDA', 'template_bug1zo4', templateParams).then(
+                (response) => {
+                    console.log('Email sent:', response);
+                },
+                (error) => {
+                    console.error('Error sending email:', error);
+                }
+            );
+        }
+
+        return templateParams;
+    }
+
 
     const handleCloseCandidateDetails = () => {
         setSelectedSolicitud(null);
@@ -53,19 +91,8 @@ const CustomComponentSolicitudes = ({ title }) => {
     const handleConfirmAccept = () => {
         updateSolicitudAprobacion(true);
         setShowConfirmationPopup(false);
-        // Enviar correo
-        try {
-            const response = axios.post('http://127.0.0.1:8000/api/v1/procesocontratacion/send-email/', {
-                email: "christho987@hotmail.com", // Reemplaza esto con el email del candidato
-                type: "accepted"
-            });
-
-            console.log(response.data);
-        } catch (error) {
-            console.error("Error al enviar el correo:", error);
-        }
-
         setSelectedSolicitud(null);
+        //createEmailMessage(name, lastname, email, postulationAccepted)
     };
 
     const handleCancelAccept = () => {
@@ -81,18 +108,8 @@ const CustomComponentSolicitudes = ({ title }) => {
     const handleConfirmAcceptDec = () => {
         updateSolicitudAprobacion(false);
         setShowDeclinePopup(false);
-        // Enviar correo
-        try {
-            const response = axios.post('http://127.0.0.1:8000/api/v1/procesocontratacion/send-email/', {
-                email: "christho987@hotmail.com", // Reemplaza esto con el email del candidato
-                type: "rejected"
-            });
-
-            console.log(response.data);
-        } catch (error) {
-            console.error("Error al enviar el correo:", error);
-        }
         setSelectedSolicitud(null);
+        //createEmailMessage(name, lastname, email, postulationAccepted)
     };
 
     const handleCancelAcceptDec = () => {
@@ -111,9 +128,6 @@ const CustomComponentSolicitudes = ({ title }) => {
             .catch(error => {
                 console.error("Error al obtener las solicitudes:", error);
             });
-
-
-
     }, []);
 
     useEffect(() => {
@@ -196,7 +210,7 @@ const CustomComponentSolicitudes = ({ title }) => {
         }
     };
 
-   
+
 
     const calcularPromedio = (calificaciones) => {
         const suma = calificaciones.reduce((acc, currentValue) => acc + currentValue, 0);
@@ -204,7 +218,6 @@ const CustomComponentSolicitudes = ({ title }) => {
     };
     const promedio = calcularPromedio(calificaciones);
     console.log("El promedio de las calificaciones es:", promedio);
-
     const candidatoSeleccionado = infoProcesoCandidato.find(candidato => candidato.cand_id === candidatoId);
     console.log(infoProcesoCandidato)
     var nombreCompleto = ''
@@ -221,10 +234,11 @@ const CustomComponentSolicitudes = ({ title }) => {
         campoAmplio = candidatoSeleccionado.campo_amplio;
         campoEspecifico = candidatoSeleccionado.campo_especifico;
 
-        console.log(nombreCompleto); // Esto imprimirá el nombre completo del candidato seleccionado.
+        console.log(nombreCompleto);
     } else {
         console.error("Candidato no encontrado con ID:", candidatoId);
     }
+    
 
     return (
         <div className="custom-component-postulante">
@@ -330,7 +344,7 @@ const CustomComponentSolicitudes = ({ title }) => {
                             <h2>Recuerde que el cambio es irreversible</h2>
                         </div>
                         <div className='botones-pop'>
-                            <button onClick={handleConfirmAccept}>Sí, aceptar candidato.</button>
+                            <button onClick={handleConfirmAccept(candidatoSeleccionado.cand_nombre1, candidatoSeleccionado.cand_apellido1, candidatoSeleccionado.cand_correo, true)}>Sí, aceptar candidato.</button>
                             <button onClick={handleCancelAccept}>Cancelar</button>
                         </div>
                     </div>
@@ -346,7 +360,7 @@ const CustomComponentSolicitudes = ({ title }) => {
                             <h2>Recuerde que el cambio es irreversible</h2>
                         </div>
                         <div className='botones-pop'>
-                            <button onClick={handleConfirmAcceptDec}>Sí, rechazar candidato.</button>
+                            <button onClick={handleConfirmAcceptDec(candidatoSeleccionado.cand_nombre1, candidatoSeleccionado.cand_apellido1, candidatoSeleccionado.cand_correo, false)}>Sí, rechazar candidato.</button>
                             <button onClick={handleCancelAcceptDec}>Cancelar</button>
                         </div>
                     </div>
