@@ -1373,14 +1373,14 @@ def get_solicitudes():
 def create_solicitud(solicitud: solicitud):
     new_solicitud = {
         "cand_id": solicitud.cand_id,
-        "sol_id": solicitud.sol_id,
         "rh_id": solicitud.rh_id,
         "sol_aprobacion": solicitud.sol_aprobacion,
         "ofe_id": solicitud.ofe_id,
         "sol_notafinal": solicitud.sol_notafinal,
     }
+    print(new_solicitud)
     cur = db.connection.cursor()
-    cur.execute('INSERT INTO solicitud (cand_id, sol_id, rh_id, sol_aprobacion,ofe_id,sol_notafinal) VALUES (%(cand_id)s, %(sol_id)s, %(rh_id)s, %(sol_aprobacion)s, %(sol_notafinal)s), %(ofe_id)s', new_solicitud)
+    cur.execute('INSERT INTO solicitud (cand_id, rh_id, sol_aprobacion, ofe_id, sol_notafinal) VALUES (%(cand_id)s, %(rh_id)s, %(sol_aprobacion)s, %(ofe_id)s, %(sol_notafinal)s)', new_solicitud)
     db.connection.commit()
     return "Solicitud created successfully"
 

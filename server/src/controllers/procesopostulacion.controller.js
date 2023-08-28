@@ -39,6 +39,37 @@ export const extraerSolicitud = async (req, res) => {
     }
 }
 
+export const agregarSolicitud = async (req, res) => {
+    try {
+        console.log(req.body);
+        const response = await axios.post(`${api}/solicitud/`, req.body);
+        return res.json(response.data);
+    } catch (error) {
+        console.error('Error al agregar solicitud:', error);
+        return res.status(500).json({ message: 'Error al agregar la solicitud' });
+    }
+}
+
+export const editarSolicitud = async (req, res) => {
+    try {
+        const response = await axios.put(`${api}/solicitud/${req.params.id}`, req.body);
+        return res.json(response.data);
+    } catch (error) {
+        console.error('Error al editar solicitud:', error);
+        return res.status(500).json({ message: 'Error al editar la solicitud' });
+    }
+}
+
+export const eliminarSolicitud = async (req, res) => {
+    try {
+        const response = await axios.delete(`${api}/solicitud/${req.params.id}`);
+        return res.json(response.data);
+    } catch (error) {
+        console.error('Error al eliminar solicitud:', error);
+        return res.status(500).json({ message: 'Error al eliminar la solicitud' });
+    }
+}
+
 export const extraerOferta = async (req, res) => {
     try {
         const response = await axios.get(`${api}/oferta/`);
