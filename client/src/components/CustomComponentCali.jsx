@@ -109,6 +109,30 @@ function transformarObjetosTitulos(){
   return titulosObject;
 }
 
+function getUniqueRqIdsByNombre(data, nombre) {
+  const uniqueRqIds = new Set();
+
+  for (const obj of data) {
+    if (obj.nombre === nombre) {
+      uniqueRqIds.add(obj.rq_id);
+    }
+  }
+
+  return Array.from(uniqueRqIds);
+}
+
+function getMatchingTxIds(data, nombre, rq_id) {
+  const matchingTxIds = new Set();
+
+  for (const obj of data) {
+    if (obj.nombre === nombre && obj.rq_id === rq_id) {
+      matchingTxIds.add(obj.tx_id);
+    }
+  }
+
+  return Array.from(matchingTxIds);
+}
+
 useEffect(() => {
 
 
@@ -145,6 +169,16 @@ useEffect(() => {
   
   console.log("completo", completo);
   setCompleto(completo);
+
+  const nombreToSearch = 'Formación';
+  const uniqueRqIds = getUniqueRqIdsByNombre(completo, nombreToSearch);
+
+  console.log(uniqueRqIds); // Array of unique rq_id values for the given nombre
+
+  const rqIdToSearch = 1;
+  const matchingTxIds = getMatchingTxIds(completo, nombreToSearch, rqIdToSearch);
+  console.log(matchingTxIds); // Array of matching tx_id values for the given nombre and rq_id
+  
 }, [completo, setCompleto, items, requisitos, titulos]);
 
 

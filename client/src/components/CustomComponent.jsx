@@ -42,7 +42,7 @@ const CustomComponent = ({ title, subtitle1, subtitle2, icon1, icon2 }) => {
                             </a>
                         ) : (
                             <p>
-                                <span style={{fontSize: '30px', marginRight: '22px' }}>✔️</span>
+                                <span style={{fontSize: '30px', marginRight: '22px' }}>✔</span>
                                 Documentos Subidos
                             </p>
                         )}
