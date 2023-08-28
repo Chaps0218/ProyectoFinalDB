@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './MenuCandidato.css';
-import { FiHome, FiUser, FiFile, FiFolder } from 'react-icons/fi';
+import { FiHome, FiUser, FiFile, FiFolder, FiUnlock, FiLock } from 'react-icons/fi';
 import { useAuth } from "../context/AuthContext";
 import PopupDocument from './PopupDocument';
+
 
 const Menu = ({ title, subtitle1, subtitle2, subtitle3, icon1, icon2, icon3 }) => {
     const [showPopup, setShowPopup] = useState(false);
@@ -15,6 +17,26 @@ const Menu = ({ title, subtitle1, subtitle2, subtitle3, icon1, icon2, icon3 }) =
         setShowPopup(false);
     };
     const { isAuthenticated, logout, user } = useAuth();
+    const [documentTitles, setDocumentTitles] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Supongo que user.id contiene el ID del usuario
+                const response = await axios.get(`http://127.0.0.1:8001/validar_documento/${user.id}`);
+                console.log(user.id);
+                setDocumentTitles(response.data);
+                console.log("Esto esta", response.data);
+            } catch (error) {
+                console.error("Error al obtener los títulos de los documentos:", error);
+            }
+        };
+        fetchData();
+    }, []);
+
+
+
+
     return (
         <div className="menu-candidato">
             <div>
@@ -35,11 +57,20 @@ const Menu = ({ title, subtitle1, subtitle2, subtitle3, icon1, icon2, icon3 }) =
             <div>
                 <a href="/informacionPersonalCandidato"><FiFile />Información de Cuenta<span>{icon2}</span></a>
                 <a href="/inicioPostulante"><FiHome /> Inicio</a>
-                <a href="/informacionPostulante"><FiUser /> {subtitle1} <span>{icon1}</span></a>
-                <a href="/postulacion"><FiFile />{subtitle2}<span>{icon2}</span></a>
+                {documentTitles.valido === false ? (
+                    <a href="/informacionPostulante"><FiUser />{subtitle1}<FiUnlock /> <span>{icon1}</span></a>
+                ) : (
+                    <p>Información de Cuenta<span></span><FiLock /></p>
+                )}
+                {documentTitles.valido === true ? (
+                     <a href="/postulacion"><FiFile />{subtitle2}<FiUnlock /> <span>{icon2}</span></a>
+                ) : (
+                    <p>Selccionar Postulación<FiLock /></p>
+                )}
+
                 <a href="#" onClick={handleOpenPopup}><FiFolder /> {subtitle3}<span>{icon3}</span></a>
-                <PopupDocument 
-                    show={showPopup} 
+                <PopupDocument
+                    show={showPopup}
                     onClose={handleClosePopup}
                     title="Formatos Aceptados"
                 />
