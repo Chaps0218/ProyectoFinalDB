@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom';
 //import { useAuth } from "../context/AuthContext";
 
 
+
 const Calificacion = ({}) => {
   const location = useLocation();
   const canId = location.state?.id;
@@ -16,17 +17,17 @@ const Calificacion = ({}) => {
   const [data, setData] = useState([]);
   const [candidato, setCandidato] = useState(null);
 
-  useEffect(() => {
-          fetch(`http://127.0.0.1:8000/api/v1/procesocontratacion/candidato/${canId}`)
-              .then(response => response.json())
-              .then(data => {
-                  // asumo que la respuesta es un array y tomamos el primer objeto
-                  setCandidato(data);
-              })
-              .catch(error => {
-                  console.error("Error obteniendo datos del candidato:", error);
-              });
-  }, []);
+  // useEffect(() => {
+  //         fetch(`http://127.0.0.1:8000/api/v1/procesocontratacion/candidato/${canId}`)
+  //             .then(response => response.json())
+  //             .then(data => {
+  //                 // asumo que la respuesta es un array y tomamos el primer objeto
+  //                 setCandidato(data);
+  //             })
+  //             .catch(error => {
+  //                 console.error("Error obteniendo datos del candidato:", error);
+  //             });
+  // }, []);
   
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/v1/procesocontratacion/titulo_exp")
@@ -43,6 +44,7 @@ const Calificacion = ({}) => {
                 tx_observacion: item[7]
             }));
             setData(transformedData);
+            console.log(data);
         })
         .catch(error => {
             console.error("Hubo un error al recuperar los datos:", error);

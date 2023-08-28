@@ -123,3 +123,8 @@
   width: 60%;
   margin: 1rem;
 }
+
+.no-vacancies-message {
+  margin: 1rem;
+  margin-left: 35%;
+}

@@ -113,5 +113,58 @@
     width: 350%;
   }
   
+/* Estilo para el contenedor del CardFooter */
+.card-footer-container {
+  display: flex;
+  flex-direction: row; /* Cambiamos la dirección a horizontal */
+  justify-content: center; /* Opcional: centra los elementos horizontalmente */
+  align-items: center; /* Opcional: centra los elementos verticalmente */
+  flex-wrap: wrap; /* Permitir que los elementos se envuelvan si no caben en una sola línea */
+  gap: 10px; /* Espacio entre los elementos */
+  text-align: center; /* Opcional: alinea el texto en el centro horizontal */
+}
 
+/* Estilo para la carta generada por renderSelectedContent() */
+.selected-card {
+  width: 100%; /* Ocupa todo el ancho disponible */
+}
+
+.selected-card h2 {
+  color: #000000;
+  font-size: 1.5rem; /* Tamaño de fuente más grande */
+  font-weight: bold; /* Texto en negrita */
+  text-align: center; /* Centrar el texto */
+  margin-bottom: 10px; /* Espacio inferior */
+}
+
+.selected-card p {
+  color: #000000;
+  text-align: center; /* Centrar el texto */
+}
+
+
+.input-card {
+  width: 100%;
+}
+
+.input-card-content .btn-container {
+  display: flex;
+  justify-content: center;
+}
+.input-card-content {
+  width: 100%;
+  text-align: center; /* Centrar el contenido horizontalmente */
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+  
+  
+  
+  
   

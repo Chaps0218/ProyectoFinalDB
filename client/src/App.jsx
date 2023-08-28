@@ -32,6 +32,7 @@ import InfoCuentaCandidato from "./pages/infoCuentaCandidato";
 
 import ListaPostulantes from "./pages/ListaPostulantes";
 import Calificacion from "./pages/Calificacion";
+import VerPDF from "./pages/VerPDF";
 
 
 import Actividad from "./components/CRUD/Oferta";
@@ -64,6 +65,7 @@ const App = () => {
             <Route path="/" element={<Inicio />} />
             <Route path="/informacionrh" element={<Informacionrh />} />
             <Route path="/academica" element={<Solicitud />} />
+            <Route path="/verPDF" element={<VerPDF />} />
             <Route element={<ProtectedRoute />}>
               <Route element={<ProtectedRouteRRHH />}>
                 <Route path="/registroRRHH" element={<RegistroRRHH />} />

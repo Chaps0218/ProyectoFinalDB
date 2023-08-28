@@ -29,6 +29,8 @@ const PostulacionCandidato = ({ title }) => {
     const [showTable, setShowTable] = useState(false);
     const [selectedOffer, setSelectedOffer] = useState(null);
     const [valores, setValores] = useState([]);
+    const [noVacancies, setNoVacancies] = useState(false);
+    const [showSelections, setShowSelections] = useState(false);
 
     useEffect(() => {
         Promise.all([
@@ -80,6 +82,7 @@ const PostulacionCandidato = ({ title }) => {
 
                 if (personalAcademicoRes.data && personalAcademicoRes.data.personalAcademico) {
                     setPersonalAcademico(personalAcademicoRes.data.personalAcademico);
+                    console.log("personalAcademico", personalAcademicoRes.data.personalAcademico);
                 } else {
                     console.log("Datos de personal académico no encontrados en la respuesta.");
                 }
@@ -160,11 +163,12 @@ const PostulacionCandidato = ({ title }) => {
         actividad: 8,
         campoAmplio: 4,
         campoEspecifico: 3,
-        contratos: 2,
+        contratos: 1,
         departamento: 6,
         personalAcademico: 7,
+        tipoContrato: 2,
         sede: 5
-      }), []);
+    }), []);
 
     //Funcion para encontrar las coincidencias una por una
     const filterData = useCallback((data, filters) => {
@@ -172,7 +176,7 @@ const PostulacionCandidato = ({ title }) => {
 
         const propertyCount = Object.keys(filters).length;
 
-        if(propertyCount < 7) return {};
+        if(propertyCount < 8) return {};
 
         for (const field in filters) {
           if (filters.hasOwnProperty(field)) {
@@ -193,6 +197,8 @@ const PostulacionCandidato = ({ title }) => {
 
     const handleSeleccionar = useCallback(() => {
 
+        console.log("selectedValuesArray", selectedValuesArray)
+
         for (const key in selectedValuesArray) {
             if (selectedValuesArray.hasOwnProperty(key)) {
             valores[key] = selectedValuesArray[key][0];
@@ -211,20 +217,21 @@ const PostulacionCandidato = ({ title }) => {
         console.log(propertyCount);
   
 
-        if(propertyCount === 0) return;
-        
-        setSelectedOffer(coincidencia);
-        console.log("coincidencia", coincidencia);
-        setShowTable(true);
-
+        if (propertyCount === 0) {
+            setNoVacancies(true); // No hay coincidencias de vacantes
+            setShowTable(false); // Ocultar la tabla
+        } else {
+            setNoVacancies(false); // Restablecer el estado si hay coincidencias
+            setSelectedOffer(coincidencia);
+            setShowTable(true);
+        }
+        setShowSelections(true);
 
         setVacantes(coincidencia[9]);
         setHoras(coincidencia[10]);
 
         console.log(vacantes, horas);
 
-        
-        
     }, [selectedValuesArray, filterData, ofertas, setSelectedOffer, valores, vacantes, horas]);
 
     useEffect(() => {
@@ -243,6 +250,7 @@ const PostulacionCandidato = ({ title }) => {
     const [selectedIDs, setSelectedIDs] = useState({
         contratos: "",
         actividad: "",
+        tipoContrato: "",
         personalAcademico: "",
         campoAmplio: "",
         campoEspecifico: "",
@@ -252,6 +260,7 @@ const PostulacionCandidato = ({ title }) => {
 
     const [dropdownDisabled, setDropdownDisabled] = useState({
         actividad: true,
+        tipoContrato: true,
         personalAcademico: true,
         campoAmplio: true,
         campoEspecifico: true,
@@ -261,8 +270,9 @@ const PostulacionCandidato = ({ title }) => {
 
     const handleSelectChange = (key, selectedValue, selectedMapping) => {
 
-        console.log(selectedValue);
-        console.log(selectedMapping);
+        console.log("key", key);
+        console.log("selectecValue",selectedValue);
+        console.log("selectedMapping", selectedMapping);
 
         setSelectedIDs(prevSelectedIDs => ({
             ...prevSelectedIDs,
@@ -284,11 +294,12 @@ const PostulacionCandidato = ({ title }) => {
     useEffect(() => {
         setDropdownDisabled({
             actividad: false,
-            personalAcademico: selectedIDs.tipoContrato === "",
-            campoAmplio: selectedIDs.personalAcademico === "",
-            campoEspecifico: selectedIDs.campoAmplio === "",
-            sede: selectedIDs.campoEspecifico === "",
-            departamento: selectedIDs.sede === "",
+            // personalAcademico: selectedIDs.tipoContrato === "",
+            // campoAmplio: selectedIDs.personalAcademico === "",
+            // campoEspecifico: selectedIDs.campoAmplio === "",
+            // sede: selectedIDs.campoEspecifico === "",
+            // departamento: selectedIDs.sede === "",
+            // tipoContrato: selectedIDs.contratos === "",
         });
     }, [selectedIDs]);
 
@@ -296,119 +307,135 @@ const PostulacionCandidato = ({ title }) => {
         <div className="custom-component-postulante">
             <h1 className="custom-title">{title}</h1>
             <hr className="custom-divider" />
-
-            <div className='form-line-container'>
-                <div className="form-line">
-                    <div>
-                        <h1>Proceso:</h1>
-                        <select
-                            onChange={(e) => handleSelectChange("contratos", e.target.value, contratos.find(item => item[1] === e.target.value))}
-                            disabled={dropdownDisabled.contratos}
-                        >
-                            <option value="">Seleccionar Proceso</option>
-                            {contratos.map((item) => (
-                                <option key={item[0]} value={item[1]}>
-                                    {item[1]}
-                                </option>
-                            ))}
-                        </select>
+            
+            {showSelections && (
+                <div className='form-line-container'>
+                    <div className="form-line">
+                        <div>
+                            <h1>Proceso:</h1>
+                            <select
+                                onChange={(e) => handleSelectChange("contratos", e.target.value, contratos.find(item => item[1] === e.target.value))}
+                                disabled={dropdownDisabled.contratos}
+                            >
+                                <option value="">Seleccionar Proceso</option>
+                                {contratos.map((item) => (
+                                    <option key={item[0]} value={item[1]}>
+                                        {item[1]}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <h1>Actividad:</h1>
+                            <select
+                                onChange={(e) => handleSelectChange("actividad", e.target.value, actividad.find(item => item[1] === e.target.value))}
+                                disabled={dropdownDisabled.actividad}
+                            >
+                                <option value="">Seleccionar Actividad</option>
+                                {actividad.map((item) => (
+                                    <option key={item[0]} value={item[1]}>
+                                        {item[1]}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <h1>Tipo de Contrato:</h1>
+                            <select
+                                onChange={(e) => handleSelectChange("tipoContrato", e.target.value, tipoContrato.find(item => item[1] === e.target.value))}
+                                disabled={dropdownDisabled.tipoContrato}
+                            >
+                                <option value="">Seleccionar Tipo de Contrato</option>
+                                {tipoContrato.map((item) => (
+                                    <option key={item[0]} value={item[1]}>
+                                        {item[1]}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
-                    <div>
-                        <h1>Actividad:</h1>
-                        <select
-                            onChange={(e) => handleSelectChange("actividad", e.target.value, actividad.find(item => item[1] === e.target.value))}
-                            disabled={dropdownDisabled.actividad}
-                        >
-                            <option value="">Seleccionar Actividad</option>
-                            {actividad.map((item) => (
-                                <option key={item[0]} value={item[1]}>
-                                    {item[1]}
-                                </option>
-                            ))}
-                        </select>
+
+                    <div className="form-line">
+                        <div>
+                            <h1>Tipo de personal académico:</h1>
+                            <select
+                                onChange={(e) => handleSelectChange("personalAcademico", e.target.value, personalAcademico.find(item => item[2] === e.target.value))}
+                                disabled={dropdownDisabled.personalAcademico}
+                            >
+                                <option value="">Seleccionar Tipo de Personal Académico</option>
+                                {personalAcademico.map((item) => (
+                                    <option key={item[0]} value={item[2]}>
+                                        {item[2]}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <h1>Campo Amplio:</h1>
+                            <select
+                                onChange={(e) => handleSelectChange("campoAmplio", e.target.value, campoAmplio.find(item => item[2] === e.target.value))}
+                                disabled={dropdownDisabled.campoAmplio}
+                            >
+                                <option value="">Seleccionar Campo Amplio</option>
+                                {campoAmplio.map((item) => (
+                                    <option key={item[0]} value={item[2]}>
+                                        {item[2]}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                    </div>
+
+
+
+                    <div className="form-line">
+                        <div>
+                            <h1>Campo específico:</h1>
+                            <select
+                                onChange={(e) => handleSelectChange("campoEspecifico", e.target.value, campoEspecifico.find(item => item[2] === e.target.value))}
+                                disabled={dropdownDisabled.campoEspecifico}
+                            >
+                                <option value="">Seleccionar Campo Específico</option>
+                                {campoEspecifico.map((item) => (
+                                    <option key={item[0]} value={item[2]}>
+                                        {item[2]}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <h1>Sede:</h1>
+                            <select
+                                onChange={(e) => handleSelectChange("sede", e.target.value, sede.find(item => item[2] === e.target.value))}
+                                disabled={dropdownDisabled.sede}
+                            >
+                                <option value="">Seleccionar Sede</option>
+                                {sede.map((item) => (
+                                    <option key={item[0]} value={item[2]}>
+                                        {item[2]}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <h1>Departamento:</h1>
+                            <select
+                                onChange={(e) => handleSelectChange("departamento", e.target.value, departamento.find(item => item[2] === e.target.value))}
+                                disabled={dropdownDisabled.departamento}
+                            >
+                                <option value="">Seleccionar Departamento</option>
+                                {departamento.map((item) => (
+                                    <option key={item[0]} value={item[2]}>
+                                        {item[2]}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
                 </div>
-
-                <div className="form-line">
-                    <div>
-                        <h1>Tipo de personal académico:</h1>
-                        <select
-                            onChange={(e) => handleSelectChange("personalAcademico", e.target.value, personalAcademico.find(item => item[2] === e.target.value))}
-                            disabled={dropdownDisabled.personalAcademico}
-                        >
-                            <option value="">Seleccionar Tipo de Personal Académico</option>
-                            {personalAcademico.map((item) => (
-                                <option key={item[0]} value={item[2]}>
-                                    {item[2]}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div>
-                        <h1>Campo Amplio:</h1>
-                        <select
-                            onChange={(e) => handleSelectChange("campoAmplio", e.target.value, campoAmplio.find(item => item[2] === e.target.value))}
-                            disabled={dropdownDisabled.campoAmplio}
-                        >
-                            <option value="">Seleccionar Campo Amplio</option>
-                            {campoAmplio.map((item) => (
-                                <option key={item[0]} value={item[2]}>
-                                    {item[2]}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-
-
-
-                <div className="form-line">
-                    <div>
-                        <h1>Campo específico:</h1>
-                        <select
-                            onChange={(e) => handleSelectChange("campoEspecifico", e.target.value, campoEspecifico.find(item => item[2] === e.target.value))}
-                            disabled={dropdownDisabled.campoEspecifico}
-                        >
-                            <option value="">Seleccionar Campo Específico</option>
-                            {campoEspecifico.map((item) => (
-                                <option key={item[0]} value={item[2]}>
-                                    {item[2]}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div>
-                        <h1>Sede:</h1>
-                        <select
-                            onChange={(e) => handleSelectChange("sede", e.target.value, sede.find(item => item[2] === e.target.value))}
-                            disabled={dropdownDisabled.sede}
-                        >
-                            <option value="">Seleccionar Sede</option>
-                            {sede.map((item) => (
-                                <option key={item[0]} value={item[2]}>
-                                    {item[2]}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div>
-                        <h1>Departamento:</h1>
-                        <select
-                            onChange={(e) => handleSelectChange("departamento", e.target.value, departamento.find(item => item[2] === e.target.value))}
-                            disabled={dropdownDisabled.departamento}
-                        >
-                            <option value="">Seleccionar Departamento</option>
-                            {departamento.map((item) => (
-                                <option key={item[0]} value={item[2]}>
-                                    {item[2]}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div className='buttons-container'>
+            )}
+            {/* <div className='buttons-container'>
                 <button className='button-enviar-info' onClick={handleSeleccionar}>Seleccionar Campos</button>
                 {showPopup2 && (
                     <Popup
@@ -417,32 +444,32 @@ const PostulacionCandidato = ({ title }) => {
                         onClose={handleClosePopup}
                     />
                 )}
-            </div>
-            {showTable && (
+            </div> */}
+            {showTable ? (
                 <>
                     <div className="table-container m-8">
-                    <Snippet symbol="" hideCopyButton color="success" variant="bordered">
-                        Información de la oferta seleccionada   
-                    </Snippet>
+                        <Snippet symbol="" hideCopyButton color="success" variant="bordered">
+                            Información de la oferta seleccionada
+                        </Snippet>
 
-                    <div className='tablaN'>
-                    <Table aria-label="Example static collection table">
-                        <TableHeader>
-                            <TableColumn>VACANTES DISPONIBLES</TableColumn>
-                            <TableColumn>HORAS A TRABAJAR</TableColumn>
-                        </TableHeader>
-                        <TableBody>
-                            <TableRow key="1">
-                            <TableCell>{vacantes}</TableCell>
-                            <TableCell>{horas}</TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                    </div>
+                        <div className='tablaN'>
+                            <Table aria-label="Example static collection table">
+                                <TableHeader>
+                                    <TableColumn>VACANTES DISPONIBLES</TableColumn>
+                                    <TableColumn>HORAS A TRABAJAR</TableColumn>
+                                </TableHeader>
+                                <TableBody>
+                                    <TableRow key="1">
+                                        <TableCell>{vacantes}</TableCell>
+                                        <TableCell>{horas}</TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </div>
 
                     </div>
                     <div className='buttons-container'>
-                        <button className='button-enviar-info' onClick={()=> handleAgregar(selectedOffer)}>Enviar Información</button>
+                        <button className='button-enviar-info' onClick={() => handleAgregar(selectedOffer)}>Enviar Información</button>
                         {showPopup2 && (
                             <Popup
                                 mensaje="DATOS SUBIDOS CORRECTAMENTE"
@@ -452,6 +479,14 @@ const PostulacionCandidato = ({ title }) => {
                         )}
                     </div>
                 </>
+            ) : (
+                
+                <div className='no-vacancies-message'>
+                    <Snippet symbol="" hideCopyButton color="danger" variant="bordered">
+                        {noVacancies ? "No existen vacantes disponibles" : null}
+                    </Snippet>
+                </div>
+
             )}
 
         </div>
