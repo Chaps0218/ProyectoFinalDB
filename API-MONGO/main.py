@@ -7,6 +7,9 @@ from pydantic import BaseModel
 from typing import List
 import base64
 import io
+import zipfile
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import StreamingResponse
 from io import BytesIO
 from datetime import datetime
 import base64
@@ -231,22 +234,36 @@ async def obtener_calificaciones(id_usuario: str):
         raise HTTPException(status_code=404, detail="Calificaciones para el usuario no encontradas")
 
 
+@app.get("/descargar_documentos_zip/")
+def descargar_documentos_zip(id_usuario: str):
+    documentos_pdf_cursor = collection.find(
+        {"id_usuario": id_usuario, "documentos.tipo_documento": "pdf"},
+        {"documentos.nombre": 1, "documentos.contenido": 1}
+    )
 
+    documentos_pdf = list(documentos_pdf_cursor)
 
-@app.get("/descargar_documento/")
-def descargar_documento(nombre: str, id_usuario: str):
-    documento = collection.find_one({"id_usuario": id_usuario, "documentos.nombre": nombre}, {"documentos.$": 1})
-    
-    if documento and 'documentos' in documento and len(documento['documentos']) > 0:
-        contenido_base64 = documento["documentos"][0]["contenido"]
-        contenido_binario = base64.b64decode(contenido_base64)
-        
-        archivo = io.BytesIO(contenido_binario)
-        tipo_archivo = documento["documentos"][0]["tipo_documento"]  # Obtener el tipo de archivo de MongoDB
-        
-        return StreamingResponse(iter([archivo.getvalue()]), media_type=f"application/{tipo_archivo}", headers={"Content-Disposition": f"attachment; filename={nombre}"})
+    if documentos_pdf:
+        zip_filename = f"{id_usuario}_documentos.zip"
+        with io.BytesIO() as zip_buffer:
+            with zipfile.ZipFile(zip_buffer, 'w') as zipf:
+                for documento in documentos_pdf:
+                    for doc in documento["documentos"]:
+                        nombre = doc["nombre"]
+                        contenido_base64 = doc["contenido"]
+                        contenido_binario = base64.b64decode(contenido_base64)
+                        zipf.writestr(nombre, contenido_binario)
+
+            zip_buffer.seek(0)
+            return StreamingResponse(
+                iter([zip_buffer.getvalue()]),
+                media_type="application/zip",
+                headers={
+                    "Content-Disposition": f"attachment; filename={zip_filename}"
+                },
+            )
     else:
-        raise HTTPException(status_code=404, detail="Documento no encontrado")
+        raise HTTPException(status_code=404, detail="No se encontraron documentos PDF para el usuario")
 
 if __name__ == "__main__":
     import uvicorn

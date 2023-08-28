@@ -93,6 +93,7 @@ class solicitud(BaseModel):
     rh_id: int
     sol_aprobacion: bool
     ofe_id: int
+    sol_notafinal : float
     
 
 class titulo_exp(BaseModel):
