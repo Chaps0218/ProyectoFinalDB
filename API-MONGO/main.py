@@ -139,7 +139,14 @@ def actualizar_calificaciones(id_usuario: str, lista_calificaciones: ListaCalifi
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
+@app.get("/validar_documento/{id_usuario}")
+def validar_documento(id_usuario: str):
+    documento = collection.find_one({"id_usuario": id_usuario, "documentos": {"$exists": True}})
+    
+    if documento:
+        return {"valido": True}
+    else:
+        return {"valido": False}
 
 @app.get("/descargar_documento/")
 def descargar_documento(nombre: str, id_usuario: str):

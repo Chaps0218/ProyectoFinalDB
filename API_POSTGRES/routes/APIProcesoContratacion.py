@@ -1503,7 +1503,6 @@ def get_titulo_exp_por_pa_id(pa_id: int):
         FROM titulo_exp te
         JOIN requisito rq ON te.rq_id = rq.rq_id
         JOIN item it ON rq.it_id = it.it_id
-        WHERE it.pa_id = %s
         ORDER BY te.tx_id ASC;
     ''', (pa_id,))
 
