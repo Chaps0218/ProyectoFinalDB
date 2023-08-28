@@ -97,6 +97,7 @@ const CustomComponentSolicitudes = ({ title }) => {
             emailjs.send('SERVICEGMAIL_SBDA', 'template_bug1zo4', templateParams).then(
                 (response) => {
                     console.log('Email sent:', response);
+                    window.location.reload();
                 },
                 (error) => {
                     console.error('Error sending email:', error);
@@ -106,6 +107,7 @@ const CustomComponentSolicitudes = ({ title }) => {
             emailjs.send('SERVICEOUTLOOK_SBDA', 'template_bug1zo4', templateParams).then(
                 (response) => {
                     console.log('Email sent:', response);
+                    window.location.reload();
                 },
                 (error) => {
                     console.error('Error sending email:', error);
@@ -135,7 +137,6 @@ const CustomComponentSolicitudes = ({ title }) => {
         setShowConfirmationPopup(false);
         setSelectedSolicitud(null);
         const emailParams = createEmailMessage(candidatoSeleccionado.cand_nombre1, candidatoSeleccionado.cand_apellido1, candidatoSeleccionado.cand_correo, true);
-        window.location.reload();
     };
 
     const handleConfirmAcceptDec = () => {
@@ -143,7 +144,6 @@ const CustomComponentSolicitudes = ({ title }) => {
         setShowDeclinePopup(false);
         setSelectedSolicitud(null);
         const emailParams = createEmailMessage(candidatoSeleccionado.cand_nombre1, candidatoSeleccionado.cand_apellido1, candidatoSeleccionado.cand_correo, false);
-        window.location.reload();
     };
 
     const handleCancelAccept = () => {
