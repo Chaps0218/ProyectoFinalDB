@@ -67,13 +67,22 @@ const handleCalificacionChange = (index, value) => {
 };
 
 const [validationStates, setValidationStates] = useState(Array(parametros.length).fill(undefined));
-
+  const mapearCalificaciones = () => {
+    return calificaciones.map((calificacion, index) => ({
+      documento_nombre: parametros[index].tx_descripcion,
+      id_usuario: candidato[5],
+      calificacion: parseInt(calificacion, 10),
+    }));
+  };
+  
 const handleSubmit = async () => {
   // Validación antes de enviar
   if (calificaciones.some((cal) => cal === "" || cal < 0)) {
       alert("Por favor, complete todos los campos.");
       return;
   }
+
+  
 
   // Configuración de Axios para enviar datos como form-data
   const formData = new FormData();
@@ -109,9 +118,10 @@ const handleSubmit = async () => {
 console.log("candi")
 console.log(candidato)
 console.log(parametros)
+const calificacionesMapeadas2 = mapearCalificaciones();
 
 console.log("'esfsefse'");
-console.log(calificacionesMapeadas);
+console.log(calificacionesMapeadas2);
 return (
   <div className="custom-component-postulante">
     <h1 className="custom-title">{title}</h1>
@@ -175,7 +185,7 @@ return (
               onClose={handleClosePopup}
               title="¿Está seguro?"
               subtitle="Recuerda que esta acción es irreversible"
-              calificaciones={calificacionesMapeadas} // Pasa las calificaciones mapeadas como prop
+              calificaciones={calificacionesMapeadas2} // Pasa las calificaciones mapeadas como prop
               candidato={candidato}
               />
 
